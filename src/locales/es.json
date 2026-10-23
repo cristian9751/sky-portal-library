@@ -1,0 +1,138 @@
+
+{
+  "auth": {
+    "lEyebrow": "Acceso tripulación",
+    "lTitle": "Bienvenido de nuevo, comandante.",
+    "user": "Número de usuario",
+    "pass": "Contraseña",
+    "lSubmit": "Entrar",
+    "noAcc": "¿Aún no tienes cuenta?",
+    "rEyebrow": "Únete a la tripulación",
+    "rTitle": "Hazte piloto de Air Spain.",
+    "first": "Nombre",
+    "last": "Apellidos",
+    "country": "País",
+    "email": "Correo electrónico",
+    "email2": "Repite el correo",
+    "pass2": "Repite la contraseña",
+    "airport": "Aeropuerto más cercano (ICAO)",
+    "vatsim": "ID VATSIM",
+    "ivao": "ID IVAO",
+    "simbrief": "Usuario SimBrief",
+    "optional": "Opcional",
+    "rSubmit": "Crear cuenta",
+    "haveAcc": "¿Ya eres miembro?",
+    "emailMismatch": "Los correos no coinciden.",
+    "passMismatch": "Las contraseñas no coinciden.",
+    "personal": "Datos personales",
+    "account": "Cuenta",
+    "networks": "Vuelo"
+  },
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre nosotros",
+    "normative": "Normativa",
+    "resources": "Recursos",
+    "staff": "Staff",
+    "members": "Pilotos",
+    "contact": "Contacto",
+    "login": "Acceder",
+    "register": "Registro"
+  },
+  "footer": "Todos los derechos reservados.",
+  "home": {
+    "eyebrow": "Aerolínea Virtual",
+    "title1": "El cielo de España, ",
+    "title2": "tu",
+    "title3": " cabina.",
+    "join": "Únete como piloto",
+    "about": "Sobre nosotros",
+    "flights": "Vuelos activos",
+    "noFlights": "Ahora mismo no hay vuelos de Air Spain en línea. Vuelve pronto.",
+    "flyingWith": "Volamos con"
+  },
+  "about": {
+    "eyebrow": "Sobre nosotros",
+    "title": "Tu libertad para volar.",
+    "intro": "Air Spain es un proyecto que nace para ofrecer la libertad que muchos deseamos en el apasionante mundo de la aviación virtual.",
+    "points": [
+      [
+        "Vuela a tu manera",
+        "Desde donde quieras a donde quieras, con la aeronave que quieras: fuera de línea, en VATSIM o en IVAO."
+      ],
+      [
+        "Haz carrera",
+        "Calcula pesos y combustible, haz buenas tomas y rentabiliza cada vuelo. La gestión económica es la base de una aerolínea."
+      ],
+      [
+        "La creas tú",
+        "Esta compañía crece con las ideas, inquietudes y conocimientos de sus miembros, para que todos disfrutemos."
+      ]
+    ],
+    "welcome": "¡Bienvenido a bordo!",
+    "join": "Únete a Air Spain"
+  },
+  "normative": {
+    "eyebrow": "Normativa",
+    "title": "Cómo volamos.",
+    "rules": [
+      [
+        "General",
+        [
+          "Air Spain es una aerolínea virtual que emula la actividad de una compañía hipotética mediante simulador de vuelo. Cada miembro puede crear rutas o usar las existentes con el origen, destino y aeronave que desee.",
+          "Nuestros vuelos usan el indicativo XSNXXXX \"Air Spain\" en las comunicaciones.",
+          "Vuela IFR o VFR, online u offline: libertad absoluta. Si te conectas a una red, respeta sus normas de comportamiento y cortesía.",
+          "Los miembros que vuelen en VATSIM pueden enviar el plan de vuelo directamente desde nuestro sistema."
+        ]
+      ],
+      [
+        "Requisitos para unirse",
+        [
+          "Ninguno."
+        ]
+      ],
+      [
+        "Operaciones",
+        [
+          "Cada ruta se planifica solo para la aeronave seleccionada, con datos de pasaje, carga y combustible. Para volarla con otra aeronave, crea una ruta nueva con los datos correspondientes.",
+          "El seguimiento y reporte del vuelo se hace con el programa gratuito ACARS, disponible en nuestra zona de descargas."
+        ]
+      ],
+      [
+        "Confidencialidad",
+        [
+          "Los datos personales de los miembros son privados, de uso interno y solo con fines de comunicación, según la ley española de protección de datos."
+        ]
+      ],
+      [
+        "Bajas",
+        [
+          "Cualquier miembro puede darse de baja contactando con un administrador en info@air-spain.es. Será efectiva de inmediato."
+        ]
+      ]
+    ]
+  },
+  "members": {
+    "eyebrow": "Pilotos",
+    "title": "Nuestros pilotos.",
+    "cols": [
+      "Indicativo",
+      "Piloto",
+      "ID IVAO",
+      "ID VATSIM",
+      "Rango",
+      "Base"
+    ],
+    "hours": "horas"
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Habla con la torre.",
+    "emailUs": "Escríbenos",
+    "emailText": "Preguntas, ideas o peticiones: nuestros administradores te responderán.",
+    "name": "Tu nombre",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "send": "Enviar mensaje"
+  }
+}

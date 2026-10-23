@@ -1,0 +1,138 @@
+
+{
+  "auth": {
+    "lEyebrow": "Crew-Zugang",
+    "lTitle": "Willkommen zurück, Kapitän.",
+    "user": "Benutzernummer",
+    "pass": "Passwort",
+    "lSubmit": "Anmelden",
+    "noAcc": "Noch kein Konto?",
+    "rEyebrow": "Werde Teil der Crew",
+    "rTitle": "Werde Air-Spain-Pilot.",
+    "first": "Vorname",
+    "last": "Nachname",
+    "country": "Land",
+    "email": "E-Mail",
+    "email2": "E-Mail wiederholen",
+    "pass2": "Passwort wiederholen",
+    "airport": "Nächster Flughafen (ICAO)",
+    "vatsim": "VATSIM-ID",
+    "ivao": "IVAO-ID",
+    "simbrief": "SimBrief-Benutzer",
+    "optional": "Optional",
+    "rSubmit": "Konto erstellen",
+    "haveAcc": "Schon Mitglied?",
+    "emailMismatch": "E-Mails stimmen nicht überein.",
+    "passMismatch": "Passwörter stimmen nicht überein.",
+    "personal": "Persönliche Daten",
+    "account": "Konto",
+    "networks": "Fliegen"
+  },
+  "nav": {
+    "home": "Start",
+    "about": "Über uns",
+    "normative": "Regeln",
+    "resources": "Ressourcen",
+    "staff": "Team",
+    "members": "Piloten",
+    "contact": "Kontakt",
+    "login": "Anmelden",
+    "register": "Registrieren"
+  },
+  "footer": "Alle Rechte vorbehalten.",
+  "home": {
+    "eyebrow": "Virtuelle Airline",
+    "title1": "Spaniens Himmel, ",
+    "title2": "dein",
+    "title3": " Cockpit.",
+    "join": "Pilot werden",
+    "about": "Über uns",
+    "flights": "Aktive Flüge",
+    "noFlights": "Derzeit sind keine Air-Spain-Flüge online. Schau bald wieder vorbei.",
+    "flyingWith": "Wir fliegen mit"
+  },
+  "about": {
+    "eyebrow": "Über uns",
+    "title": "Deine Freiheit zu fliegen.",
+    "intro": "Air Spain ist ein Projekt, das die Freiheit bieten will, die sich viele von uns in der spannenden Welt der virtuellen Luftfahrt wünschen.",
+    "points": [
+      [
+        "Flieg wie du willst",
+        "Von überall nach überall, mit jedem Flugzeug — offline, auf VATSIM oder auf IVAO."
+      ],
+      [
+        "Mach Karriere",
+        "Berechne Gewichte und Treibstoff, lande sauber und mach jeden Flug rentabel. Wirtschaftlichkeit ist das Herz einer Airline."
+      ],
+      [
+        "Von dir gestaltet",
+        "Diese Airline wächst mit den Ideen, Interessen und dem Wissen ihrer Mitglieder, damit alle Freude daran haben."
+      ]
+    ],
+    "welcome": "Willkommen an Bord!",
+    "join": "Air Spain beitreten"
+  },
+  "normative": {
+    "eyebrow": "Regeln",
+    "title": "So fliegen wir.",
+    "rules": [
+      [
+        "Allgemein",
+        [
+          "Air Spain ist eine virtuelle Airline, die den Betrieb einer fiktiven Fluggesellschaft im Flugsimulator nachbildet. Jedes Mitglied kann Routen erstellen oder bestehende nutzen, mit beliebigem Start, Ziel und Flugzeug.",
+          "Unsere Flüge nutzen das Rufzeichen XSNXXXX \"Air Spain\" für den Funkverkehr.",
+          "Flieg IFR oder VFR, online oder offline — volle Freiheit. In einem Netzwerk gelten dessen Verhaltens- und Höflichkeitsregeln.",
+          "Mitglieder auf VATSIM können ihren Flugplan direkt aus unserem System aufgeben."
+        ]
+      ],
+      [
+        "Voraussetzungen",
+        [
+          "Keine."
+        ]
+      ],
+      [
+        "Betrieb",
+        [
+          "Jede Route ist nur für das gewählte Flugzeug geplant, mit Passagier-, Fracht- und Treibstoffdaten. Für ein anderes Flugzeug erstellst du eine neue Route mit den passenden Daten.",
+          "Flüge werden mit dem kostenlosen Programm ACARS verfolgt und gemeldet, erhältlich in unserem Downloadbereich."
+        ]
+      ],
+      [
+        "Datenschutz",
+        [
+          "Persönliche Daten der Mitglieder sind privat, nur für den internen Gebrauch und zur Kommunikation bestimmt, gemäß spanischem Datenschutzrecht."
+        ]
+      ],
+      [
+        "Austritt",
+        [
+          "Jedes Mitglied kann austreten, indem es einen Administrator unter info@air-spain.es kontaktiert. Der Austritt gilt sofort."
+        ]
+      ]
+    ]
+  },
+  "members": {
+    "eyebrow": "Piloten",
+    "title": "Unsere Piloten.",
+    "cols": [
+      "Rufzeichen",
+      "Pilot",
+      "IVAO-ID",
+      "VATSIM-ID",
+      "Rang",
+      "Basis"
+    ],
+    "hours": "Stunden"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Sprich mit dem Tower.",
+    "emailUs": "Schreib uns",
+    "emailText": "Fragen, Ideen oder Wünsche — unsere Admins melden sich bei dir.",
+    "name": "Dein Name",
+    "subject": "Betreff",
+    "message": "Nachricht",
+    "send": "Nachricht senden"
+  }
+}

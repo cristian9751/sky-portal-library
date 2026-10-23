@@ -1,0 +1,138 @@
+
+{
+  "auth": {
+    "lEyebrow": "Crew access",
+    "lTitle": "Welcome back, captain.",
+    "user": "User number",
+    "pass": "Password",
+    "lSubmit": "Sign in",
+    "noAcc": "No account yet?",
+    "rEyebrow": "Join the crew",
+    "rTitle": "Become an Air Spain pilot.",
+    "first": "First name",
+    "last": "Last name",
+    "country": "Country",
+    "email": "Email",
+    "email2": "Repeat email",
+    "pass2": "Repeat password",
+    "airport": "Nearest airport (ICAO)",
+    "vatsim": "VATSIM ID",
+    "ivao": "IVAO ID",
+    "simbrief": "SimBrief user",
+    "optional": "Optional",
+    "rSubmit": "Create account",
+    "haveAcc": "Already a member?",
+    "emailMismatch": "Emails don't match.",
+    "passMismatch": "Passwords don't match.",
+    "personal": "Personal details",
+    "account": "Account",
+    "networks": "Flying"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About us",
+    "normative": "Normative",
+    "resources": "Resources",
+    "staff": "Staff",
+    "members": "Members",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register"
+  },
+  "footer": "All rights reserved.",
+  "home": {
+    "eyebrow": "Virtual Airline",
+    "title1": "Spain's skies, ",
+    "title2": "your",
+    "title3": " cockpit.",
+    "join": "Join as pilot",
+    "about": "About us",
+    "flights": "Active flights",
+    "noFlights": "No Air Spain flights are online right now. Check back soon.",
+    "flyingWith": "Flying with"
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "Your freedom to fly.",
+    "intro": "Air Spain is a project born to offer the freedom so many of us want in the exciting world of virtual aviation.",
+    "points": [
+      [
+        "Fly your way",
+        "From anywhere to anywhere, with any aircraft — offline, on VATSIM or on IVAO."
+      ],
+      [
+        "Build a career",
+        "Plan weights and fuel, nail your landings and make every flight profitable. Economics is the heart of an airline."
+      ],
+      [
+        "Made by you",
+        "This company is shaped by its members' ideas, interests and knowledge, so everyone can enjoy it."
+      ]
+    ],
+    "welcome": "Welcome aboard!",
+    "join": "Join Air Spain"
+  },
+  "normative": {
+    "eyebrow": "Normative",
+    "title": "How we fly.",
+    "rules": [
+      [
+        "General",
+        [
+          "Air Spain is a virtual airline that emulates a hypothetical airline through flight simulation. Every member can create routes or use existing ones with any origin, destination and aircraft.",
+          "Our flights use the callsign XSNXXXX \"Air Spain\" for communications.",
+          "Fly IFR or VFR, online or offline — total freedom. When connected to a network, follow its rules of conduct and courtesy.",
+          "Members flying on VATSIM can file their flight plan directly from our system."
+        ]
+      ],
+      [
+        "Requirements to join",
+        [
+          "None."
+        ]
+      ],
+      [
+        "Operations",
+        [
+          "Each route is planned for the selected aircraft only, with passenger, cargo and fuel data. To fly it with a different aircraft, create a new route with the matching data.",
+          "Flights are tracked and reported with the free ACARS program, available in our downloads area."
+        ]
+      ],
+      [
+        "Privacy",
+        [
+          "Members' personal data is private, for internal use and communication purposes only, in line with Spanish data protection law."
+        ]
+      ],
+      [
+        "Leaving",
+        [
+          "Any member can leave by contacting an administrator at info@air-spain.es. It takes effect immediately."
+        ]
+      ]
+    ]
+  },
+  "members": {
+    "eyebrow": "Members",
+    "title": "Our pilots.",
+    "cols": [
+      "Callsign",
+      "Pilot",
+      "IVAO ID",
+      "VATSIM ID",
+      "Rank",
+      "Base"
+    ],
+    "hours": "hours"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Talk to the tower.",
+    "emailUs": "Email us",
+    "emailText": "Questions, ideas or requests — our admins will get back to you.",
+    "name": "Your name",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message"
+  }
+}
