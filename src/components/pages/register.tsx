@@ -1,26 +1,35 @@
-import { useState, type FormEvent } from "react";
-import { BASE, pageHead } from "@/components/SiteLayout";
+
+import { MouseEventHandler, useState, type FormEvent } from "react";
+import { BASE } from "@/components/SiteLayout";
 import { AuthShell, Field, authField } from "@/components/AuthShell";
 import { COUNTRIES } from "@/data/countries";
 import { useI18n } from "@/lib/i18n";
 
-function Register() {
+type RegisterProps = {
+  handleRegistration : (data: FormData) => Promise<void>;
+  redirectToLogin :  () => MouseEventHandler<HTMLAnchorElement>;
+}
+export function Register({handleRegistration, redirectToLogin} : RegisterProps) {
   const { t } = useI18n();
   const a = t.auth;
   const [error, setError] = useState("");
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const d = new FormData(e.currentTarget);
     if (d.get("email_1") !== d.get("email_2")) { e.preventDefault(); setError(a.emailMismatch); return; }
     if (d.get("pass_1") !== d.get("pass_2")) { e.preventDefault(); setError(a.passMismatch); return; }
     setError("");
+    handleRegistration(d).catch(err => {
+      setError(err instanceof Error ? err.message : String(err));
+    })
   };
 
   const section = "font-display text-xs font-bold uppercase tracking-[0.25em] text-primary";
   return (
     <AuthShell eyebrow={a.rEyebrow} title={a.rTitle} image={`${BASE}/imagenes/portada/12.jpg`}>
       {/* Posts to the existing air-spain.es registration system */}
-      <form action={`${BASE}/login/registro.php`} method="post" onSubmit={onSubmit} className="space-y-6 rounded-xl border border-border bg-card p-8">
+      <form method="post" onSubmit={onSubmit} className="space-y-6 rounded-xl border border-border bg-card p-8">
         <p className={section}>{a.personal}</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label={a.first}><input name="nombre" required className={authField} /></Field>
@@ -56,7 +65,7 @@ function Register() {
         </button>
         <p className="text-center text-sm text-muted-foreground">
           {a.haveAcc}{" "}
-          <Link to="/login" className="font-semibold text-secondary hover:underline">{t.nav.login}</Link>
+          <a onClick={redirectToLogin()} className="font-semibold text-secondary hover:underline">{t.nav.login}</a>
         </p>
       </form>
     </AuthShell>

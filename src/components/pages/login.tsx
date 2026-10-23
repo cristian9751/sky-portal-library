@@ -1,15 +1,28 @@
 
-import { BASE, pageHead } from "@/components/SiteLayout";
+import {SiteLayout } from "@/components/SiteLayout";
 import { AuthShell, Field, authField } from "@/components/AuthShell";
 import { useI18n } from "@/lib/i18n";
+import { MouseEventHandler, useState } from "react";
 
-function Login() {
+type LoginProps = {
+  handleLogin : (data: FormData) => Promise<void>;
+  redirectToRegister :  () => MouseEventHandler<HTMLAnchorElement>;
+}
+export function Login({handleLogin, redirectToRegister} : LoginProps) {
   const { t } = useI18n();
   const a = t.auth;
+  const [eror, setError] = useState("");
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const d = new FormData(e.currentTarget);
+    handleLogin(d).catch(err => {
+      err instanceof Error ? setError(err.message) : setError(String(err));
+    })
+  };
   return (
-    <AuthShell eyebrow={a.lEyebrow} title={a.lTitle} image={`${BASE}/imagenes/portada/3.jpg`}>
-      {/* Posts to the existing air-spain.es login system */}
-      <form action={`${BASE}/login/comprobar.php`} method="post" className="space-y-5 rounded-xl border border-border bg-card p-8">
+    <SiteLayout>
+      <AuthShell eyebrow={a.lEyebrow} title={a.lTitle} image={`${BASE}/imagenes/portada/3.jpg`}>
+      <form onSubmit={onSubmit} method="post" className="space-y-5 rounded-xl border border-border bg-card p-8">
         <Field label={a.user}>
           <input name="usuario" required autoComplete="username" placeholder="XSN000" className={authField} />
         </Field>
@@ -22,9 +35,10 @@ function Login() {
         </button>
         <p className="text-center text-sm text-muted-foreground">
           {a.noAcc}{" "}
-          <Link to="/register" className="font-semibold text-secondary hover:underline">{t.nav.register}</Link>
+          <a onClick={redirectToRegister()} className="font-semibold text-secondary hover:underline">{t.nav.register}</a>
         </p>
       </form>
     </AuthShell>
+    </SiteLayout>
   );
 }

@@ -1,13 +1,14 @@
 
-import { PageHeader, pageHead } from "@/components/SiteLayout";
+import {SiteLayout } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
+
 
 function Normative() {
   const { t } = useI18n();
   return (
     <>
-      <PageHeader eyebrow={t.normative.eyebrow} title={t.normative.title} />
-      <section className="mx-auto max-w-4xl px-6 py-16">
+      <SiteLayout>
+        <section className="mx-auto max-w-4xl px-6 py-16">
         <div className="space-y-6">
           {t.normative.rules.map(([title, items], i) => (
             <div key={i} className="grid gap-4 rounded-xl border border-border bg-card p-8 md:grid-cols-[200px_1fr]">
@@ -22,6 +23,8 @@ function Normative() {
           ))}
         </div>
       </section>
+      </SiteLayout>
+      
     </>
   );
 }

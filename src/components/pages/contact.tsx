@@ -1,6 +1,12 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PageHeader, pageHead } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
+
+export const Route = createFileRoute("/contact")({
+  head: () => pageHead("Contact", "Get in touch with the Air Spain virtual airline team."),
+  component: Contact,
+});
 
 const EMAIL = "info@air-spain.es";
 const field = "w-full rounded-md border border-input bg-background px-4 py-3 outline-none focus:border-ring";

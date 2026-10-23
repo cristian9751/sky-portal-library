@@ -1,7 +1,11 @@
-
+import { createFileRoute } from "@tanstack/react-router";
 import { BASE, PageHeader, pageHead } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
 
+export const Route = createFileRoute("/about")({
+  head: () => pageHead("About us", "Air Spain is a virtual airline built on freedom: fly anywhere, any aircraft, offline, on VATSIM or IVAO."),
+  component: About,
+});
 
 function About() {
   const { t } = useI18n();
