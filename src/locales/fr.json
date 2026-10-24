@@ -5,6 +5,10 @@
     "unableToRetrieveFlightData": "Impossible de rafraîchir les données de vol. Veuillez réessayer dans un instant."
   },
   "auth": {
+    "required": "Vous devez indiquer une valeur.",
+    "passwordRequired": "Il doit comporter 8 caractères",
+    "invalidEmail": "Veuillez saisir une adresse e-mail valide",
+    "requiredAirport": "Indiquez le code OACI de l'aéroport.",
     "lEyebrow": "Accès équipage",
     "lTitle": "Bon retour, commandant.",
     "user": "Numéro d'utilisateur",

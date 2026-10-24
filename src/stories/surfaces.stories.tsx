@@ -43,17 +43,17 @@ export const CardsAndBadges = () => (
 export const FeedbackAndLoading = () =>  {
 
   let { t} = useI18n();
-  const u = t.user;
+
   return (
   <section className="max-w-xl space-y-6">
     <Alert>
       <CheckCircle2 className="h-4 w-4" />
       <AlertTitle>Changes saved</AlertTitle>
-      <AlertDescription>{u.profileUpdated}</AlertDescription>
+      <AlertDescription>{t.user.profileUpdated}</AlertDescription>
     </Alert>
     <Alert variant="destructive">
-      <AlertTitle>Connection issue</AlertTitle>
-      <AlertDescription>We could not refresh the flight data. Try again shortly.</AlertDescription>
+      <AlertTitle>{t.errors.connectionIssue}</AlertTitle>
+      <AlertDescription>{t.errors.unableToRetrieveFlightData}</AlertDescription>
     </Alert>
     <div className="flex items-center gap-3">
       <Avatar>

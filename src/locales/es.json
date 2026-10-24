@@ -5,6 +5,10 @@
     "unableToRetrieveFlightData": "No se han podido actualizar los datos del vuelo. Inténtalo de nuevo en breve."
   },
   "auth": {
+    "required": "Debes especificar un valor.",
+    "passwordRequired": "Debe contener 8 caracteres",
+    "invalidEmail": "Por favor, introduce un email valido",
+    "requiredAirport": "Indica el codigo icao del aeropuerto.",
     "lEyebrow": "Acceso tripulación",
     "lTitle": "Bienvenido de nuevo, comandante.",
     "user": "Número de usuario",
