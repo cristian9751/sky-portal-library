@@ -1,6 +1,5 @@
 
 import {SiteLayout } from "@/components/SiteLayout";
-import { useI18n } from "@/lib/i18n";
 
 export type NormativeProps = {
     rules? : Record<string, string[]>;

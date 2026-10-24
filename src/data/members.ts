@@ -1,4 +1,4 @@
-export const MEMBERS = [
+export const MembersData = [
  {
   "flag": "ES",
   "callsign": "XSN001",

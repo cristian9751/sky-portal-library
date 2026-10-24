@@ -1,8 +1,21 @@
 import { BASE, PageHeader, SiteLayout, pageHead } from "@/components/SiteLayout";
-import { MEMBERS } from "@/data/members";
 import { useI18n } from "@/lib/i18n";
+import { ReactNode } from "react";
 
-export function Members() {
+
+export type MemberAttributes = {
+  flag: string,
+  callsign: string,
+  name: string,
+  ivao: string,
+  vatsim: string,
+  badge: string,
+  base: string
+}
+export type MembersParams = {
+    members : Array<MemberAttributes>
+}
+export function Members({members} : MembersParams) {
   const { t } = useI18n();
   return (
     <>
@@ -19,7 +32,7 @@ export function Members() {
                 </tr>
               </thead>
               <tbody>
-                {MEMBERS.map((m) => (
+                {members.map((m : MemberAttributes) => (
                   <tr key={m.callsign} className="border-b border-border last:border-0 hover:bg-muted">
                     <td className="px-5 py-4 font-display font-bold text-secondary">{m.callsign}</td>
                     <td className="px-5 py-4">
