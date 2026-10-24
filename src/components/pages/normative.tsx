@@ -13,15 +13,8 @@ function Normative({rules} : NormativeProps) {
     <>
       <SiteLayout>
         <div className="space-y-6">
-          
-        </div>
-      </SiteLayout>
-      
-    </>
-  );
-}
-{Object.entries(rules).map(([title, items]) => (
-            <div key={title} className="grid gap-4 rounded-xl border border-border bg-card p-8 md:grid-cols-[200px_1fr]">
+          {Object.entries(rules).map(([title, items,], i) => (
+            <div key={i} className="grid gap-4 rounded-xl border border-border bg-card p-8 md:grid-cols-[200px_1fr]">
               <div>
                 <span className="font-display text-sm font-bold text-primary">0{i + 1}</span>
                 <h2 className="font-display text-xl font-bold">{title}</h2>
@@ -31,3 +24,9 @@ function Normative({rules} : NormativeProps) {
               </div>
             </div>
           ))}
+        </div>
+      </SiteLayout>
+      
+    </>
+  );
+}
