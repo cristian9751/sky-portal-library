@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle2, Plane } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export const CardsAndBadges = () => (
   <section className="max-w-2xl space-y-6">
@@ -39,12 +40,16 @@ export const CardsAndBadges = () => (
   </section>
 );
 
-export const FeedbackAndLoading = () => (
+export const FeedbackAndLoading = () =>  {
+
+  let { t} = useI18n();
+  const u = t.user;
+  return (
   <section className="max-w-xl space-y-6">
     <Alert>
       <CheckCircle2 className="h-4 w-4" />
       <AlertTitle>Changes saved</AlertTitle>
-      <AlertDescription>Your pilot profile has been updated successfully.</AlertDescription>
+      <AlertDescription>{u.profileUpdated}</AlertDescription>
     </Alert>
     <Alert variant="destructive">
       <AlertTitle>Connection issue</AlertTitle>
@@ -67,4 +72,5 @@ export const FeedbackAndLoading = () => (
       <Skeleton className="h-4 w-4/5" />
     </div>
   </section>
-);
+)
+};

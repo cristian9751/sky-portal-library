@@ -1,5 +1,9 @@
 
 {
+  "errors": {
+    "connectionIssue": "Problema de conexión",
+    "unableToRetrieveFlightData": "No se han podido actualizar los datos del vuelo. Inténtalo de nuevo en breve."
+  },
   "auth": {
     "lEyebrow": "Crew-Zugang",
     "lTitle": "Willkommen zurück, Kapitän.",
@@ -28,6 +32,9 @@
     "account": "Konto",
     "networks": "Fliegen",
     "invalidCredentials": "Ungültiger Benutzername oder Passwort."
+  },
+  "user": {
+    "profileUpdated": "Dein Pilotprofil wurde erfolgreich aktualisiert"
   },
   "nav": {
     "home": "Start",
@@ -75,43 +82,7 @@
   },
   "normative": {
     "eyebrow": "Regeln",
-    "title": "So fliegen wir.",
-    "rules": [
-      [
-        "Allgemein",
-        [
-          "Air Spain ist eine virtuelle Airline, die den Betrieb einer fiktiven Fluggesellschaft im Flugsimulator nachbildet. Jedes Mitglied kann Routen erstellen oder bestehende nutzen, mit beliebigem Start, Ziel und Flugzeug.",
-          "Unsere Flüge nutzen das Rufzeichen XSNXXXX \"Air Spain\" für den Funkverkehr.",
-          "Flieg IFR oder VFR, online oder offline — volle Freiheit. In einem Netzwerk gelten dessen Verhaltens- und Höflichkeitsregeln.",
-          "Mitglieder auf VATSIM können ihren Flugplan direkt aus unserem System aufgeben."
-        ]
-      ],
-      [
-        "Voraussetzungen",
-        [
-          "Keine."
-        ]
-      ],
-      [
-        "Betrieb",
-        [
-          "Jede Route ist nur für das gewählte Flugzeug geplant, mit Passagier-, Fracht- und Treibstoffdaten. Für ein anderes Flugzeug erstellst du eine neue Route mit den passenden Daten.",
-          "Flüge werden mit dem kostenlosen Programm ACARS verfolgt und gemeldet, erhältlich in unserem Downloadbereich."
-        ]
-      ],
-      [
-        "Datenschutz",
-        [
-          "Persönliche Daten der Mitglieder sind privat, nur für den internen Gebrauch und zur Kommunikation bestimmt, gemäß spanischem Datenschutzrecht."
-        ]
-      ],
-      [
-        "Austritt",
-        [
-          "Jedes Mitglied kann austreten, indem es einen Administrator unter info@air-spain.es kontaktiert. Der Austritt gilt sofort."
-        ]
-      ]
-    ]
+    "title": "So fliegen wir."
   },
   "members": {
     "eyebrow": "Piloten",

@@ -1,5 +1,9 @@
 
 {
+  "errors": {
+    "connectionIssue": "Connection issue",
+    "unableToRetrieveFlightData": "We could not refresh the flight data. Try again shortly."
+  },
   "auth": {
     "lEyebrow": "Crew access",
     "lTitle": "Welcome back, captain.",
@@ -28,6 +32,10 @@
     "account": "Account",
     "networks": "Flying",
     "invalidCredentials": "Invalid username or password."
+  },
+
+  "user" : {
+    "profileUpdated": "Your pilot profile has been updated successfully"
   },
   "nav": {
     "home": "Home",
@@ -75,43 +83,7 @@
   },
   "normative": {
     "eyebrow": "Normative",
-    "title": "How we fly.",
-    "rules": [
-      [
-        "General",
-        [
-          "Air Spain is a virtual airline that emulates a hypothetical airline through flight simulation. Every member can create routes or use existing ones with any origin, destination and aircraft.",
-          "Our flights use the callsign XSNXXXX \"Air Spain\" for communications.",
-          "Fly IFR or VFR, online or offline — total freedom. When connected to a network, follow its rules of conduct and courtesy.",
-          "Members flying on VATSIM can file their flight plan directly from our system."
-        ]
-      ],
-      [
-        "Requirements to join",
-        [
-          "None."
-        ]
-      ],
-      [
-        "Operations",
-        [
-          "Each route is planned for the selected aircraft only, with passenger, cargo and fuel data. To fly it with a different aircraft, create a new route with the matching data.",
-          "Flights are tracked and reported with the free ACARS program, available in our downloads area."
-        ]
-      ],
-      [
-        "Privacy",
-        [
-          "Members' personal data is private, for internal use and communication purposes only, in line with Spanish data protection law."
-        ]
-      ],
-      [
-        "Leaving",
-        [
-          "Any member can leave by contacting an administrator at info@air-spain.es. It takes effect immediately."
-        ]
-      ]
-    ]
+    "title": "How we fly."
   },
   "members": {
     "eyebrow": "Members",

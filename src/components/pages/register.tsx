@@ -4,12 +4,14 @@ import { BASE, SiteLayout } from "@/components/SiteLayout";
 import { AuthShell, Field, authField } from "@/components/AuthShell";
 import { COUNTRIES } from "@/data/countries";
 import { useI18n } from "@/lib/i18n";
+import AutocompleteInput from "../ui/autocomplete-input";
 
 type RegisterProps = {
   handleRegistration : (data: FormData) => Promise<void>;
   redirectToLogin :  () => MouseEventHandler<HTMLAnchorElement>;
+  airportOptions?: [string]
 }
-export function Register({handleRegistration, redirectToLogin} : RegisterProps) {
+export function Register({handleRegistration, redirectToLogin, airportOptions} : RegisterProps) {
   const { t } = useI18n();
   const a = t.auth;
   const [error, setError] = useState("");
@@ -52,7 +54,7 @@ export function Register({handleRegistration, redirectToLogin} : RegisterProps) 
 
         <p className={section}>{a.networks}</p>
         <Field label={a.airport}>
-          <input name="aeropuerto" required maxLength={4} placeholder="LEMD" className={`${authField} uppercase`} />
+          <AutocompleteInput name="aeropuerto" required maxLength={4} placeholder="LEMD" className={`${authField} uppercase`} options={airportOptions ?? ["LEMD", "LEBL"]} />
         </Field>
         <div className="grid gap-4 sm:grid-cols-3">
           <Field label={a.vatsim} hint={a.optional}><input name="idvatsim" className={authField} /></Field>

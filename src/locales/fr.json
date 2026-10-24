@@ -1,5 +1,9 @@
 
 {
+  "errors": {
+    "connectionIssue": "Problème de connexion",
+    "unableToRetrieveFlightData": "Impossible de rafraîchir les données de vol. Veuillez réessayer dans un instant."
+  },
   "auth": {
     "lEyebrow": "Accès équipage",
     "lTitle": "Bon retour, commandant.",
@@ -28,6 +32,9 @@
     "account": "Compte",
     "networks": "Vol",
     "invalidCredentials": "Nom d'utilisateur ou mot de passe incorrect."
+  },
+  "user": {
+    "profileUpdated": "Votre profil de pilote a été mis à jour avec succès"
   },
   "nav": {
     "home": "Accueil",
@@ -75,43 +82,7 @@
   },
   "normative": {
     "eyebrow": "Règlement",
-    "title": "Comment nous volons.",
-    "rules": [
-      [
-        "Général",
-        [
-          "Air Spain est une compagnie aérienne virtuelle qui simule l'activité d'une compagnie hypothétique via un simulateur de vol. Chaque membre peut créer des routes ou utiliser celles existantes, avec l'origine, la destination et l'appareil de son choix.",
-          "Nos vols utilisent l'indicatif XSNXXXX \"Air Spain\" pour les communications.",
-          "Volez en IFR ou VFR, en ligne ou hors ligne — liberté totale. Sur un réseau, respectez ses règles de conduite et de courtoisie.",
-          "Les membres volant sur VATSIM peuvent déposer leur plan de vol directement depuis notre système."
-        ]
-      ],
-      [
-        "Conditions d'adhésion",
-        [
-          "Aucune."
-        ]
-      ],
-      [
-        "Opérations",
-        [
-          "Chaque route est planifiée uniquement pour l'appareil choisi, avec les données de passagers, fret et carburant. Pour la voler avec un autre appareil, créez une nouvelle route avec les données correspondantes.",
-          "Le suivi et le rapport de vol se font avec le logiciel gratuit ACARS, disponible dans notre zone de téléchargements."
-        ]
-      ],
-      [
-        "Confidentialité",
-        [
-          "Les données personnelles des membres sont privées, à usage interne et uniquement à des fins de communication, conformément à la loi espagnole sur la protection des données."
-        ]
-      ],
-      [
-        "Départ",
-        [
-          "Tout membre peut quitter la compagnie en contactant un administrateur à info@air-spain.es. C'est effectif immédiatement."
-        ]
-      ]
-    ]
+    "title": "Comment nous volons."
   },
   "members": {
     "eyebrow": "Pilotes",

@@ -1,5 +1,9 @@
 
 {
+  "errors": {
+    "connectionIssue": "Problema de conexión",
+    "unableToRetrieveFlightData": "No se han podido actualizar los datos del vuelo. Inténtalo de nuevo en breve."
+  },
   "auth": {
     "lEyebrow": "Acceso tripulación",
     "lTitle": "Bienvenido de nuevo, comandante.",
@@ -28,6 +32,9 @@
     "account": "Cuenta",
     "networks": "Vuelo",
     "invalidCredentials": "Usuario o contraseña incorrectos."
+  },
+  "user": {
+    "profileUpdated": "Tu perfil de piloto se ha actualizado correctamente"
   },
   "nav": {
     "home": "Inicio",
@@ -75,43 +82,7 @@
   },
   "normative": {
     "eyebrow": "Normativa",
-    "title": "Cómo volamos.",
-    "rules": [
-      [
-        "General",
-        [
-          "Air Spain es una aerolínea virtual que emula la actividad de una compañía hipotética mediante simulador de vuelo. Cada miembro puede crear rutas o usar las existentes con el origen, destino y aeronave que desee.",
-          "Nuestros vuelos usan el indicativo XSNXXXX \"Air Spain\" en las comunicaciones.",
-          "Vuela IFR o VFR, online u offline: libertad absoluta. Si te conectas a una red, respeta sus normas de comportamiento y cortesía.",
-          "Los miembros que vuelen en VATSIM pueden enviar el plan de vuelo directamente desde nuestro sistema."
-        ]
-      ],
-      [
-        "Requisitos para unirse",
-        [
-          "Ninguno."
-        ]
-      ],
-      [
-        "Operaciones",
-        [
-          "Cada ruta se planifica solo para la aeronave seleccionada, con datos de pasaje, carga y combustible. Para volarla con otra aeronave, crea una ruta nueva con los datos correspondientes.",
-          "El seguimiento y reporte del vuelo se hace con el programa gratuito ACARS, disponible en nuestra zona de descargas."
-        ]
-      ],
-      [
-        "Confidencialidad",
-        [
-          "Los datos personales de los miembros son privados, de uso interno y solo con fines de comunicación, según la ley española de protección de datos."
-        ]
-      ],
-      [
-        "Bajas",
-        [
-          "Cualquier miembro puede darse de baja contactando con un administrador en info@air-spain.es. Será efectiva de inmediato."
-        ]
-      ]
-    ]
+    "title": "Cómo volamos."
   },
   "members": {
     "eyebrow": "Pilotos",
