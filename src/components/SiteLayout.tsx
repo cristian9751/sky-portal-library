@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, type ComponentType, type ReactNode } from "react";
-import { LANGS, useI18n } from "@/lib/i18n";
+import { LangProvider, LANGS, useI18n } from "@/lib/i18n";
 
-export const BASE = "https://air-spain.es";
+const hostname = window.location.hostname;
+export const BASE = hostname == "localhost" ? "https://air-spain.es" : hostname ;
 
 /* ---------- Abstracción de enlaces (sin dependencia de router) ---------- */
 
@@ -39,8 +40,8 @@ const NAV = [
   { key: "home", to: "/" },
   { key: "about", to: "/about" },
   { key: "normative", to: "/normative" },
-  { key: "resources", href: `${BASE}/recursos/` },
-  { key: "staff", href: `${BASE}/staff/` },
+  { key: "resources", href: `/resources` },
+  { key: "staff", href: `/staff` },
   { key: "members", to: "/members" },
   { key: "contact", to: "/contact" },
 ] as const;
@@ -64,6 +65,8 @@ function NavItem({ item, className }: { item: (typeof NAV)[number]; className: s
 
 /* ---------- Layout ---------- */
 
+
+
 export function SiteLayout({
   children,
   linkComponent,
@@ -80,7 +83,7 @@ export function SiteLayout({
     <LinkContext.Provider value={Link}>
       <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
         <div className="h-1.5 bg-flag" />
-        <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
+        <header className=" top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
             <Link to="/" className="font-display text-2xl font-extrabold tracking-tight">
               AIR<span className="text-primary">SPAIN</span>
@@ -163,12 +166,12 @@ export function PageHeader({ eyebrow, title }: { eyebrow: string; title: string 
   );
 }
 
-export function pageHead(title: string, description: string) {
+export function pageHead(title: string, vaName: string,  description: string) {
   return {
     meta: [
-      { title: `${title} | Air Spain` },
+      { title: `${title} | ${vaName}` },
       { name: "description", content: description },
-      { property: "og:title", content: `${title} | Air Spain` },
+      { property: "og:title", content: `${title} | ${vaName}` },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -26,7 +26,8 @@
     "passMismatch": "Las contraseñas no coinciden.",
     "personal": "Datos personales",
     "account": "Cuenta",
-    "networks": "Vuelo"
+    "networks": "Vuelo",
+    "invalidCredentials": "Usuario o contraseña incorrectos."
   },
   "nav": {
     "home": "Inicio",

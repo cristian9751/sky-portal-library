@@ -1,6 +1,6 @@
 
 import { MouseEventHandler, useState, type FormEvent } from "react";
-import { BASE } from "@/components/SiteLayout";
+import { BASE, SiteLayout } from "@/components/SiteLayout";
 import { AuthShell, Field, authField } from "@/components/AuthShell";
 import { COUNTRIES } from "@/data/countries";
 import { useI18n } from "@/lib/i18n";
@@ -27,7 +27,8 @@ export function Register({handleRegistration, redirectToLogin} : RegisterProps) 
 
   const section = "font-display text-xs font-bold uppercase tracking-[0.25em] text-primary";
   return (
-    <AuthShell eyebrow={a.rEyebrow} title={a.rTitle} image={`${BASE}/imagenes/portada/12.jpg`}>
+    <SiteLayout>
+      <AuthShell eyebrow={a.rEyebrow} title={a.rTitle} image={`${BASE}/imagenes/portada/12.jpg`}>
       {/* Posts to the existing air-spain.es registration system */}
       <form method="post" onSubmit={onSubmit} className="space-y-6 rounded-xl border border-border bg-card p-8">
         <p className={section}>{a.personal}</p>
@@ -69,5 +70,6 @@ export function Register({handleRegistration, redirectToLogin} : RegisterProps) 
         </p>
       </form>
     </AuthShell>
+    </SiteLayout>
   );
 }

@@ -26,7 +26,8 @@
     "passMismatch": "Les mots de passe ne correspondent pas.",
     "personal": "Informations personnelles",
     "account": "Compte",
-    "networks": "Vol"
+    "networks": "Vol",
+    "invalidCredentials": "Nom d'utilisateur ou mot de passe incorrect."
   },
   "nav": {
     "home": "Accueil",

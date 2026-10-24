@@ -26,7 +26,8 @@
     "passMismatch": "Passwords don't match.",
     "personal": "Personal details",
     "account": "Account",
-    "networks": "Flying"
+    "networks": "Flying",
+    "invalidCredentials": "Invalid username or password."
   },
   "nav": {
     "home": "Home",

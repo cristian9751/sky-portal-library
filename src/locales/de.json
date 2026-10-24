@@ -26,7 +26,8 @@
     "passMismatch": "Passwörter stimmen nicht überein.",
     "personal": "Persönliche Daten",
     "account": "Konto",
-    "networks": "Fliegen"
+    "networks": "Fliegen",
+    "invalidCredentials": "Ungültiger Benutzername oder Passwort."
   },
   "nav": {
     "home": "Start",
