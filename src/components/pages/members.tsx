@@ -1,12 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { BASE, PageHeader, pageHead } from "@/components/SiteLayout";
 import { MEMBERS } from "@/data/members";
 import { useI18n } from "@/lib/i18n";
-
-export const Route = createFileRoute("/members")({
-  head: () => pageHead("Members", "Meet the Air Spain pilot roster with callsigns, network IDs, ranks and home bases."),
-  component: Members,
-});
 
 function Members() {
   const { t } = useI18n();

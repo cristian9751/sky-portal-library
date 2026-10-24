@@ -1,20 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Air Spain — Virtual Airline | Home" },
-      { name: "description", content: "Fly with Air Spain, a virtual airline on VATSIM and IVAO. Join our pilots today." },
-      { property: "og:title", content: "Air Spain — Virtual Airline" },
-      { property: "og:description", content: "Fly with Air Spain, a virtual airline on VATSIM and IVAO." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Index,
-});
 
 const BASE = "https://air-spain.es";
 const SLIDES = Array.from({ length: 15 }, (_, i) => {

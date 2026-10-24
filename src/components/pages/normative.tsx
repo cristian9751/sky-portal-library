@@ -2,16 +2,26 @@
 import {SiteLayout } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
 
+export type NormativeProps = {
+    rules : Record<string, string[]>;
+}
 
-function Normative() {
-  const { t } = useI18n();
-  return (
+function Normative({rules} : NormativeProps) {
+
+
+   return (
     <>
       <SiteLayout>
-        <section className="mx-auto max-w-4xl px-6 py-16">
         <div className="space-y-6">
-          {t.normative.rules.map(([title, items], i) => (
-            <div key={i} className="grid gap-4 rounded-xl border border-border bg-card p-8 md:grid-cols-[200px_1fr]">
+          
+        </div>
+      </SiteLayout>
+      
+    </>
+  );
+}
+{Object.entries(rules).map(([title, items]) => (
+            <div key={title} className="grid gap-4 rounded-xl border border-border bg-card p-8 md:grid-cols-[200px_1fr]">
               <div>
                 <span className="font-display text-sm font-bold text-primary">0{i + 1}</span>
                 <h2 className="font-display text-xl font-bold">{title}</h2>
@@ -21,10 +31,3 @@ function Normative() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-      </SiteLayout>
-      
-    </>
-  );
-}
