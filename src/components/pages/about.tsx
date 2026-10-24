@@ -1,4 +1,5 @@
-import { PageHeader, pageHead } from "@/components/SiteLayout";
+
+import { BASE, PageHeader, SiteLayout } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
 
 function About() {
@@ -7,7 +8,8 @@ function About() {
   return (
     <>
       <PageHeader eyebrow={a.eyebrow} title={a.title} />
-      <section className="mx-auto max-w-7xl px-6 py-16">
+      <SiteLayout>
+        <section className="mx-auto max-w-7xl px-6 py-16">
         <p className="max-w-3xl text-xl leading-relaxed text-muted-foreground">{a.intro}</p>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {a.points.map(([title, d], i) => (
@@ -23,6 +25,7 @@ function About() {
           <a href="/register" className="rounded-md bg-secondary px-6 py-3 font-semibold text-secondary-foreground hover:bg-secondary/90">{a.join}</a>
         </div>
       </section>
+      </SiteLayout>
     </>
   );
 }

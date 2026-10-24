@@ -22,7 +22,7 @@
     "airport": "Nearest airport (ICAO)",
     "vatsim": "VATSIM ID",
     "ivao": "IVAO ID",
-    "simbrief": "SimBrief user",
+    "simbrief": "SimBrief",
     "optional": "Optional",
     "rSubmit": "Create account",
     "haveAcc": "Already a member?",

@@ -3,16 +3,17 @@ import {SiteLayout } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
 
 export type NormativeProps = {
-    rules : Record<string, string[]>;
+    rules? : Record<string, string[]>;
 }
 
-function Normative({rules} : NormativeProps) {
+export function Normative({rules} : NormativeProps) {
 
 
    return (
     <>
       <SiteLayout>
-        <div className="space-y-6">
+        {rules && (
+          <div className="space-y-6">
           {Object.entries(rules).map(([title, items,], i) => (
             <div key={i} className="grid gap-4 rounded-xl border border-border bg-card p-8 md:grid-cols-[200px_1fr]">
               <div>
@@ -25,6 +26,7 @@ function Normative({rules} : NormativeProps) {
             </div>
           ))}
         </div>
+        )}
       </SiteLayout>
       
     </>
