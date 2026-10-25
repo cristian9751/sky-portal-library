@@ -1,5 +1,5 @@
 {
-  "name": "sky-portal-component-library",
+  "name": "@cristian9751/sky-portal-component-library",
   "version": "1.0.0",
   "description": "Reusable React UI component library for Air Spain Sky Portal, built with React, Radix UI and Tailwind CSS.",
   "private": false,
