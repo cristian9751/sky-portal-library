@@ -3,7 +3,6 @@ import {BASE, SiteLayout } from "@/components/SiteLayout";
 import { AuthShell, Field, authField } from "@/components/AuthShell";
 import { useI18n } from "@/lib/i18n";
 import { MouseEventHandler, useState } from "react";
-import { error } from "console";
 
 type LoginProps = {
   handleLogin : (data: FormData) => Promise<void>;

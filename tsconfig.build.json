@@ -1,15 +1,13 @@
+
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": [
-      "vite/client",
-      "react",
-      "react-dom"
-    ],
-    "noEmit": true,
+    "types": ["vite/client", "react", "react-dom"],
+    "noEmit": false,
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": false,
+    "emitDeclarationOnly": true,
+    "declarationDir": "./dist/types",
     "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -19,16 +17,16 @@
     "noUnusedParameters": false,
     "exactOptionalPropertyTypes": false
   },
-  "include": [
-    "src/index.ts",
-    "src/components/ui/**/*.tsx",
-    "src/lib/utils.ts",
-    "src/hooks/use-mobile.tsx"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/**/*.spec.ts",
-    "src/**/*.spec.tsx"
+    "src/**/*.spec.tsx",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/**/*.stories.mdx",
+    "src/**/*.ladle.ts",
+    "src/**/*.ladle.tsx"
   ]
 }

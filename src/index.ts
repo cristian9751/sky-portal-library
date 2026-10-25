@@ -50,7 +50,15 @@ export * from "./components/ui/textarea";
 export * from "./components/ui/toggle";
 export * from "./components/ui/toggle-group";
 export * from "./components/ui/tooltip";
-export * from "./components/pages"
+export {SiteLayout} from "./components/SiteLayout"
 export { LangProvider } from "./lib/i18n" 
 export { cn } from "./lib/utils";
 export { useIsMobile } from "./hooks/use-mobile";
+export { About } from "./components/pages/about";
+export { Contact } from "./components/pages/contact";
+export { Index } from "./components/pages";
+export { Login } from "./components/pages/login";
+export { Members } from "./components/pages/members";
+export { Normative } from "./components/pages/normative";
+export { Register } from "./components/pages/register";
+export type { AppLinkProps } from "./components/SiteLayout"

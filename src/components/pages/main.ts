@@ -1,7 +1,0 @@
-export * from "./contact"
-export * from "./about"
-export * from "./index"
-export * from "./login"
-export * from "./members"
-export * from "./normative"
-export * from "./register"
