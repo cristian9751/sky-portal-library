@@ -10,8 +10,7 @@ export function Normative({rules} : NormativeProps) {
 
    return (
     <>
-      <SiteLayout>
-        {rules && (
+      {rules && (
           <div className="space-y-6">
           {Object.entries(rules).map(([title, items,], i) => (
             <div key={i} className="grid gap-4 rounded-xl border border-border bg-card p-8 md:grid-cols-[200px_1fr]">
@@ -26,7 +25,6 @@ export function Normative({rules} : NormativeProps) {
           ))}
         </div>
         )}
-      </SiteLayout>
       
     </>
   );

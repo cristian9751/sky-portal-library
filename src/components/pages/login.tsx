@@ -21,8 +21,7 @@ export function Login({handleLogin, redirectToRegister} : LoginProps) {
     })
   };
   return (
-    <SiteLayout>
-      <AuthShell eyebrow={a.lEyebrow} title={a.lTitle} image={`${BASE}/imagenes/portada/3.jpg`}>
+    <AuthShell eyebrow={a.lEyebrow} title={a.lTitle} image={`${BASE}/imagenes/portada/3.jpg`}>
       <form onSubmit={onSubmit} method="post" className="space-y-5 rounded-xl border border-border bg-card p-8">
         <Field label={a.user}>
           <input name="usuario" required autoComplete="username" placeholder="XSN000" className={authField} />
@@ -40,6 +39,5 @@ export function Login({handleLogin, redirectToRegister} : LoginProps) {
         </p>
       </form>
     </AuthShell>
-    </SiteLayout>
   );
 }

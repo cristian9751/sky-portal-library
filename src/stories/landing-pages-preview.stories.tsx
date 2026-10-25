@@ -1,3 +1,4 @@
+import { About } from "@/components/pages/about";
 import { Contact } from "@/components/pages/contact";
 import { Index } from "@/components/pages/index";
 import { Members } from "@/components/pages/members"
@@ -10,3 +11,4 @@ export const contactPreview = () => (
 export const indexPreview = () => <Index/>
 export const membersPreview = () => <Members members={MembersData}/>
 export const NormativePreview = () => <Normative rules={rules}/>
+export const AboutPreview = () => <About/>

@@ -17,8 +17,7 @@ export function Contact() {
   };
   return (
     <>
-      <SiteLayout>
-        <PageHeader eyebrow={c.eyebrow} title={c.title} />
+      <PageHeader eyebrow={c.eyebrow} title={c.title} />
         <section className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-[1fr_1.4fr]">
           <div className="rounded-xl border border-border bg-card p-8">
             <h2 className="font-display text-xl font-bold">{c.emailUs}</h2>
@@ -32,7 +31,6 @@ export function Contact() {
             <button type="submit" className="rounded-md bg-primary px-6 py-3 font-semibold text-primary-foreground hover:bg-primary/90">{c.send}</button>
           </form>
         </section>
-      </SiteLayout>
     </>
   );
 }

@@ -19,8 +19,7 @@ export function Members({members} : MembersParams) {
   const { t } = useI18n();
   return (
     <>
-      <SiteLayout>
-        <PageHeader eyebrow={t.members.eyebrow} title={t.members.title} />
+       <PageHeader eyebrow={t.members.eyebrow} title={t.members.title} />
         <section className="mx-auto max-w-7xl px-6 py-16">
           <div className="overflow-x-auto rounded-xl border border-border bg-card">
             <table className="w-full text-left text-sm">
@@ -55,7 +54,6 @@ export function Members({members} : MembersParams) {
             </table>
           </div>
         </section>
-      </SiteLayout>
     </>
   );
 }

@@ -24,8 +24,7 @@ export function Index() {
 
   return (
     <>
-      <SiteLayout>
-        <section className="relative h-[78vh] min-h-[480px] overflow-hidden">
+       <section className="relative h-[78vh] min-h-[480px] overflow-hidden">
           {SLIDES.map((src, i) => (
             <img key={src} src={src} alt={`Air Spain fleet ${i + 1}`} loading={i === 0 ? "eager" : "lazy"}
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${i === idx ? "opacity-100" : "opacity-0"}`} />
@@ -71,7 +70,6 @@ export function Index() {
             ))}
           </div>
         </section>
-      </SiteLayout>
 
     </>
   );
