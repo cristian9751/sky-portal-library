@@ -7,6 +7,7 @@
   "auth": {
     "required": "You must specify a value",
     "passwordRequired": "Must contain 8 characters",
+    "invalidPassword": "The given password has appeared  in a data leak. Please choose a different password.",
     "invalidEmail": "Please, provide a valid email",
     "requiredAirport": "Enter the airport's ICAO code.",
     "lEyebrow": "Crew access",

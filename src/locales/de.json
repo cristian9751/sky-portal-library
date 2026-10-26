@@ -8,6 +8,7 @@
     "required": "Du musst einen Wert angeben.",
     "passwordRequired": "Es muss aus 8 Zeichen bestehen.",
     "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein.",
+    "invalidPassword": "Das angegebene Passwort ist bei einem Datenleck aufgetaucht. Bitte wählen Sie ein anderes Passwort.",
     "requiredAirport": "Geben Sie den ICAO-Code des Flughafens an.",
     "lEyebrow": "Crew-Zugang",
     "lTitle": "Willkommen zurück, Kapitän.",

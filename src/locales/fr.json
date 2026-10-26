@@ -7,6 +7,7 @@
   "auth": {
     "required": "Vous devez indiquer une valeur.",
     "passwordRequired": "Il doit comporter 8 caractères",
+    "invalidPassword": "Le mot de passe indiqué a été victime d'une fuite de données. Veuillez choisir un autre mot de passe.",
     "invalidEmail": "Veuillez saisir une adresse e-mail valide",
     "requiredAirport": "Indiquez le code OACI de l'aéroport.",
     "lEyebrow": "Accès équipage",

@@ -51,7 +51,7 @@ export * from "./components/ui/toggle";
 export * from "./components/ui/toggle-group";
 export * from "./components/ui/tooltip";
 export {SiteLayout} from "./components/SiteLayout"
-export { LangProvider } from "./lib/i18n" 
+export { LangProvider, useI18n } from "./lib/i18n" 
 export { cn } from "./lib/utils";
 export { useIsMobile } from "./hooks/use-mobile";
 export { About } from "./components/pages/about";

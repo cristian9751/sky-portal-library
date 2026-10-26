@@ -7,6 +7,7 @@
   "auth": {
     "required": "Debes especificar un valor.",
     "passwordRequired": "Debe contener 8 caracteres",
+    "invalidPassword": "La contraseña indicada ha sido reportada como insegura. Por favor, escoge una diferente.",
     "invalidEmail": "Por favor, introduce un email valido",
     "requiredAirport": "Indica el codigo icao del aeropuerto.",
     "lEyebrow": "Acceso tripulación",

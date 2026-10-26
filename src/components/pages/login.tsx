@@ -6,7 +6,7 @@ import { MouseEventHandler, useState } from "react";
 
 type LoginProps = {
   handleLogin : (data: FormData) => Promise<void>;
-  redirectToRegister :  () => MouseEventHandler<HTMLAnchorElement>;
+  redirectToRegister : ()  => void;
 }
 export function Login({handleLogin, redirectToRegister} : LoginProps) {
   const { t } = useI18n();
@@ -34,7 +34,7 @@ export function Login({handleLogin, redirectToRegister} : LoginProps) {
         </button>
         <p className="text-center text-sm text-muted-foreground">
           {a.noAcc}{" "}
-          <a onClick={redirectToRegister()} className="font-semibold text-secondary hover:underline">{t.nav.register}</a>
+          <a onClick={redirectToRegister} className="font-semibold text-secondary hover:underline">{t.nav.register}</a>
         </p>
       </form>
     </AuthShell>
