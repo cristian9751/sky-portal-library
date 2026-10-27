@@ -7,7 +7,7 @@
   "auth": {
     "required": "Debes especificar un valor.",
     "passwordRequired": "Debe contener 8 caracteres",
-    "invalidPassword": "La contraseña indicada ha sido reportada como insegura. Por favor, escoge una diferente.",
+    "invalidPassword": "La contraseña indicada ha sido . Por favor, escoge una diferente.",
     "invalidEmail": "Por favor, introduce un email valido",
     "requiredAirport": "Indica el codigo icao del aeropuerto.",
     "lEyebrow": "Acceso tripulación",
@@ -36,7 +36,8 @@
     "personal": "Datos personales",
     "account": "Cuenta",
     "networks": "Vuelo",
-    "invalidCredentials": "Usuario o contraseña incorrectos."
+    "invalidCredentials": "Usuario o contraseña incorrectos.",
+    "emailAlreadyExists": "El correo electrónico utilizado ya existe"
   },
   "user": {
     "profileUpdated": "Tu perfil de piloto se ha actualizado correctamente"

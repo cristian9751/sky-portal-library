@@ -36,7 +36,8 @@
     "personal": "Informations personnelles",
     "account": "Compte",
     "networks": "Vol",
-    "invalidCredentials": "Nom d'utilisateur ou mot de passe incorrect."
+    "invalidCredentials": "Nom d'utilisateur ou mot de passe incorrect.",
+    "emailAlreadyExists": "Cette adresse e-mail est déjà prise"
   },
   "user": {
     "profileUpdated": "Votre profil de pilote a été mis à jour avec succès"

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, type ComponentType, type ReactNode
 import { LangProvider, LANGS, useI18n } from "@/lib/i18n";
 
 const hostname = window.location.hostname;
-export const BASE = hostname == "localhost" ? "https://air-spain.es" : hostname;
+export const BASE = hostname == "localhost" ? "https://air-spain.es" : `${window.location.protocol}//${hostname}`;
 
 /* ---------- Abstracción de enlaces (sin dependencia de router) ---------- */
 
@@ -14,7 +14,7 @@ export type AppLinkProps = {
 };
 
 /** Implementación por defecto: ancla HTML normal (navegación completa). */
-function DefaultLink({ to, ...rest }: AppLinkProps) {
+export function DefaultLink({ to, ...rest }: AppLinkProps) {
   return <a href={to} {...rest} />;
 }
 

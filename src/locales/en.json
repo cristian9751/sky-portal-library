@@ -36,7 +36,8 @@
     "personal": "Personal details",
     "account": "Account",
     "networks": "Flying",
-    "invalidCredentials": "Invalid username or password."
+    "invalidCredentials": "Invalid username or password.",
+    "emailAlreadyExists": "The email has already been taken"
   },
 
   "user" : {

@@ -36,7 +36,8 @@
     "personal": "Persönliche Daten",
     "account": "Konto",
     "networks": "Fliegen",
-    "invalidCredentials": "Ungültiger Benutzername oder Passwort."
+    "invalidCredentials": "Ungültiger Benutzername oder Passwort.",
+    "emailAlreadyExists": "Die E-Mail-Adresse wurde bereits vergeben."
   },
   "user": {
     "profileUpdated": "Dein Pilotprofil wurde erfolgreich aktualisiert"

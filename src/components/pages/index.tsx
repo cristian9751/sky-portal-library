@@ -1,9 +1,7 @@
+import { BASE  } from "@/components/SiteLayout"
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { SiteLayout } from "../SiteLayout";
-
-
-const BASE = "https://air-spain.es";
 const SLIDES = Array.from({ length: 15 }, (_, i) => {
   const n = i + 1;
   return `${BASE}/imagenes/portada/${n}.${n === 3 || n === 12 ? "jpg" : "png"}`;
