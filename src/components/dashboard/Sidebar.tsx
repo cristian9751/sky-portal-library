@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
+import type { ComponentType } from 'react';
 import { logo } from '@/lib/assets';
 import { useI18n } from '@/lib/i18n';
+import type { AppLinkProps } from '@/components/SiteLayout';
 import SidebarItem from './SidebarItem';
 import type { MenuItem } from './SidebarItem';
 
 type SidebarProps = {
   menu: MenuItem[];
+  linkComponent?: ComponentType<AppLinkProps>;
 };
 
-export default function Sidebar({ menu }: SidebarProps) {
+export default function Sidebar({ menu, linkComponent }: SidebarProps) {
   const { t } = useI18n();
   const [activeLabel, setActiveLabel] = useState(t.dashboard.dashboardV1);
 
@@ -34,6 +37,7 @@ export default function Sidebar({ menu }: SidebarProps) {
                 item={item}
                 activeLabel={activeLabel}
                 onSelect={setActiveLabel}
+                linkComponent={linkComponent}
               />
             ))}
           </ul>

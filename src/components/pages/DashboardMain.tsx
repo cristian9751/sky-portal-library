@@ -3,7 +3,7 @@ import { useI18n } from '@/lib/i18n';
 
 const partners = ['VATSIM', 'IVAO', 'SimBrief'];
 
-export default function DashboardMain() {
+export  function DashboardMain() {
   const { t } = useI18n();
   const statistics = [
     { label: t.dashboard.flightCount, icon: 'bi-airplane', variant: 'primary' },

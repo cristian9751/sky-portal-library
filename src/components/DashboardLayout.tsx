@@ -1,23 +1,26 @@
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import Header from "@/components/dashboard/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import type { MenuItem } from "@/components/dashboard/SidebarItem";
 import ContentHeader, { type Breadcrumb } from "@/components/dashboard/ContentHeader";
 import Footer from "@/components/dashboard/Footer";
 import { closeSidebar } from "@/lib/sidebar";
+import type { AppLinkProps } from "@/components/SiteLayout";
 
 type DashboardLayoutProps = {
   title: ReactNode;
   crumbs?: Breadcrumb[];
   children: ReactNode;
   menu: MenuItem[];
+  /** Optional router adapter; defaults to a standard anchor link. */
+  linkComponent?: ComponentType<AppLinkProps>;
 };
 
-export default function DashboardLayout({ title, crumbs = [], children, menu }: DashboardLayoutProps) {
+export function DashboardLayout({ title, crumbs = [], children, menu, linkComponent }: DashboardLayoutProps) {
   return (
     <div className="app-wrapper">
       <Header />
-      <Sidebar menu={menu} />
+      <Sidebar menu={menu} linkComponent={linkComponent} />
       <div className="sidebar-overlay" onClick={closeSidebar} />
 
       <main className="app-main">
