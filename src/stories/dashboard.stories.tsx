@@ -1,7 +1,5 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import type { MenuItem } from "@/components/dashboard/SidebarItem";
-import 'admin-lte/dist/css/adminlte.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const menu: MenuItem[] = [
   { header: "GENERAL" },

@@ -1,4 +1,4 @@
-import "../styles.css"
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Plane, Plus, Trash2 } from "lucide-react";
 

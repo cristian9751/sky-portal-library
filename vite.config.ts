@@ -8,6 +8,11 @@ import { resolve } from "node:path";
 const projectRoot = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig({
+  css: { preprocessorOptions: { scss: {
+  loadPaths: ["node_modules"],
+  quietDeps: true,
+  silenceDeprecations: ["import"],
+  }}},
   resolve: {
     alias: {
       "@": resolve(projectRoot, "src")

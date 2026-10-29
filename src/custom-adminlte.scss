@@ -1,0 +1,391 @@
+$enable-dark-mode: false;   // el modo oscuro lo gobierna la clase .dark
+$enable-shadows: false;
+
+$font-family-sans-serif: "Manrope", sans-serif;
+$headings-font-family: "Sora", "Manrope", sans-serif;
+$headings-color: var(--foreground);
+
+$border-color: var(--border);
+$border-radius: var(--radius-md, calc(var(--radius) - 2px));
+$border-radius-sm: var(--radius-sm, calc(var(--radius) - 4px));
+$border-radius-lg: var(--radius-lg, var(--radius));
+$border-radius-xl: var(--radius-xl, calc(var(--radius) + 4px));
+$border-radius-xxl: var(--radius-2xl, calc(var(--radius) + 8px));
+
+$card-bg: var(--card);
+$card-color: var(--card-foreground);
+$card-border-color: var(--border);
+
+$input-bg: var(--input);
+$input-color: var(--foreground);
+$input-border-color: var(--input);
+$input-placeholder-color: var(--muted-foreground);
+$input-focus-bg: var(--input);
+$input-focus-color: var(--foreground);
+$input-focus-border-color: var(--ring);
+
+$dropdown-bg: var(--popover);
+$dropdown-color: var(--popover-foreground);
+$dropdown-border-color: var(--border);
+$dropdown-link-color: var(--popover-foreground);
+$dropdown-link-hover-bg: var(--muted);
+
+$modal-content-bg: var(--popover);
+$modal-content-color: var(--popover-foreground);
+$modal-header-border-color: var(--border);
+$modal-footer-border-color: var(--border);
+
+
+$lte-primary: var(--primary);
+$lte-sidebar-bg: var(--sidebar-primary);
+$lte-header-bg: var(--sidebar-primary);
+
+
+
+
+
+// ----------------------------------------------------------------------------
+// 4 y 5. AdminLTE + overrides, dentro de la capa "adminlte"
+//    (Ajusta la ruta del import si hace falta; ver loadPaths en vite.config.ts)
+// ----------------------------------------------------------------------------
+@layer adminlte {
+
+    
+    @import "admin-lte/src/scss/adminlte";
+    @import "./theme-colors.css";
+    
+
+
+  // ---------- Mapeo en runtime: variables Bootstrap -> variables del tema -----
+  //            (cambian solas al activar .dark)
+  :root,
+  [data-bs-theme="light"],
+  [data-bs-theme="dark"] {
+    --bs-body-bg: var(--background);
+    --bs-body-color: var(--foreground);
+    --bs-body-font-family: "Manrope", sans-serif;
+    --bs-emphasis-color: var(--foreground);
+    --bs-heading-color: var(--foreground);
+    --bs-secondary-color: var(--muted-foreground);
+    --bs-secondary-bg: var(--muted);
+    --bs-tertiary-bg: var(--card);
+    --bs-border-color: var(--border);
+    --bs-link-color: var(--secondary);
+    --bs-link-hover-color: var(--secondary);
+
+    --bs-primary: var(--primary);
+    --bs-secondary: var(--muted);
+    --bs-warning: var(--secondary);
+    --bs-danger: var(--destructive);
+    --bs-info: var(--chart-3);
+    --bs-success: var(--chart-4);
+
+    --bs-border-radius: calc(var(--radius) - 2px);
+    --bs-border-radius-sm: calc(var(--radius) - 4px);
+    --bs-border-radius-lg: var(--radius);
+    --bs-border-radius-xl: calc(var(--radius) + 4px);
+    --bs-border-radius-xxl: calc(var(--radius) + 8px);
+
+    --bs-focus-ring-color: color-mix(in oklab, var(--ring) 35%, transparent);
+  }
+  
+  body,
+  .app-wrapper {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "Manrope", sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6,
+  .card-title,
+  .brand-text {
+    font-family: "Sora", "Manrope", sans-serif;
+  }
+
+  a { color: var(--secondary); text-decoration: none !important; }
+
+  // ---------- Layout --------------------------------------------------------
+  .app-main,
+  .app-content,
+  .app-content-header {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  // Header: igual que en el ejemplo, usa --sidebar-primary
+  .app-wrapper .app-header.navbar {
+    background-color: var(--muted) !important;
+    color: var(--sidebar-primary-foreground) !important;
+    border-bottom: 0;
+    position: relative;
+    --bs-navbar-color: var(--sidebar-primary-foreground);
+    --bs-navbar-hover-color: var(--sidebar-primary-foreground);
+    --bs-navbar-active-color: var(--sidebar-primary-foreground);
+
+    .navbar-nav .nav-link,
+    .navbar-brand {
+      color: var(--sidebar-primary-foreground) !important;
+    }
+
+    // Franja "flag" (primary | secondary | primary)
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 3px;
+      background: var(--gradient-flag);
+    }
+
+    .nav-link {
+      opacity: 0.85;
+
+      &:hover,
+      &:focus { opacity: 1; }
+    }
+  }
+
+  .app-footer {
+    background-color: var(--card);
+    color: var(--muted-foreground);
+    border-top: 1px solid var(--border);
+  }
+
+  // ---------- Sidebar -------------------------------------------------------
+  .app-wrapper .app-sidebar {
+    background-color: var(--muted) !important;
+    color: var(--sidebar-primary-foreground) !important;
+    border-right: 1px solid var(--sidebar-border);
+
+    .sidebar-brand {
+      background-color: var(--sidebar-primary) !important;
+      border-bottom: 1px solid var(--sidebar-border);
+
+      .brand-link { color: var(--sidebar-primary-foreground) !important; }
+    }
+
+    .sidebar-menu {
+      > .nav-item > .nav-link,
+      .nav-treeview > .nav-item > .nav-link {
+        color: var(--sidebar-primary-foreground);
+        border-radius: calc(var(--radius) - 2px);
+
+        &:hover,
+        &:focus {
+          background-color: color-mix(in oklab, var(--sidebar-primary-foreground) 14%, transparent);
+          color: var(--sidebar-primary-foreground);
+        }
+
+        &.active {
+          background-color: var(--secondary);
+          color: var(--secondary-foreground);
+          box-shadow: none;
+        }
+      }
+
+      .nav-header { color: var(--sidebar-primary-foreground); opacity: 0.7; }
+    }
+  }
+
+  // ---------- Cards ---------------------------------------------------------
+  .card {
+    --bs-card-bg: var(--card);
+    --bs-card-color: var(--card-foreground);
+    --bs-card-border-color: var(--border);
+    --bs-card-cap-bg: color-mix(in oklab, var(--foreground) 4%, transparent);
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+    box-shadow: none;
+  }
+
+  .card-primary:not(.card-outline) > .card-header {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+  .card-primary.card-outline { border-top: 3px solid var(--primary); }
+
+   .btn-primary {
+    --bs-btn-bg: var(--primary) !important;
+    --bs-btn-border-color: var(--primary) !important;
+    --bs-btn-color: var(--primary-foreground);
+    --bs-btn-hover-bg: color-mix(in oklab, var(--primary) 88%, black) !important;
+    --bs-btn-hover-border-color: color-mix(in oklab, var(--primary) 88%, black) !important;
+    --bs-btn-hover-color: var(--primary-foreground);
+    --bs-btn-active-bg: color-mix(in oklab, var(--primary) 78%, black) !important;
+    --bs-btn-active-border-color: color-mix(in oklab, var(--primary) 78%, black) !important;
+    --bs-btn-active-color: var(--primary-foreground) !important;
+    --bs-btn-disabled-bg: var(--primary) !important;
+    --bs-btn-disabled-border-color: var(--primary) !important;
+    --bs-btn-disabled-color: var(--primary-foreground) !important;
+ 
+    &:focus-visible { box-shadow: 0 0 0 0.25rem color-mix(in oklab, var(--primary) 40%, transparent); 
+    }
+   }  
+
+  // ---------- Formularios ---------------------------------------------------
+  .form-control,
+  .form-select {
+    background-color: var(--input);
+    color: var(--foreground);
+    border-color: var(--input);
+    border-radius: calc(var(--radius) - 2px);
+
+    &::placeholder { color: var(--muted-foreground); }
+
+    &:focus {
+      background-color: var(--input);
+      color: var(--foreground);
+      border-color: var(--ring);
+      box-shadow: 0 0 0 0.2rem color-mix(in oklab, var(--ring) 30%, transparent);
+    }
+
+    &:disabled { background-color: var(--muted); }
+  }
+
+  .input-group-text {
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+    border-color: var(--input);
+  }
+
+  .form-check-input {
+    background-color: var(--input);
+    border-color: var(--input);
+
+    &:checked {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    &:focus {
+      border-color: var(--ring);
+      box-shadow: 0 0 0 0.2rem color-mix(in oklab, var(--ring) 30%, transparent);
+    }
+  }
+
+  // ---------- Tablas --------------------------------------------------------
+  .table {
+    --bs-table-color: var(--foreground);
+    --bs-table-bg: transparent;
+    --bs-table-border-color: var(--border);
+    --bs-table-striped-color: var(--foreground);
+    --bs-table-striped-bg: color-mix(in oklab, var(--foreground) 4%, transparent);
+    --bs-table-hover-color: var(--foreground);
+    --bs-table-hover-bg: color-mix(in oklab, var(--foreground) 6%, transparent);
+  }
+
+  // ---------- Dropdowns / Modales / Popovers --------------------------------
+  .dropdown-menu {
+    --bs-dropdown-bg: var(--popover);
+    --bs-dropdown-color: var(--popover-foreground);
+    --bs-dropdown-border-color: var(--border);
+    --bs-dropdown-link-color: var(--popover-foreground);
+    --bs-dropdown-link-hover-bg: var(--muted);
+    --bs-dropdown-link-hover-color: var(--foreground);
+    --bs-dropdown-link-active-bg: var(--primary);
+    --bs-dropdown-link-active-color: var(--primary-foreground);
+    --bs-dropdown-divider-bg: var(--border);
+    border-radius: var(--radius);
+  }
+
+  .modal-content {
+    --bs-modal-bg: var(--popover);
+    --bs-modal-color: var(--popover-foreground);
+    --bs-modal-border-color: var(--border);
+    --bs-modal-header-border-color: var(--border);
+    --bs-modal-footer-border-color: var(--border);
+    border-radius: calc(var(--radius) + 4px);
+  }
+
+  .popover {
+    --bs-popover-bg: var(--popover);
+    --bs-popover-border-color: var(--border);
+    --bs-popover-body-color: var(--popover-foreground);
+    --bs-popover-header-bg: var(--muted);
+    --bs-popover-header-color: var(--foreground);
+  }
+
+  // ---------- Navegacion / Paginacion / Listas ------------------------------
+  .nav-tabs {
+    --bs-nav-tabs-border-color: var(--border);
+    --bs-nav-tabs-link-active-bg: var(--card);
+    --bs-nav-tabs-link-active-color: var(--foreground);
+    --bs-nav-tabs-link-active-border-color: var(--border) var(--border) var(--card);
+    --bs-nav-link-color: var(--muted-foreground);
+    --bs-nav-link-hover-color: var(--foreground);
+  }
+
+  .nav-pills {
+    --bs-nav-pills-link-active-bg: var(--primary);
+    --bs-nav-pills-link-active-color: var(--primary-foreground);
+  }
+
+  .pagination {
+    --bs-pagination-bg: var(--card);
+    --bs-pagination-color: var(--foreground);
+    --bs-pagination-border-color: var(--border);
+    --bs-pagination-hover-bg: var(--muted);
+    --bs-pagination-hover-color: var(--foreground);
+    --bs-pagination-hover-border-color: var(--border);
+    --bs-pagination-focus-bg: var(--muted);
+    --bs-pagination-focus-color: var(--foreground);
+    --bs-pagination-active-bg: var(--primary);
+    --bs-pagination-active-border-color: var(--primary);
+    --bs-pagination-active-color: var(--primary-foreground);
+    --bs-pagination-disabled-bg: var(--muted);
+    --bs-pagination-disabled-color: var(--muted-foreground);
+    --bs-pagination-disabled-border-color: var(--border);
+  }
+
+  .list-group {
+    --bs-list-group-bg: var(--card);
+    --bs-list-group-color: var(--foreground);
+    --bs-list-group-border-color: var(--border);
+    --bs-list-group-action-hover-bg: var(--muted);
+    --bs-list-group-action-hover-color: var(--foreground);
+    --bs-list-group-active-bg: var(--primary);
+    --bs-list-group-active-border-color: var(--primary);
+    --bs-list-group-active-color: var(--primary-foreground);
+  }
+
+  // ---------- Utilidades de color (Bootstrap las compila con el placeholder) -
+  .bg-primary,
+  .text-bg-primary { background-color: var(--primary) !important; color: var(--primary-foreground) !important; }
+  .bg-warning,
+  .text-bg-warning { background-color: var(--secondary) !important; color: var(--secondary-foreground) !important; }
+  .bg-danger,
+  .text-bg-danger  { background-color: var(--destructive) !important; color: var(--destructive-foreground) !important; }
+  .bg-info,
+  .text-bg-info    { background-color: var(--chart-3) !important; color: var(--foreground) !important; }
+  .bg-success,
+  .text-bg-success { background-color: var(--chart-4) !important; color: var(--secondary-foreground) !important; }
+
+  .text-primary   { color: var(--primary) !important; }
+  .text-warning   { color: var(--secondary) !important; }
+  .text-danger    { color: var(--destructive) !important; }
+  .text-info      { color: var(--chart-3) !important; }
+  .text-success   { color: var(--chart-4) !important; }
+  .text-secondary-foreground { background-color:  var(--secondary) !important;}
+  .border-primary { border-color: var(--primary) !important; }
+
+  // ---------- Info boxes / small boxes de AdminLTE --------------------------
+  .info-box {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+    box-shadow: none;
+  }
+
+  .small-box {
+    border-radius: calc(var(--radius) + 4px);
+    box-shadow: none;
+  }
+
+  * {
+    scrollbar-color: var(--muted) transparent;
+    scrollbar-width: thin;
+  }
+}

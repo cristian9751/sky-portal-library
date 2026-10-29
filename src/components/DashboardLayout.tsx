@@ -5,9 +5,6 @@ import type { MenuItem } from "@/components/dashboard/SidebarItem";
 import ContentHeader, { type Breadcrumb } from "@/components/dashboard/ContentHeader";
 import Footer from "@/components/dashboard/Footer";
 import { closeSidebar } from "@/lib/sidebar";
-import 'admin-lte/dist/css/adminlte.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 type DashboardLayoutProps = {
   title: ReactNode;
   crumbs?: Breadcrumb[];

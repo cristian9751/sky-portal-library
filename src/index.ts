@@ -2,7 +2,9 @@
  * Public entry point for the Sky Portal component library.
  * Components are exported from the UI layer only; application routes are not part of the package.
  */
-import "./styles.css";
+
+import "./styles.css"
+import "./custom-adminlte.scss"
 
 export * from "./components/ui/accordion";
 export * from "./components/ui/alert";
