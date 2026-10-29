@@ -5,6 +5,8 @@
     "unableToRetrieveFlightData": "No se han podido actualizar los datos del vuelo. Inténtalo de nuevo en breve."
   },
   "auth": {
+    "verifyEmail": "Verifica tu correo",
+    "verifyEmailMessage": "Debes de verificar tu correo para poder acceder a tu cuenta. Si no ves el correo en la bandeja de entrada, por favor revisa el spam",
     "required": "Debes especificar un valor.",
     "passwordRequired": "Debe contener 8 caracteres",
     "invalidPassword": "La contraseña indicada ha sido . Por favor, escoge una diferente.",

@@ -7,7 +7,7 @@ export const Provider : GlobalProvider = ({children} : {children: ReactNode}) =>
 
         const params = new URLSearchParams(window.location.search);
         const story = params.get("story")
-        if(story == "dashboard--dashboard-preview") {
+        if(story?.startsWith("dashboard") ) {
             return (
                 <LangProvider>
                     {children}

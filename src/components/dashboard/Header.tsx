@@ -79,12 +79,12 @@ export default function Header({
   const displayedNotificationCount = notificationCount ?? displayedNotifications.length;
 
   return (
-    <nav className="app-header navbar navbar-expand bg-body">
+    <nav className="app-header navbar navbar-expand bg-muted">
       <div className="container-fluid">
         {/* Left */}
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="#" role="button" aria-label={dashboardText.toggleSidebar} onClick={(e) => { e.preventDefault(); toggleSidebar(); }}>
+            <a className="nav-link text-white" href="#" role="button" aria-label={dashboardText.toggleSidebar} onClick={(e) => { e.preventDefault(); toggleSidebar(); }}>
               <i className="bi bi-list" />
             </a>
           </li>
@@ -98,7 +98,7 @@ export default function Header({
         {/* Right */}
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
-            <a className="nav-link" href="#" aria-label={dashboardText.search} onClick={(event) => {
+            <a className="nav-link text-white" href="#" aria-label={dashboardText.search} onClick={(event) => {
               if (onSearch) {
                 event.preventDefault();
                 onSearch();
@@ -108,7 +108,7 @@ export default function Header({
 
           {/* Notifications */}
           <li className="nav-item dropdown">
-            <a className="nav-link" data-bs-toggle="dropdown" href="#" aria-label={dashboardText.notifications}>
+            <a className="nav-link text-white" data-bs-toggle="dropdown" href="#" aria-label={dashboardText.notifications}>
               <i className="bi bi-bell-fill" />
               <span className="navbar-badge badge text-bg-warning">{displayedNotificationCount}</span>
             </a>
@@ -130,7 +130,7 @@ export default function Header({
 
           {/* Language */}
           <li className="nav-item dropdown">
-            <a className="nav-link" data-bs-toggle="dropdown" href="#" aria-label={dashboardText.language}>
+            <a className="nav-link text-white" data-bs-toggle="dropdown" href="#" aria-label={dashboardText.language}>
               <i className="bi bi-translate" />
             </a>
             <ul className="dropdown-menu dropdown-menu-end">
@@ -156,16 +156,23 @@ export default function Header({
             </ul>
           </li>
 
-          {/* User */}
           {user && (
             <li className="nav-item dropdown user-menu">
-              <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-label={dashboardText.userMenu}>
-                {user.avatar && <img src={user.avatar} className="user-image rounded-circle shadow" alt={user.name} />}
+              <a href="#" className="nav-link text-white dropdown-toggle" data-bs-toggle="dropdown" aria-label={dashboardText.userMenu}>
+                {user.avatar ? (
+                  <img src={user.avatar} className="user-image rounded-circle shadow" alt={user.name} />
+                ) : (
+                  <i className="bi bi-person-circle" aria-hidden="true" />
+                )}
                 <span className="d-none d-md-inline">{user.name}</span>
               </a>
               <ul className="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <li className="user-header text-bg-primary">
-                  {user.avatar && <img src={user.avatar} className="rounded-circle shadow" alt={user.name} />}
+                  {user.avatar ? (
+                    <img src={user.avatar} className="rounded-circle shadow" alt={user.name} />
+                  ) : (
+                    <i className="bi bi-person-circle fs-1" aria-hidden="true" />
+                  )}
                   <p>
                     {user.name} - {user.role}
                     <small>{dashboardText.memberSince} {user.memberSince}</small>

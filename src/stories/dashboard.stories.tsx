@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import type { MenuItem } from "@/components/dashboard/SidebarItem";
-import DashboardMain from "@/components/pages/DashboardMain";
+import MustVerifyEmail from "@/components/pages/MustVerifyEmail";
+import DashboardMain from "@/components/pages/PilotPanelMain";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const menu: MenuItem[] = [
   { header: "GENERAL" },
@@ -36,3 +37,5 @@ export const DashboardPreview = () => (
     <DashboardMain/>
   </DashboardLayout>
 );
+
+export const MustVerifyEmailPreview = () => <MustVerifyEmail></MustVerifyEmail>

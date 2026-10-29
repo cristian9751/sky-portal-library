@@ -5,6 +5,8 @@
     "unableToRetrieveFlightData": "We could not refresh the flight data. Try again shortly."
   },
   "auth": {
+    "verifyEmail": "Verify your email",
+    "verifyEmailMessage": "You need to verify your email in order to gain access. If you can't find the email on your inbox please check the spam folder.",
     "required": "You must specify a value",
     "passwordRequired": "Must contain 8 characters",
     "invalidPassword": "The given password has appeared  in a data leak. Please choose a different password.",

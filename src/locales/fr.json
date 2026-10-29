@@ -5,6 +5,8 @@
     "unableToRetrieveFlightData": "Impossible de rafraîchir les données de vol. Veuillez réessayer dans un instant."
   },
   "auth": {
+    "verifyEmail": "Vérifiez votre adresse e-mail",
+    "verifyEmailMessage": "Vous devez valider votre adresse e-mail pour pouvoir accéder au site. Si vous ne trouvez pas l'e-mail dans votre boîte de réception, veuillez vérifier votre dossier « Courrier indésirable.",
     "required": "Vous devez indiquer une valeur.",
     "passwordRequired": "Il doit comporter 8 caractères",
     "invalidPassword": "Le mot de passe indiqué a été victime d'une fuite de données. Veuillez choisir un autre mot de passe.",

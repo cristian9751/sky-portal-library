@@ -5,6 +5,8 @@
     "unableToRetrieveFlightData": "No se han podido actualizar los datos del vuelo. Inténtalo de nuevo en breve."
   },
   "auth": {
+    "verifyEmail": "Bestätigen Sie Ihre E-Mail-Adresse",
+    "verifyEmailMessage": "Sie müssen Ihre E-Mail-Adresse bestätigen, um Zugriff zu erhalten. Falls Sie die E-Mail nicht in Ihrem Posteingang finden, sehen Sie bitte im Spam-Ordner nach.",
     "required": "Du musst einen Wert angeben.",
     "passwordRequired": "Es muss aus 8 Zeichen bestehen.",
     "invalidEmail": "Bitte gib eine gültige E-Mail-Adresse ein.",
