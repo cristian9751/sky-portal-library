@@ -50,7 +50,7 @@ $lte-header-bg: var(--sidebar-primary);
 // ----------------------------------------------------------------------------
 @layer adminlte {
 
-    
+  
     @import "admin-lte/src/scss/adminlte";
     @import "./theme-colors.css";
     
@@ -368,6 +368,7 @@ $lte-header-bg: var(--sidebar-primary);
   .text-info      { color: var(--chart-3) !important; }
   .text-success   { color: var(--chart-4) !important; }
   .text-secondary-foreground { background-color:  var(--secondary) !important;}
+  .text-secondary { color: var(--secondary) !important;}
   .border-primary { border-color: var(--primary) !important; }
 
   // ---------- Info boxes / small boxes de AdminLTE --------------------------
@@ -388,4 +389,5 @@ $lte-header-bg: var(--sidebar-primary);
     scrollbar-color: var(--muted) transparent;
     scrollbar-width: thin;
   }
+  @import "bootstrap-icons/font/bootstrap-icons.min";
 }

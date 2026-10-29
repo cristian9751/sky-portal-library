@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import type { ReactNode } from 'react';
+import { useI18n } from '@/lib/i18n';
 
 // Collapse/remove behaviour comes from Bootstrap's collapse plugin via data attributes,
 // not from AdminLTE's card-widget JS and not from React state.
@@ -15,6 +16,7 @@ type CardProps = {
 
 export default function Card({ title, variant, collapsible = true, tools, footer, children, className = '' }: CardProps) {
   const bodyId = useId().replace(/:/g, '');
+  const { t } = useI18n();
 
   return (
     <div className={`card mb-4${variant ? ` card-${variant}` : ''} ${className}`}>
@@ -30,7 +32,7 @@ export default function Card({ title, variant, collapsible = true, tools, footer
               data-bs-target={`#${bodyId}`}
               aria-expanded="true"
               aria-controls={bodyId}
-              aria-label="Collapse"
+              aria-label={t.dashboard.collapse}
             >
               <i className="bi bi-dash-lg" />
             </button>

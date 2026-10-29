@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useI18n } from '@/lib/i18n';
 
 type SmallBoxProps = {
   value: ReactNode;
@@ -9,6 +10,8 @@ type SmallBoxProps = {
 };
 
 export default function SmallBox({ value, label, icon, variant = 'primary', href = '#' }: SmallBoxProps) {
+  const { t } = useI18n();
+
   return (
     <div className={`small-box text-bg-${variant}`}>
       <div className="inner">
@@ -20,7 +23,7 @@ export default function SmallBox({ value, label, icon, variant = 'primary', href
         href={href}
         className="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"
       >
-        More info <i className="bi bi-link-45deg" />
+        {t.dashboard.moreInfo} <i className="bi bi-link-45deg" />
       </a>
     </div>
   );

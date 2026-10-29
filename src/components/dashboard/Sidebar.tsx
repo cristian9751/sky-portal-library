@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { logo } from '@/lib/assets';
+import { useI18n } from '@/lib/i18n';
 import SidebarItem from './SidebarItem';
 import type { MenuItem } from './SidebarItem';
 
@@ -8,7 +9,12 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ menu }: SidebarProps) {
-  const [activeLabel, setActiveLabel] = useState('Dashboard v1');
+  const { t } = useI18n();
+  const [activeLabel, setActiveLabel] = useState(t.dashboard.dashboardV1);
+
+  useEffect(() => {
+    setActiveLabel(t.dashboard.dashboardV1);
+  }, [t.dashboard.dashboardV1]);
 
   return (
     <aside className="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">

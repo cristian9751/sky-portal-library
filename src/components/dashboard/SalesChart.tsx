@@ -1,3 +1,5 @@
+import { useI18n } from '@/lib/i18n';
+
 // Dependency-free stand-in for the demo's ApexCharts area chart: two smooth series in plain SVG.
 // Swap this component for react-apexcharts / react-chartjs-2 when you need a real charting library.
 const W = 640;
@@ -28,11 +30,12 @@ function path(values: number[], max: number) {
 }
 
 export default function SalesChart({ labels, series }: SalesChartProps) {
+  const { t } = useI18n();
   const max = Math.max(...series.flatMap((s) => s.values)) * 1.1;
   const step = (W - PAD.l - PAD.r) / (labels.length - 1);
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-100" role="img" aria-label="Sales value by month">
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-100" role="img" aria-label={t.dashboard.salesValueByMonth}>
       {series.map((s) => {
         const p = path(s.values, max);
         return (

@@ -5,6 +5,7 @@ import type { MenuItem } from "@/components/dashboard/SidebarItem";
 import ContentHeader, { type Breadcrumb } from "@/components/dashboard/ContentHeader";
 import Footer from "@/components/dashboard/Footer";
 import { closeSidebar } from "@/lib/sidebar";
+
 type DashboardLayoutProps = {
   title: ReactNode;
   crumbs?: Breadcrumb[];

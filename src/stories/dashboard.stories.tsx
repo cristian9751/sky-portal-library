@@ -1,5 +1,6 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import type { MenuItem } from "@/components/dashboard/SidebarItem";
+import DashboardMain from "@/components/pages/DashboardMain";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const menu: MenuItem[] = [
   { header: "GENERAL" },
@@ -31,10 +32,7 @@ const menu: MenuItem[] = [
 ];
 
 export const DashboardPreview = () => (
-  <DashboardLayout title="Dashboard" menu={menu}>
-    <div>
-      <h1>Contenido del dashboard</h1>
-      <p>Este es contenido del dashboard</p>
-    </div>
+  <DashboardLayout title="Panel" menu={menu}>
+    <DashboardMain/>
   </DashboardLayout>
 );
