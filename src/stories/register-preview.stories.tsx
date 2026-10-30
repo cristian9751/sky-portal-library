@@ -15,7 +15,6 @@ export const Registration = () => (
 
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      console.log("Registration data:", Object.fromEntries(data.entries()));
     }}
     redirectToLogin={() => (event) => {
       event.preventDefault();

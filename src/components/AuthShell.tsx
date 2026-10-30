@@ -5,7 +5,7 @@ export const authField =
 
 export function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
   return (
-    <label className="block space-y-1.5">
+    <label className="!block space-y-1.5">
       <span className="flex justify-between text-sm font-medium">
         {label}
         {hint && <span className="text-xs text-muted-foreground">{hint}</span>}

@@ -42,6 +42,8 @@
     "emailAlreadyExists": "Cette adresse e-mail est déjà prise"
   },
   "user": {
+    "signOut": "Se déconnecter",
+    "user": "Utilisateur",
     "profileUpdated": "Votre profil de pilote a été mis à jour avec succès"
   },
   "nav": {

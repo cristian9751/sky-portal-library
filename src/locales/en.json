@@ -43,6 +43,8 @@
   },
 
   "user" : {
+    "user": "User",
+    "signOut": "Sign Out",
     "profileUpdated": "Your pilot profile has been updated successfully"
   },
   "nav": {

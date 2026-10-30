@@ -1,6 +1,7 @@
 import { toggleSidebar } from '../../lib/sidebar';
 import type { ThemeMode } from '../../lib/adminLTEtheme';
 import { LANGS, useI18n, type Lang } from '../../lib/i18n';
+import { useApplicationContext } from '@/lib/ApplicationContext';
 
 export type HeaderMessage = {
   id: string | number;
@@ -65,10 +66,10 @@ export default function Header({
   notifications,
   notificationCount,
   notificationFooter,
-  user,
   onSearch,
   onSelectLanguage,
 }: HeaderProps = {}) {
+  const { user, onLogout } = useApplicationContext()
   const { t, setLang } = useI18n();
   const dashboardText = t.dashboard;
   const displayedMessages = messages ?? [];
@@ -186,8 +187,17 @@ export default function Header({
                   </div>
                 </li>
                 <li className="user-footer">
-                  <a href={user.profileLink.href} className="btn btn-outline-secondary">{user.profileLink.label}</a>
-                  <a href={user.signOutLink.href} className="btn btn-outline-secondary float-end">{user.signOutLink.label}</a>
+                  <a href={user.profileLink.href} className="btn btn-outline-secondary">{t.user.user}</a>
+                  <a
+                    href="#"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      onLogout()
+                    }}
+                    className="btn btn-outline-secondary float-end"
+                  >
+                    {t.user.signOut}
+                  </a>
                 </li>
               </ul>
             </li>

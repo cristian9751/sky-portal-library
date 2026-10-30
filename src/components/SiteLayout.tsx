@@ -45,7 +45,6 @@ const NAV = [
   { key: "staff", to: "/staff" },
   { key: "members", to: "/members" },
   { key: "contact", to: "/contact" },
-  {key: "dashboard", to: "/dashboard"}
 ] as const;
 
 const linkCls = "text-muted-foreground transition-colors hover:text-secondary";
@@ -108,15 +107,26 @@ export function SiteLayout({
                   </button>
                 ))}
               </div>
-              <Link to="/login" className="rounded-md px-4 py-2 text-sm font-semibold hover:bg-muted">
-                {t.nav.login}
-              </Link>
-              <Link
-                to="/register"
-                className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
-              >
-                {t.nav.register}
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  to="/dashboard"
+                  className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+                >
+                  {t.nav.dashboard}
+                </Link>
+              ) : (
+                <>
+                  <Link to="/login" className="rounded-md px-4 py-2 text-sm font-semibold hover:bg-muted">
+                    {t.nav.login}
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+                  >
+                    {t.nav.register}
+                  </Link>
+                </>
+              )}
             </div>
             <button
               aria-label="Menu"
@@ -136,14 +146,11 @@ export function SiteLayout({
               {NAV.map((i) => (
                 <NavItem key={i.key} item={i} className="rounded px-2 py-2 hover:bg-muted" />
               ))}
-              {isAuthenticated && (
-                <>
-                  <Link to="/dashboard" className="rounded px-2 py-2 hover:bg-muted">
-                      {t.nav.dashboard}
-                  </Link>
-                </>
-              )}
-              {isAuthenticated == false && (
+              {isAuthenticated ? (
+                <Link to="/dashboard" className="rounded px-2 py-2 hover:bg-muted">
+                  {t.nav.dashboard}
+                </Link>
+              ) : (
                 <>
                   <Link to="/login" className="rounded px-2 py-2 hover:bg-muted">
                     {t.nav.login}

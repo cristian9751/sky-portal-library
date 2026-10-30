@@ -42,6 +42,8 @@
     "emailAlreadyExists": "Die E-Mail-Adresse wurde bereits vergeben."
   },
   "user": {
+    "signOut": "Abmelden",
+    "user": "Benutzer",
     "profileUpdated": "Dein Pilotprofil wurde erfolgreich aktualisiert"
   },
   "nav": {

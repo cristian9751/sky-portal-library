@@ -16,7 +16,7 @@ type DashboardLayoutProps = {
   linkComponent?: ComponentType<AppLinkProps>;
 };
 
-export function DashboardLayout({ title, crumbs = [], children, menu, linkComponent }: DashboardLayoutProps) {
+export function DashboardLayout({ title, crumbs = [], children, menu = [], linkComponent }: DashboardLayoutProps) {
   return (
     <div className="app-wrapper">
       <Header />

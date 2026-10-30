@@ -6,7 +6,6 @@ export default function MustVerifyEmail() {
     const { t } = useI18n()
     return(
         <>
-            <Header/>
             <main className="app-main">
                 <div className="app-content">
                     <div className="container-fluid">

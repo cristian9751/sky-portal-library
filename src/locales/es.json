@@ -42,6 +42,8 @@
     "emailAlreadyExists": "El correo electrónico utilizado ya existe"
   },
   "user": {
+    "user": "Usuario",
+    "signOut": "Cerrar sesion",
     "profileUpdated": "Tu perfil de piloto se ha actualizado correctamente"
   },
   "nav": {

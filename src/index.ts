@@ -7,6 +7,8 @@
 import "./styles.css"
 import "./custom-adminlte.scss"
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import ApplicationContextProvider from "./lib/ApplicationContext";
+import MustVerifyEmail from "./components/pages/MustVerifyEmail";
 export * from "./components/ui/accordion";
 export * from "./components/ui/alert";
 export * from "./components/ui/alert-dialog";
@@ -66,5 +68,8 @@ export { Members } from "./components/pages/members";
 export { Normative } from "./components/pages/normative";
 export { Register } from "./components/pages/register";
 export { DashboardMain } from "./components/pages/DashboardMain"
+export {default as MustVerifyEmail} from "./components/pages/MustVerifyEmail"
 export type { AppLinkProps } from "./components/SiteLayout"
+export {default as ApplicationContext} from "./lib/ApplicationContext"
+export { useApplicationContext} from "./lib/ApplicationContext"
 export type {UserProps } from "./lib/ApplicationContext"
