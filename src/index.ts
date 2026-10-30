@@ -67,3 +67,4 @@ export { Normative } from "./components/pages/normative";
 export { Register } from "./components/pages/register";
 export { DashboardMain } from "./components/pages/DashboardMain"
 export type { AppLinkProps } from "./components/SiteLayout"
+export type {UserProps } from "./lib/ApplicationContext"
