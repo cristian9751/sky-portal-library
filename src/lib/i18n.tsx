@@ -14,7 +14,6 @@ const Ctx = createContext<{ lang: Lang; setLang: (l: Lang) => void; t: Dict }>({
 export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("es");
 
-  console.log("LangProvider: lang =", lang);
   useEffect(() => {
     const saved = localStorage.getItem("lang") as Lang | null;
     if (saved && LANGS.includes(saved)) setLangState(saved);

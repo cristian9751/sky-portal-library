@@ -53,7 +53,8 @@
     "members": "Pilotes",
     "contact": "Contact",
     "login": "Connexion",
-    "register": "Inscription"
+    "register": "Inscription",
+    "dashboard": "Tableau de bord Crew"
   },
   "footer": "Tous droits réservés.",
   "home": {

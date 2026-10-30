@@ -54,7 +54,8 @@
     "members": "Members",
     "contact": "Contact",
     "login": "Login",
-    "register": "Register"
+    "register": "Register",
+    "dashboard": "Crew  dashboard"
   },
   "footer": "All rights reserved.",
   "home": {

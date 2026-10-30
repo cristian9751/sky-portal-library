@@ -53,7 +53,8 @@
     "members": "Piloten",
     "contact": "Kontakt",
     "login": "Anmelden",
-    "register": "Registrieren"
+    "register": "Registrieren",
+    "dashboard": "Crew-Dashboard"
   },
   "footer": "Alle Rechte vorbehalten.",
   "home": {

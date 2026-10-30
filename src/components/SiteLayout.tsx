@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ComponentType, type ReactNode } from "react";
 import { LangProvider, LANGS, useI18n } from "@/lib/i18n";
+import { useApplicationContext } from "@/lib/ApplicationContext";
 
 const hostname = window.location.hostname;
 export const BASE = hostname == "localhost" ? "https://air-spain.es" : `${window.location.protocol}//${hostname}`;
@@ -44,6 +45,7 @@ const NAV = [
   { key: "staff", to: "/staff" },
   { key: "members", to: "/members" },
   { key: "contact", to: "/contact" },
+  {key: "dashboard", to: "/dashboard"}
 ] as const;
 
 const linkCls = "text-muted-foreground transition-colors hover:text-secondary";
@@ -78,7 +80,7 @@ export function SiteLayout({
   const [open, setOpen] = useState(false);
   const { t, lang, setLang } = useI18n();
   const Link = linkComponent ?? DefaultLink;
-
+  const { isAuthenticated } = useApplicationContext()
   return (
     <LinkContext.Provider value={Link}>
       <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
@@ -134,12 +136,23 @@ export function SiteLayout({
               {NAV.map((i) => (
                 <NavItem key={i.key} item={i} className="rounded px-2 py-2 hover:bg-muted" />
               ))}
-              <Link to="/login" className="rounded px-2 py-2 hover:bg-muted">
-                {t.nav.login}
-              </Link>
-              <Link to="/register" className="rounded px-2 py-2 hover:bg-muted">
-                {t.nav.register}
-              </Link>
+              {isAuthenticated && (
+                <>
+                  <Link to="/dashboard" className="rounded px-2 py-2 hover:bg-muted">
+                      {t.nav.dashboard}
+                  </Link>
+                </>
+              )}
+              {isAuthenticated == false && (
+                <>
+                  <Link to="/login" className="rounded px-2 py-2 hover:bg-muted">
+                    {t.nav.login}
+                  </Link>
+                  <Link to="/register" className="rounded px-2 py-2 hover:bg-muted">
+                    {t.nav.register}
+                  </Link>
+                </>
+              )}
               <div className="mt-2 flex gap-2" onClick={(e) => e.stopPropagation()}>
                 {LANGS.map((l) => (
                   <button

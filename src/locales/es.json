@@ -53,7 +53,8 @@
     "members": "Pilotos",
     "contact": "Contacto",
     "login": "Acceder",
-    "register": "Registro"
+    "register": "Registro",
+    "dashboard": "Area de pilotos"
   },
   "footer": "Todos los derechos reservados.",
   "home": {
