@@ -11,7 +11,7 @@ export type UserProps = {
     name?: string;
     surname?: string;
     profileLink: {
-        href: string;
+        onClick: () => void
     };
     avatar?: string;
     role: string;

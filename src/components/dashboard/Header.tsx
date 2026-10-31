@@ -187,7 +187,7 @@ export default function Header({
                   </div>
                 </li>
                 <li className="user-footer">
-                  <a href={user.profileLink.href} className="btn btn-outline-secondary">{t.user.user}</a>
+                  <a onClick={user.profileLink.onClick} className="btn btn-outline-secondary">{t.user.user}</a>
                   <a
                     href="#"
                     onClick={(event) => {

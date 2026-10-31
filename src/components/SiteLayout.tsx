@@ -79,7 +79,7 @@ export function SiteLayout({
   const [open, setOpen] = useState(false);
   const { t, lang, setLang } = useI18n();
   const Link = linkComponent ?? DefaultLink;
-  const { isAuthenticated } = useApplicationContext()
+  const { isAuthenticated, onLogout } = useApplicationContext()
   return (
     <LinkContext.Provider value={Link}>
       <div className="flex min-h-screen flex-col bg-background font-sans text-foreground">
@@ -108,12 +108,17 @@ export function SiteLayout({
                 ))}
               </div>
               {isAuthenticated ? (
-                <Link
+                <>
+                  <Link
                   to="/dashboard"
                   className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
                 >
                   {t.nav.dashboard}
                 </Link>
+                  <Link to="#" onClick={onLogout} className="rounded-md px-4 py-2 text-sm font-semibold hover:bg-muted">
+                    {t.user.signOut}
+                  </Link>
+                </>
               ) : (
                 <>
                   <Link to="/login" className="rounded-md px-4 py-2 text-sm font-semibold hover:bg-muted">

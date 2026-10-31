@@ -2,7 +2,7 @@
 import { BASE, PageHeader, SiteLayout } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
 
-export function About() {
+export function About({redirectToRegister} : {redirectToRegister: () => void}) {
   const { t } = useI18n();
   const a = t.about;
   return (
@@ -21,7 +21,7 @@ export function About() {
         </div>
         <div className="mt-12 flex flex-wrap items-center justify-between gap-6 rounded-xl bg-primary p-8 text-primary-foreground">
           <p className="font-display text-2xl font-bold">{a.welcome}</p>
-          <a href="/register" className="rounded-md bg-secondary px-6 py-3 font-semibold text-secondary-foreground hover:bg-secondary/90">{a.join}</a>
+          <button onClick={redirectToRegister} className="rounded-md bg-primary px-6 py-3 font-semibold text-secondary-foreground hover:bg-primary/90">{a.join}</button>
         </div>
       </section>
     </>
