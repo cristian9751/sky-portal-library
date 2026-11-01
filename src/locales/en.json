@@ -41,7 +41,7 @@
     "invalidCredentials": "Invalid username or password.",
     "emailAlreadyExists": "The email has already been taken"
   },
-  "aiports": {
+  "airports": {
     "invalidIcao": "The specified ICAO code does not exist"
   },
 
