@@ -1,11 +1,11 @@
 import { BASE } from "@/components/SiteLayout";
 import { AuthShell } from "@/components/AuthShell";
 import { useI18n } from "@/lib/i18n";
-import { RegisterForm } from "";
-import type { RegisterFormProps } from "./RegisterForm";
+import { RegisterForm } from "@/components/forms/RegisterForm";
+import type { RegisterFormProps } from "@/components/forms/RegisterForm";
 
 // Se mantiene el export para no romper imports existentes
-export type { ServerValidationError } from "./RegisterForm";
+export type { ServerValidationError } from "@/components/forms/RegisterForm";
 
 type RegisterProps = RegisterFormProps;
 
