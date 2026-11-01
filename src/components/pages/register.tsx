@@ -32,7 +32,7 @@ const buildSchema = (a: Record<string, string>, airports: string[]) =>
       email_2: z.string(),
       pass_1: z.string().min(8, a["passwordRequired"]),
       pass_2: z.string(),
-      airport: z.string().refine((airport) => airports.includes(airport), a["requiredAirport"]),
+      airport: z.string().trim().min(3, a["requiredAirport"]).refine((airport) => !airport || airports.includes(airport), a[""]),
       idvatsim: z.string(),
       idivao: z.string(),
       idsimbrief: z.string(),
