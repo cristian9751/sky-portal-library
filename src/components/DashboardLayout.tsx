@@ -6,17 +6,24 @@ import ContentHeader, { type Breadcrumb } from "@/components/dashboard/ContentHe
 import Footer from "@/components/dashboard/Footer";
 import { closeSidebar } from "@/lib/sidebar";
 import type { AppLinkProps } from "@/components/SiteLayout";
+import { useI18n } from "@/lib/i18n";
 
 type DashboardLayoutProps = {
   title: ReactNode;
   crumbs?: Breadcrumb[];
   children: ReactNode;
-  menu: MenuItem[];
+  menu?: MenuItem[];
   /** Optional router adapter; defaults to a standard anchor link. */
   linkComponent?: ComponentType<AppLinkProps>;
 };
 
-export function DashboardLayout({ title, crumbs = [], children, menu = [], linkComponent }: DashboardLayoutProps) {
+export function DashboardLayout({ title, crumbs = [], children, menu: customMenu, linkComponent }: DashboardLayoutProps) {
+  const { t } = useI18n();
+  const menu: MenuItem[] = customMenu ?? [
+    { header: t.dashboard.general },
+    { label: t.nav.home, href: "/", icon: "bi-house-fill" },
+  ];
+
   return (
     <div className="app-wrapper">
       <Header />

@@ -41,11 +41,17 @@
     "invalidCredentials": "Invalid username or password.",
     "emailAlreadyExists": "The email has already been taken"
   },
+  "aiports": {
+    "invalidIcao": "The specified ICAO code does not exist"
+  },
 
   "user" : {
     "user": "User",
     "signOut": "Sign Out",
-    "profileUpdated": "Your pilot profile has been updated successfully"
+    "profileUpdated": "Your pilot profile has been updated successfully",
+    "profileSave": "Save changes",
+    "profileSaving": "Saving changes...",
+    "profileNoUser": "There is no user available to edit."
   },
   "nav": {
     "home": "Home",

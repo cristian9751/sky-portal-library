@@ -10,6 +10,8 @@ import {
 export type UserProps = {
     name?: string;
     surname?: string;
+    email?: string;
+    countryID?: string;
     profileLink: {
         onClick: () => void
     };

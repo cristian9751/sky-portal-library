@@ -9,7 +9,7 @@
     "verifyEmailMessage": "Debes de verificar tu correo para poder acceder a tu cuenta. Si no ves el correo en la bandeja de entrada, por favor revisa el spam",
     "required": "Debes especificar un valor.",
     "passwordRequired": "Debe contener 8 caracteres",
-    "invalidPassword": "La contraseña indicada ha sido . Por favor, escoge una diferente.",
+    "invalidPassword": "La contraseña aperecece en una filtración de datos. Por favor, escoge una diferente.",
     "invalidEmail": "Por favor, introduce un email valido",
     "requiredAirport": "Indica el codigo icao del aeropuerto.",
     "lEyebrow": "Acceso tripulación",
@@ -41,10 +41,16 @@
     "invalidCredentials": "Usuario o contraseña incorrectos.",
     "emailAlreadyExists": "El correo electrónico utilizado ya existe"
   },
+  "aiports": {
+    "invalidIcao": "El código ICAO especificado no existe"
+  },
   "user": {
     "user": "Usuario",
     "signOut": "Cerrar sesion",
-    "profileUpdated": "Tu perfil de piloto se ha actualizado correctamente"
+    "profileUpdated": "Tu perfil de piloto se ha actualizado correctamente",
+    "profileSave": "Guardar cambios",
+    "profileSaving": "Guardando cambios...",
+    "profileNoUser": "No hay ningún usuario disponible para editar."
   },
   "nav": {
     "home": "Inicio",

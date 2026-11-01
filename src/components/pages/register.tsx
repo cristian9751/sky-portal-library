@@ -22,7 +22,7 @@ export type ServerValidationError = Error & { fieldErrors?: Record<string, strin
 const DEFAULT_COUNTRY = "209";
 const DEFAULT_AIRPORTS = ["LEMD", "LEBL"];
 
-const buildSchema = (a: Record<string, string>) =>
+const buildSchema = (a: Record<string, string>, airports: string[]) =>
   z
     .object({
       nombre: z.string().trim().min(1, a["required"]),
@@ -32,7 +32,7 @@ const buildSchema = (a: Record<string, string>) =>
       email_2: z.string(),
       pass_1: z.string().min(8, a["passwordRequired"]),
       pass_2: z.string(),
-      airport: z.string().trim().min(3, a["requiredAirport"]),
+      airport: z.string().refine((airport) => airports.includes(airport), a["requiredAirport"]),
       idvatsim: z.string(),
       idivao: z.string(),
       idsimbrief: z.string(),
@@ -99,7 +99,11 @@ const TextField = ({ label, hint, error, registration, type = "text", autoComple
 export function Register({ handleRegistration, redirectToLogin, airportOptions }: RegisterProps) {
   const { t } = useI18n();
   const a = t.auth;
-  const schema = useMemo(() => buildSchema(a), [a]);
+  const airports = useMemo(
+    () => (airportOptions ?? DEFAULT_AIRPORTS).map((airport) => airport.trim().toUpperCase()).filter(Boolean),
+    [airportOptions],
+  );
+  const schema = useMemo(() => buildSchema(a, airports), [a, airports]);
   const formRef = useRef<HTMLFormElement>(null);
 
   const {
@@ -114,7 +118,7 @@ export function Register({ handleRegistration, redirectToLogin, airportOptions }
   });
 
   // Errores devueltos por el servidor: los que coinciden con un campo van a ese campo,
-  // el resto se muestra como error general encima del botón.
+  // el resto se muestra como error general al inicio del formulario.
   const applyServerErrors = (fieldErrors: Record<string, string>) => {
     const general: string[] = [];
     Object.entries(fieldErrors).forEach(([field, message]) => {
@@ -162,6 +166,7 @@ export function Register({ handleRegistration, redirectToLogin, airportOptions }
         onSubmit={handleSubmit(onValid)}
         className="space-y-6 rounded-xl border border-border bg-card p-8"
       >
+        <FieldError message={errors.root?.["server"]?.message} />
         <p className={sectionClass}>{a.personal}</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <TextField label={a.first} registration={register("nombre")} error={errors.nombre?.message} />
@@ -209,7 +214,7 @@ export function Register({ handleRegistration, redirectToLogin, airportOptions }
                 maxLength={4}
                 placeholder="LEMD"
                 className={`${authField} uppercase`}
-                options={airportOptions ?? DEFAULT_AIRPORTS}
+                options={airports}
               />
             )}
           />
@@ -227,7 +232,6 @@ export function Register({ handleRegistration, redirectToLogin, airportOptions }
           ))}
         </div>
 
-        <FieldError message={errors.root?.["server"]?.message} />
         <button
           type="submit"
           disabled={isSubmitting}

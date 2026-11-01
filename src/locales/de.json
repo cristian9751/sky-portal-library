@@ -41,10 +41,16 @@
     "invalidCredentials": "Ungültiger Benutzername oder Passwort.",
     "emailAlreadyExists": "Die E-Mail-Adresse wurde bereits vergeben."
   },
+  "aiports": {
+    "invalidIcao": "Der angegebene ICAO-Code existiert nicht"
+  },
   "user": {
     "signOut": "Abmelden",
     "user": "Benutzer",
-    "profileUpdated": "Dein Pilotprofil wurde erfolgreich aktualisiert"
+    "profileUpdated": "Dein Pilotprofil wurde erfolgreich aktualisiert",
+    "profileSave": "Änderungen speichern",
+    "profileSaving": "Änderungen werden gespeichert...",
+    "profileNoUser": "Es ist kein Benutzer zum Bearbeiten verfügbar."
   },
   "nav": {
     "home": "Start",

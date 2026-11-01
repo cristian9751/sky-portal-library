@@ -68,6 +68,8 @@ export { Members } from "./components/pages/members";
 export { Normative } from "./components/pages/normative";
 export { Register } from "./components/pages/register";
 export { DashboardMain } from "./components/pages/DashboardMain"
+export { DashboardUserEdit } from "./components/pages/DashboardUserEdit"
+export type { DashboardUserEditValues } from "./components/pages/DashboardUserEdit"
 export {default as MustVerifyEmail} from "./components/pages/MustVerifyEmail"
 export type { AppLinkProps } from "./components/SiteLayout"
 export {default as ApplicationContext} from "./lib/ApplicationContext"
