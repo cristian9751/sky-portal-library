@@ -32,7 +32,8 @@ const buildSchema = (a: Record<string, string>, airports: string[]) =>
       email_2: z.string(),
       pass_1: z.string().min(8, a["passwordRequired"]),
       pass_2: z.string(),
-      airport: z.string().trim().min(3, a["requiredAirport"]).refine((airport) => !airport || airports.includes(airport), ),
+      airport: z.string().trim().min(3, a["requiredAirport"])
+      .refine((airport) => !airport || airports.includes(airport), a["invalidIcao"]),
       idvatsim: z.string(),
       idivao: z.string(),
       idsimbrief: z.string(),
@@ -100,7 +101,7 @@ export function Register({ handleRegistration, redirectToLogin, airportOptions }
   const { t } = useI18n();
   const a = {
     ...t.auth,
-    invalidIcao: t.aiports.invalidIcao
+    invalidIcao: t.airports.invalidIcao
   };
   const airports = useMemo(
     () => (airportOptions ?? DEFAULT_AIRPORTS).map((airport) => airport.trim().toUpperCase()).filter(Boolean),
