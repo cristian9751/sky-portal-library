@@ -7,7 +7,7 @@ import type { RegisterFormProps } from "@/components/forms/RegisterForm";
 // Se mantiene el export para no romper imports existentes
 export type { ServerValidationError } from "@/components/forms/RegisterForm";
 
-type RegisterProps = RegisterFormProps;
+type RegisterProps = Omit<RegisterFormProps, "submitButtonLabel">;
 
 export function Register(props: RegisterProps) {
   const { t } = useI18n();

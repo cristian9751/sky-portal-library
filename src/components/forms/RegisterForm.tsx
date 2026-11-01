@@ -8,11 +8,12 @@ import { Field, authField } from "@/components/AuthShell";
 import { COUNTRIES } from "@/data/countries";
 import { useI18n } from "@/lib/i18n";
 import AutocompleteInput from "../ui/autocomplete-input";
+import { normalizeAirports, useAirports } from "@/lib/AirportContext";
 
 export type RegisterFormProps = {
   handleRegistration: (data: FormData) => Promise<void>;
-  redirectToLogin: () => void;
-  airportOptions?: string[];
+  redirectToLogin?: () => void;
+  submitButtonLabel? : string;
 };
 
 /** Error que la página puede lanzar para indicar errores por campo (claves = name del formulario). */
@@ -99,13 +100,11 @@ const TextField = ({ label, hint, error, registration, type = "text", autoComple
   </Field>
 );
 
-export function RegisterForm({ handleRegistration, redirectToLogin, airportOptions }: RegisterFormProps) {
+export function RegisterForm({ handleRegistration, redirectToLogin, submitButtonLabel}: RegisterFormProps) {
   const { t } = useI18n();
   const a = useMemo(() => ({ ...t.auth, invalidIcao: t.airports.invalidIcao }), [t]);
-  const airports = useMemo(
-    () => (airportOptions ?? DEFAULT_AIRPORTS).map((airport) => airport.trim().toUpperCase()).filter(Boolean),
-    [airportOptions],
-  );
+ const airports = useAirports()
+
   const schema = useMemo(() => buildSchema(a, airports), [a, airports]);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -239,9 +238,10 @@ export function RegisterForm({ handleRegistration, redirectToLogin, airportOptio
         disabled={isSubmitting}
         className="w-full rounded-md bg-primary px-6 py-3 font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
       >
-        {a.rSubmit}
+        {submitButtonLabel ?? a.rSubmit}
       </button>
-      <p className="text-center text-sm text-muted-foreground">
+      {redirectToLogin && (
+        <p className="text-center text-sm text-muted-foreground">
         {a.haveAcc}{" "}
         <button
           type="button"
@@ -251,6 +251,7 @@ export function RegisterForm({ handleRegistration, redirectToLogin, airportOptio
           {t.nav.login}
         </button>
       </p>
+      )}
     </form>
   );
 }
