@@ -45,7 +45,7 @@ const buildSchema = (a: Record<string, string>, airports: string[], isRequired: 
       idsimbrief: z.string(),
     })
     .superRefine((d, ctx) => {
-      if (d.email_1 !== d.email_2 && !isRequired)
+      if (isRequired && d.email_1 !== d.email_2)
         ctx.addIssue({ code: "custom", path: ["email_2"], message: a["emailMismatch"] });
       if (d.pass_1 !== d.pass_2 && !isRequired)
         ctx.addIssue({ code: "custom", path: ["pass_2"], message: a["passMismatch"] });
