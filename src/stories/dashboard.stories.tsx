@@ -2,6 +2,7 @@ import {DashboardLayout} from "@/components/DashboardLayout";
 import MustVerifyEmail from "@/components/pages/MustVerifyEmail";
 import {DashboardMain} from "@/components/pages/DashboardMain";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import DashboardProfile from "@/components/pages/DashboardProfile";
 export const DashboardPreview = () => (
   <DashboardLayout title="Panel">
     <DashboardMain/>
@@ -9,3 +10,4 @@ export const DashboardPreview = () => (
 );
 
 export const MustVerifyEmailPreview = () => <MustVerifyEmail></MustVerifyEmail>
+export const UserProfilePreview = () => <DashboardProfile handleUpdateProfile={async (data: FormData) => {}}></DashboardProfile>

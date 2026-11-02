@@ -39,7 +39,8 @@
     "account": "Cuenta",
     "networks": "Vuelo",
     "invalidCredentials": "Usuario o contraseña incorrectos.",
-    "emailAlreadyExists": "El correo electrónico utilizado ya existe"
+    "emailAlreadyExists": "El correo electrónico utilizado ya existe",
+    "userUpdated": "Usuario actualizado correctamente"
   },
   "airports": {
     "invalidIcao": "El código ICAO especificado no existe"

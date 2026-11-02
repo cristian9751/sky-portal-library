@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { BaseSyntheticEvent } from "react";
 import { Controller, useForm } from "react-hook-form";
 import type { UseFormRegisterReturn } from "react-hook-form";
@@ -8,12 +8,15 @@ import { Field, authField } from "@/components/AuthShell";
 import { COUNTRIES } from "@/data/countries";
 import { useI18n } from "@/lib/i18n";
 import AutocompleteInput from "../ui/autocomplete-input";
+import InfoBox from "../dashboard/InfoBox";
 import { normalizeAirports, useAirports } from "@/lib/AirportContext";
+import type { UserProps } from "@/lib/ApplicationContext";
 
 export type RegisterFormProps = {
   handleRegistration: (data: FormData) => Promise<void>;
   redirectToLogin?: () => void;
   submitButtonLabel? : string;
+  user?: Pick<UserProps, "name" | "surname" | "email">;
 };
 
 /** Error que la página puede lanzar para indicar errores por campo (claves = name del formulario). */
@@ -22,29 +25,29 @@ export type ServerValidationError = Error & { fieldErrors?: Record<string, strin
 const DEFAULT_COUNTRY = "209";
 const DEFAULT_AIRPORTS = ["LEMD", "LEBL"];
 
-const buildSchema = (a: Record<string, string>, airports: string[]) =>
+const buildSchema = (a: Record<string, string>, airports: string[], isRequired: boolean) =>
   z
     .object({
-      nombre: z.string().trim().min(1, a["required"]),
-      apellidos: z.string().trim().min(1, a["required"]),
+      nombre: isRequired ? z.string().trim().min(1, a["required"]) : z.string().trim(),
+      apellidos: isRequired ? z.string().trim().min(1, a["required"]) : z.string().trim(),
       countryID: z.string(),
-      email_1: z.string().regex(/^\S+@\S+\.\S+$/, a["invalidEmail"]),
+      email_1: isRequired ? z.string().regex(/^\S+@\S+\.\S+$/, a["invalidEmail"]) : z.string(),
       email_2: z.string(),
-      pass_1: z.string().min(8, a["passwordRequired"]),
+      pass_1: isRequired ?z.string().min(8, a["passwordRequired"]) : z.string(),
       pass_2: z.string(),
-      airport: z
+      airport: isRequired ? z
         .string()
         .trim()
         .min(3, a["requiredAirport"])
-        .refine((airport) => !airport || airports.includes(airport), a["invalidIcao"]),
+        .refine((airport) => !airport || airports.includes(airport), a["invalidIcao"]) : z.string().trim().refine((airport) => !airport || airports.includes(airport), a["invalidIcao"]),
       idvatsim: z.string(),
       idivao: z.string(),
       idsimbrief: z.string(),
     })
     .superRefine((d, ctx) => {
-      if (d.email_1 !== d.email_2)
+      if (d.email_1 !== d.email_2 && !isRequired)
         ctx.addIssue({ code: "custom", path: ["email_2"], message: a["emailMismatch"] });
-      if (d.pass_1 !== d.pass_2)
+      if (d.pass_1 !== d.pass_2 && !isRequired)
         ctx.addIssue({ code: "custom", path: ["pass_2"], message: a["passMismatch"] });
     });
 
@@ -84,15 +87,17 @@ type TextFieldProps = {
   registration: UseFormRegisterReturn;
   type?: "text" | "email" | "password";
   autoComplete?: string;
+  placeholder?: string;
 };
 
 /** Field + input + mensaje de error, para no repetir el mismo bloque en cada campo. */
-const TextField = ({ label, hint, error, registration, type = "text", autoComplete }: TextFieldProps) => (
+const TextField = ({ label, hint, error, registration, type = "text", autoComplete, placeholder }: TextFieldProps) => (
   <Field label={label} hint={hint}>
     <input
       {...registration}
       type={type}
       autoComplete={autoComplete}
+      placeholder={placeholder}
       aria-invalid={!!error}
       className={authField}
     />
@@ -100,13 +105,15 @@ const TextField = ({ label, hint, error, registration, type = "text", autoComple
   </Field>
 );
 
-export function RegisterForm({ handleRegistration, redirectToLogin, submitButtonLabel}: RegisterFormProps) {
+export function RegisterForm({ handleRegistration, redirectToLogin, submitButtonLabel, user}: RegisterFormProps) {
   const { t } = useI18n();
   const a = useMemo(() => ({ ...t.auth, invalidIcao: t.airports.invalidIcao }), [t]);
  const airports = useAirports()
 
-  const schema = useMemo(() => buildSchema(a, airports), [a, airports]);
+  const isRequired = user == undefined;
+  const schema = useMemo(() => buildSchema(a, airports, isRequired), [a, airports, isRequired]);
   const formRef = useRef<HTMLFormElement>(null);
+  const [registrationSucceeded, setRegistrationSucceeded] = useState(false);
 
   const {
     register,
@@ -133,8 +140,10 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
   // Solo se ejecuta si zod valida; el payload sigue saliendo del propio <form>
   const onValid = async (_: RegisterValues, __?: BaseSyntheticEvent) => {
     if (!formRef.current) return;
+    setRegistrationSucceeded(false);
     try {
       await handleRegistration(new FormData(formRef.current));
+      setRegistrationSucceeded(true);
     } catch (err) {
       const fieldErrors = (err as ServerValidationError)?.fieldErrors;
       if (fieldErrors && Object.keys(fieldErrors).length) return applyServerErrors(fieldErrors);
@@ -167,11 +176,16 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
       onSubmit={handleSubmit(onValid)}
       className="space-y-6 rounded-xl border border-border bg-card p-8"
     >
+      {registrationSucceeded && (
+        <InfoBox variant="success" icon="bi bi-check-circle">
+          <p role="status">{t.auth.userUpdated}</p>
+        </InfoBox>
+      )}
       <FieldError message={errors.root?.["server"]?.message} />
       <p className={sectionClass}>{a.personal}</p>
       <div className="grid gap-4 sm:grid-cols-2">
-        <TextField label={a.first} registration={register("nombre")} error={errors.nombre?.message} />
-        <TextField label={a.last} registration={register("apellidos")} error={errors.apellidos?.message} />
+        <TextField label={a.first} registration={register("nombre")} error={errors.nombre?.message} placeholder={user?.name} />
+        <TextField label={a.last} registration={register("apellidos")} error={errors.apellidos?.message} placeholder={user?.surname} />
       </div>
       <Field label={a.country}>
         <select {...register("countryID")} className={authField}>
@@ -185,17 +199,20 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
       </Field>
 
       <p className={sectionClass}>{a.account}</p>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {accountFields.map(({ name, label, type, autoComplete }) => (
-          <TextField
-            key={name}
-            label={label}
-            type={type}
-            autoComplete={autoComplete}
-            registration={register(name)}
-            error={errors[name]?.message}
-          />
-        ))}
+      <div className="grid gap-4 sm:grid-cols-1">
+        {accountFields
+          .filter(({ name }) => isRequired || name === "email_1")
+          .map(({ name, label, type, autoComplete }) => (
+            <TextField
+              key={name}
+              label={label}
+              type={type}
+              autoComplete={autoComplete}
+              placeholder={name.startsWith("email") ? user?.email : undefined}
+              registration={register(name)}
+              error={errors[name]?.message}
+            />
+          ))}
       </div>
 
       <p className={sectionClass}>{a.networks}</p>
@@ -213,7 +230,7 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
               }}
               onBlur={field.onBlur}
               maxLength={4}
-              placeholder="LEMD"
+              placeholder=""
               className={`${authField} uppercase`}
               options={airports}
             />
@@ -226,7 +243,7 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
           <TextField
             key={name}
             label={label}
-            hint={a.optional}
+            hint={user ? undefined : a.optional}
             registration={register(name)}
             error={errors[name]?.message}
           />

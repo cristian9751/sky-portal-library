@@ -16,8 +16,7 @@ export const Registration = () => (
       await new Promise((resolve) => setTimeout(resolve, 500));
 
     }}
-    redirectToLogin={() => (event) => {
-      event.preventDefault();
+    redirectToLogin={() => () => {
       alert("Redirecting to login...");
     }}
   />

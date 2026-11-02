@@ -39,7 +39,8 @@
     "account": "Compte",
     "networks": "Vol",
     "invalidCredentials": "Nom d'utilisateur ou mot de passe incorrect.",
-    "emailAlreadyExists": "Cette adresse e-mail est déjà prise"
+    "emailAlreadyExists": "Cette adresse e-mail est déjà prise",
+    "userUpdated": "Utilisateur mis à jour avec succès"
   },
   "airports": {
     "invalidIcao": "Le code ICAO indiqué n'existe pas"

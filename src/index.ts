@@ -7,8 +7,6 @@
 import "./styles.css"
 import "./custom-adminlte.scss"
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import ApplicationContextProvider from "./lib/ApplicationContext";
-import MustVerifyEmail from "./components/pages/MustVerifyEmail";
 export * from "./components/ui/accordion";
 export * from "./components/ui/alert";
 export * from "./components/ui/alert-dialog";
@@ -74,4 +72,4 @@ export {default as ApplicationContext} from "./lib/ApplicationContext"
 export { useApplicationContext} from "./lib/ApplicationContext"
 export type {UserProps } from "./lib/ApplicationContext"
 export { AirportsProvider, useAirports } from "./lib/AirportContext"
-export {default as UserProfile} from "./components/pages/UserProfile"
+export {default as DashboardProfile} from "./components/pages/DashboardProfile"
