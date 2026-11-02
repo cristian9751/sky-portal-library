@@ -3,6 +3,7 @@ import { Contact } from "@/components/pages/contact";
 import { Index } from "@/components/pages/index";
 import { Members } from "@/components/pages/members"
 import { Normative } from "@/components/pages/normative";
+import { Staff } from "@/components/pages/staff";
 import { MembersData } from "@/data/members";
 import { rules } from "@/data/rules"
 export const contactPreview = () => (
@@ -11,4 +12,7 @@ export const contactPreview = () => (
 export const indexPreview = () => <Index/>
 export const membersPreview = () => <Members members={MembersData}/>
 export const NormativePreview = () => <Normative rules={rules}/>
-export const AboutPreview = () => <About/>
+export const AboutPreview = () => <About redirectToRegister={function (): void {
+    throw new Error("Function not implemented.");
+} }/>
+export const StaffPreview = () => <Staff></Staff>

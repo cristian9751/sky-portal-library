@@ -40,8 +40,7 @@ const useLink = () => useContext(LinkContext);
 const NAV = [
   { key: "home", to: "/" },
   { key: "about", to: "/about" },
-  { key: "normative", to: "/normative" },
-  { key: "resources", to: "/resources" },
+  { key: "normative", to: "/rules" },
   { key: "staff", to: "/staff" },
   { key: "members", to: "/members" },
   { key: "contact", to: "/contact" },

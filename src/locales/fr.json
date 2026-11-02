@@ -115,6 +115,12 @@
     ],
     "hours": "heures"
   },
+  "staffTable": {
+    "eyebrow": "Équipe",
+    "title": "Notre équipe.",
+    "flagAlt": "Drapeau",
+    "cols": ["Drapeau", "Nom", "Poste", "E-mail"]
+  },
   "contact": {
     "eyebrow": "Contact",
     "title": "Parlez à la tour.",

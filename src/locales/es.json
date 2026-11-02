@@ -115,6 +115,12 @@
     ],
     "hours": "horas"
   },
+  "staffTable": {
+    "eyebrow": "Staff",
+    "title": "Nuestro staff.",
+    "flagAlt": "Bandera",
+    "cols": ["Bandera", "Nombre", "Cargo", "Correo electrónico"]
+  },
   "contact": {
     "eyebrow": "Contacto",
     "title": "Habla con la torre.",
