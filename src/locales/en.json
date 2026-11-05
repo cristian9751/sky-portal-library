@@ -52,7 +52,13 @@
     "profileUpdated": "Your pilot profile has been updated successfully",
     "profileSave": "Save changes",
     "profileSaving": "Saving changes...",
-    "profileNoUser": "There is no user available to edit."
+    "profileNoUser": "There is no user available to edit.",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "passwordChangeSave": "Change password",
+    "passwordChangeSaving": "Changing password...",
+    "passwordChangeSuccess": "Password changed successfully."
   },
   "nav": {
     "home": "Home",

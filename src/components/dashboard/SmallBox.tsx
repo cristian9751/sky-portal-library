@@ -9,7 +9,7 @@ type SmallBoxProps = {
   href?: string;
 };
 
-export default function SmallBox({ value, label, icon, variant = 'primary', href = '#' }: SmallBoxProps) {
+export default function SmallBox({ value, label, icon, variant = 'primary', href }: SmallBoxProps) {
   const { t } = useI18n();
 
   return (
@@ -19,12 +19,14 @@ export default function SmallBox({ value, label, icon, variant = 'primary', href
         <p>{label}</p>
       </div>
       <i className={`bi ${icon} small-box-icon`} aria-hidden="true" />
-      <a
-        href={href}
-        className="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"
-      >
-        {t.dashboard.moreInfo} <i className="bi bi-link-45deg" />
-      </a>
+      {href && (
+        <a
+          href={href}
+          className="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"
+        >
+          {t.dashboard.moreInfo} <i className="bi bi-link-45deg" />
+        </a>
+      )}
     </div>
   );
 }

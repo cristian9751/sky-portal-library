@@ -51,7 +51,13 @@
     "profileUpdated": "Dein Pilotprofil wurde erfolgreich aktualisiert",
     "profileSave": "Änderungen speichern",
     "profileSaving": "Änderungen werden gespeichert...",
-    "profileNoUser": "Es ist kein Benutzer zum Bearbeiten verfügbar."
+    "profileNoUser": "Es ist kein Benutzer zum Bearbeiten verfügbar.",
+    "changePassword": "Passwort ändern",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "passwordChangeSave": "Passwort ändern",
+    "passwordChangeSaving": "Passwort wird geändert...",
+    "passwordChangeSuccess": "Das Passwort wurde erfolgreich geändert."
   },
   "nav": {
     "home": "Start",

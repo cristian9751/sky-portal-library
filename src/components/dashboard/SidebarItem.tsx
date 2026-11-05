@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { ComponentType, MouseEvent } from 'react';
+import type { ComponentType } from 'react';
 import type { AppLinkProps } from '@/components/SiteLayout';
 
 export type MenuItem =
@@ -38,16 +38,16 @@ export default function SidebarItem({ item, activeLabel, onSelect, linkComponent
   const hasChildren = children.length > 0;
   const isActive = activeLabel === item.label;
 
-  const handleParentClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const handleParentClick = () => {
     setOpen((o) => !o);
   };
 
-  const linkProps: AppLinkProps = {
-    to: item.href ?? '#',
+  const linkProps: AppLinkProps | undefined = item.href ? {
+    to: item.href,
     className: `nav-link${isActive ? ' active' : ''}`,
     onClick: () => onSelect(item.label),
-  };
+  } : undefined;
+  const itemClassName = `nav-link${isActive ? ' active' : ''}`;
   const linkContent = (
     <>
       <i className={`nav-icon bi ${item.icon}`} />
@@ -64,15 +64,17 @@ export default function SidebarItem({ item, activeLabel, onSelect, linkComponent
   return (
     <li className={`nav-item${open ? ' menu-open' : ''}`}>
       {hasChildren ? (
-        <a href={item.href ?? '#'} className={linkProps.className} onClick={handleParentClick}>
+        <button type="button" className={itemClassName} aria-expanded={open} onClick={handleParentClick}>
           {linkContent}
-        </a>
-      ) : Link ? (
+        </button>
+      ) : linkProps && Link ? (
         <Link {...linkProps}>{linkContent}</Link>
-      ) : (
+      ) : linkProps ? (
         <a href={linkProps.to} className={linkProps.className} onClick={linkProps.onClick}>
           {linkContent}
         </a>
+      ) : (
+        <span className={itemClassName}>{linkContent}</span>
       )}
       {hasChildren && (
         <ul className="nav nav-treeview">

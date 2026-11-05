@@ -51,7 +51,13 @@
     "profileUpdated": "Tu perfil de piloto se ha actualizado correctamente",
     "profileSave": "Guardar cambios",
     "profileSaving": "Guardando cambios...",
-    "profileNoUser": "No hay ningún usuario disponible para editar."
+    "profileNoUser": "No hay ningún usuario disponible para editar.",
+    "changePassword": "Cambiar contraseña",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "passwordChangeSave": "Cambiar contraseña",
+    "passwordChangeSaving": "Cambiando contraseña...",
+    "passwordChangeSuccess": "La contraseña se ha cambiado correctamente."
   },
   "nav": {
     "home": "Inicio",

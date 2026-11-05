@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { ComponentType } from 'react';
 import { logo } from '@/lib/assets';
 import { useI18n } from '@/lib/i18n';
+import { DefaultLink } from '@/components/SiteLayout';
 import type { AppLinkProps } from '@/components/SiteLayout';
 import SidebarItem from './SidebarItem';
 import type { MenuItem } from './SidebarItem';
@@ -13,6 +14,7 @@ type SidebarProps = {
 
 export default function Sidebar({ menu, linkComponent }: SidebarProps) {
   const { t } = useI18n();
+  const Link = linkComponent ?? DefaultLink;
   const [activeLabel, setActiveLabel] = useState(t.dashboard.dashboardV1);
 
   useEffect(() => {
@@ -22,10 +24,10 @@ export default function Sidebar({ menu, linkComponent }: SidebarProps) {
   return (
     <aside className="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
       <div className="sidebar-brand">
-        <a href="#" className="brand-link">
+        <Link to="/" className="brand-link">
           <img src={logo} alt="AdminLTE Logo" className="brand-image opacity-75 shadow" />
           <span className="brand-text fw-light">AdminLTE 4</span>
-        </a>
+        </Link>
       </div>
 
       <div className="sidebar-wrapper">

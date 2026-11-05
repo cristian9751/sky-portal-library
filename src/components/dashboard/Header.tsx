@@ -85,9 +85,9 @@ export default function Header({
         {/* Left */}
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link text-white" href="#" role="button" aria-label={dashboardText.toggleSidebar} onClick={(e) => { e.preventDefault(); toggleSidebar(); }}>
+            <button type="button" className="nav-link text-white" aria-label={dashboardText.toggleSidebar} onClick={toggleSidebar}>
               <i className="bi bi-list" />
-            </a>
+            </button>
           </li>
           {displayedNavigationLinks.map((link) => (
             <li key={link.label} className="nav-item d-none d-md-block">
@@ -99,29 +99,33 @@ export default function Header({
         {/* Right */}
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
-            <a className="nav-link text-white" href="#" aria-label={dashboardText.search} onClick={(event) => {
-              if (onSearch) {
-                event.preventDefault();
-                onSearch();
-              }
-            }}><i className="bi bi-search" /></a>
+            <button type="button" className="nav-link text-white" aria-label={dashboardText.search} onClick={onSearch}>
+              <i className="bi bi-search" />
+            </button>
           </li>
 
           {/* Notifications */}
           <li className="nav-item dropdown">
-            <a className="nav-link text-white" data-bs-toggle="dropdown" href="#" aria-label={dashboardText.notifications}>
+            <button type="button" className="nav-link text-white" data-bs-toggle="dropdown" aria-label={dashboardText.notifications}>
               <i className="bi bi-bell-fill" />
               <span className="navbar-badge badge text-bg-warning">{displayedNotificationCount}</span>
-            </a>
+            </button>
             <div className="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <span className="dropdown-item dropdown-header">{displayedNotificationCount} {dashboardText.notifications}</span>
               {displayedNotifications.map((n) => (
                 <div key={n.id}>
                   <div className="dropdown-divider" />
-                  <a href={n.href ?? '#'} className="dropdown-item">
-                    <i className={`bi ${n.icon} me-2`} /> {n.text}
-                    <span className="float-end text-secondary fs-7">{n.time}</span>
-                  </a>
+                  {n.href ? (
+                    <a href={n.href} className="dropdown-item">
+                      <i className={`bi ${n.icon} me-2`} /> {n.text}
+                      <span className="float-end text-secondary fs-7">{n.time}</span>
+                    </a>
+                  ) : (
+                    <div className="dropdown-item">
+                      <i className={`bi ${n.icon} me-2`} /> {n.text}
+                      <span className="float-end text-secondary fs-7">{n.time}</span>
+                    </div>
+                  )}
                 </div>
               ))}
               <div className="dropdown-divider" />
@@ -131,27 +135,25 @@ export default function Header({
 
           {/* Language */}
           <li className="nav-item dropdown">
-            <a className="nav-link text-white" data-bs-toggle="dropdown" href="#" aria-label={dashboardText.language}>
+            <button type="button" className="nav-link text-white" data-bs-toggle="dropdown" aria-label={dashboardText.language}>
               <i className="bi bi-translate" />
-            </a>
+            </button>
             <ul className="dropdown-menu dropdown-menu-end">
               {displayedLanguages.map((l) => (
                 <li key={l}>
-                  <a
+                  <button
+                    type="button"
                     className="dropdown-item"
-                    href="#"
-                    onClick={(event) => {
+                    onClick={() => {
                       if (onSelectLanguage) {
-                        event.preventDefault();
                         onSelectLanguage(l);
                       } else if (LANGS.includes(l as Lang)) {
-                        event.preventDefault();
                         setLang(l as Lang);
                       }
                     }}
                   >
                     {LANGS.includes(l as Lang) ? l.toUpperCase() : l}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -159,14 +161,14 @@ export default function Header({
 
           {user && (
             <li className="nav-item dropdown user-menu">
-              <a href="#" className="nav-link text-white dropdown-toggle" data-bs-toggle="dropdown" aria-label={dashboardText.userMenu}>
+              <button type="button" className="nav-link text-white dropdown-toggle" data-bs-toggle="dropdown" aria-label={dashboardText.userMenu}>
                 {user.avatar ? (
                   <img src={user.avatar} className="user-image rounded-circle shadow" alt={user.name} />
                 ) : (
                   <i className="bi bi-person-circle" aria-hidden="true" />
                 )}
                 <span className="d-none d-md-inline">{user.name}</span>
-              </a>
+              </button>
               <ul className="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <li className="user-header text-bg-primary">
                   {user.avatar ? (
@@ -187,17 +189,14 @@ export default function Header({
                   </div>
                 </li>
                 <li className="user-footer">
-                  <a onClick={user.profileLink.onClick} className="btn btn-outline-secondary">{t.user.user}</a>
-                  <a
-                    href="#"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      onLogout()
-                    }}
+                  <button type="button" onClick={user.profileLink.onClick} className="btn btn-outline-secondary">{t.user.user}</button>
+                  <button
+                    type="button"
+                    onClick={() => onLogout()}
                     className="btn btn-outline-secondary float-end"
                   >
                     {t.user.signOut}
-                  </a>
+                  </button>
                 </li>
               </ul>
             </li>

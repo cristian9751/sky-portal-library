@@ -109,14 +109,14 @@ export function SiteLayout({
               {isAuthenticated ? (
                 <>
                   <Link
-                  to="/dashboard"
+                  to="/dashboard/index"
                   className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
                 >
                   {t.nav.dashboard}
                 </Link>
-                  <Link to="#" onClick={onLogout} className="rounded-md px-4 py-2 text-sm font-semibold hover:bg-muted">
+                  <button type="button" onClick={onLogout} className="rounded-md px-4 py-2 text-sm font-semibold hover:bg-muted">
                     {t.user.signOut}
-                  </Link>
+                  </button>
                 </>
               ) : (
                 <>

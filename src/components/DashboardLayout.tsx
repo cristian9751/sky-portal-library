@@ -21,7 +21,7 @@ export function DashboardLayout({ title, crumbs = [], children, menu: customMenu
   const { t } = useI18n();
   const menu: MenuItem[] = customMenu ?? [
     { header: t.dashboard.general },
-    { label: t.nav.home, href: "/", icon: "bi-house-fill" },
+    { label: t.nav.home, href: "/dashboard/index", icon: "bi-house-fill" },
   ];
 
   return (

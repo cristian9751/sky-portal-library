@@ -11,4 +11,4 @@ export const DashboardPreview = () => (
 );
 
 export const MustVerifyEmailPreview = () => <MustVerifyEmail></MustVerifyEmail>
-export const UserProfilePreview = () => <DashboardProfile handleUpdateProfile={async (data: FormData) => {}}></DashboardProfile>
+export const UserProfilePreview = () => <DashboardProfile handleUpdateProfile={async (data: FormData) => {}} handleChangePassword={async (data: FormData) => {}}></DashboardProfile>
