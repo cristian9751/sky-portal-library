@@ -177,7 +177,7 @@ export default function Header({
                     <i className="bi bi-person-circle fs-1" aria-hidden="true" />
                   )}
                   <p>
-                    {user.name} - {user.role}
+                    {user.name}
                     <small>{dashboardText.memberSince} {user.memberSince}</small>
                   </p>
                 </li>
