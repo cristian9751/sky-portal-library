@@ -13,7 +13,6 @@ type UserProfileProps = {
 export default function UserProfile({ handleUpdateProfile, handleChangePassword }: UserProfileProps) {
     const { t } = useI18n();
     const { user } = useApplicationContext();
-    console.log(user);
     const [passwordError, setPasswordError] = useState("");
     const [passwordUpdated, setPasswordUpdated] = useState(false);
     const [isSubmittingPassword, setIsSubmittingPassword] = useState(false);

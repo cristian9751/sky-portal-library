@@ -16,7 +16,7 @@ export type UserProps = {
         onClick: () => void
     };
     avatar?: string;
-    role: string;
+    permissions? : string[];
     memberSince: string;
     stats: { href: string; label: string }[];
 };
