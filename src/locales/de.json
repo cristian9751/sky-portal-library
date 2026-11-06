@@ -186,6 +186,37 @@
     "collapse": "Einklappen",
     "moreInfo": "Weitere Informationen",
     "salesValueByMonth": "Umsatz pro Monat",
-    "anythingYouWant": "Ganz nach Wunsch"
+    "anythingYouWant": "Ganz nach Wunsch",
+    "admin": {
+      "title": "Verwaltung",
+      "airlines": "Fluggesellschaften",
+      "aircrafts": "Flugzeuge",
+      "airlinesTitle": "Fluggesellschaften verwalten",
+      "aircraftsTitle": "Flugzeuge verwalten",
+      "noPermission": "Du hast keine Berechtigung, auf diesen Bereich zuzugreifen.",
+      "createAirline": "Fluggesellschaft erstellen",
+      "buyAircraft": "Flugzeug kaufen",
+      "name": "Name",
+      "code": "Code",
+      "registration": "Kennzeichen",
+      "model": "Modell",
+      "purchasePrice": "Kaufpreis",
+      "airline": "Fluggesellschaft",
+      "actions": "Aktionen",
+      "create": "Erstellen",
+      "buy": "Kaufen",
+      "save": "Speichern",
+      "saving": "Wird verarbeitet...",
+      "cancel": "Abbrechen",
+      "edit": "Bearbeiten",
+      "delete": "Löschen",
+      "sell": "Verkaufen",
+      "noAirlines": "Keine Fluggesellschaften verfügbar.",
+      "noAircrafts": "Keine Flugzeuge verfügbar.",
+      "noAircraftTypes": "Keine Flugzeugtypen konfiguriert.",
+      "confirmDeleteAirline": "Möchtest du diese Fluggesellschaft löschen?",
+      "confirmSellAircraftTitle": "Flugzeugverkauf bestätigen",
+      "confirmSellAircraft": "Möchtest du dieses Flugzeug verkaufen?"
+    }
   }
 }

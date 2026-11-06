@@ -84,5 +84,19 @@
   }
 }
 
+@layer components {
+  .aircraft-model-select {
+    background-color: var(--sidebar);
+    border-color: var(--sidebar-border);
+    color: var(--sidebar-foreground);
+    color-scheme: dark;
+  }
+
+  .aircraft-model-select option {
+    background-color: var(--sidebar);
+    color: var(--sidebar-foreground);
+  }
+}
+
 @utility bg-flag { background: var(--gradient-flag); }
 @utility bg-fade { background: var(--gradient-fade); }

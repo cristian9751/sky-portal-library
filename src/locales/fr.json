@@ -186,6 +186,37 @@
     "collapse": "Réduire",
     "moreInfo": "Plus d’informations",
     "salesValueByMonth": "Ventes par mois",
-    "anythingYouWant": "Ce que vous voulez"
+    "anythingYouWant": "Ce que vous voulez",
+    "admin": {
+      "title": "Administration",
+      "airlines": "Compagnies aériennes",
+      "aircrafts": "Avions",
+      "airlinesTitle": "Gestion des compagnies aériennes",
+      "aircraftsTitle": "Gestion des avions",
+      "noPermission": "Vous n’avez pas l’autorisation d’accéder à cette section.",
+      "createAirline": "Créer une compagnie aérienne",
+      "buyAircraft": "Acheter un avion",
+      "name": "Nom",
+      "code": "Code",
+      "registration": "Immatriculation",
+      "model": "Modèle",
+      "purchasePrice": "Prix d’achat",
+      "airline": "Compagnie aérienne",
+      "actions": "Actions",
+      "create": "Créer",
+      "buy": "Acheter",
+      "save": "Enregistrer",
+      "saving": "Traitement...",
+      "cancel": "Annuler",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "sell": "Vendre",
+      "noAirlines": "Aucune compagnie aérienne disponible.",
+      "noAircrafts": "Aucun avion disponible.",
+      "noAircraftTypes": "Aucun type d’avion n’est configuré.",
+      "confirmDeleteAirline": "Voulez-vous supprimer cette compagnie aérienne ?",
+      "confirmSellAircraftTitle": "Confirmer la vente",
+      "confirmSellAircraft": "Voulez-vous vendre cet avion ?"
+    }
   }
 }

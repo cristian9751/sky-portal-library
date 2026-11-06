@@ -74,3 +74,16 @@ export type {UserProps } from "./lib/ApplicationContext"
 export { AirportsProvider, useAirports } from "./lib/AirportContext"
 export {default as DashboardProfile} from "./components/pages/DashboardProfile"
 export {Staff} from "./components/pages/staff"
+export { AirlinesAdministration } from "./components/pages/AirlinesAdministration"
+export type {
+  Airline,
+  AirlineInput,
+  AirlinesAdministrationProps,
+} from "./components/pages/AirlinesAdministration";
+export { AircraftsAdministration } from "./components/pages/AircraftsAdministration";
+export type {
+  Aircraft,
+  AircraftInput,
+  AircraftType,
+  AircraftsAdministrationProps,
+} from "./components/pages/AircraftsAdministration";

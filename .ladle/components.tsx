@@ -15,7 +15,21 @@ function DashboardMockUser({ children }: { children: ReactNode }) {
             email: "usuario@example.com",
             countryID: "209",
             profileLink: { onClick: () => {} },
-            role: "admin",
+            permissions: [
+                "edit.webpage.images.*",
+                "edit.webpage.rules.*",
+                "manage.aircrafts.buy.*",
+                "manage.aircrafts.edit.*",
+                "manage.aircrafts.sell.*",
+                "manage.airlines.create.*",
+                "manage.airlines.delete.*",
+                "manage.airlines.edit.*",
+                "manage.routes.create.*",
+                "manage.routes.delete.*",
+                "manage.routes.edit.*",
+                "manage.users.deactivate.*",
+                "manage.users.permissions.*",
+            ],
             memberSince: "2024",
         });
     }, [setUser]);

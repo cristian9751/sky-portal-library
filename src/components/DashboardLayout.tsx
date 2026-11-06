@@ -7,6 +7,12 @@ import Footer from "@/components/dashboard/Footer";
 import { closeSidebar } from "@/lib/sidebar";
 import type { AppLinkProps } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
+import { useApplicationContext } from "@/lib/ApplicationContext";
+import {
+  ADMINISTRATION_PERMISSIONS,
+  ADMINISTRATION_ROUTES,
+  hasAnyPermission,
+} from "@/lib/administration-permissions";
 
 type DashboardLayoutProps = {
   title: ReactNode;
@@ -17,12 +23,63 @@ type DashboardLayoutProps = {
   linkComponent?: ComponentType<AppLinkProps>;
 };
 
-export function DashboardLayout({ title, crumbs = [], children, menu: customMenu, linkComponent }: DashboardLayoutProps) {
+export function DashboardLayout({
+  title,
+  crumbs = [],
+  children,
+  menu: customMenu,
+  linkComponent,
+}: DashboardLayoutProps) {
   const { t } = useI18n();
-  const menu: MenuItem[] = customMenu ?? [
+  const { user } = useApplicationContext();
+  const permissions = user?.permissions;
+  const administrationItems: MenuItem[] = [];
+
+  if (
+    hasAnyPermission(
+      permissions,
+      ADMINISTRATION_PERMISSIONS.airlineCreate,
+      ADMINISTRATION_PERMISSIONS.airlineDelete,
+      ADMINISTRATION_PERMISSIONS.airlineEdit,
+    )
+  ) {
+    administrationItems.push({
+      label: t.dashboard.admin.airlines,
+      href: ADMINISTRATION_ROUTES.airlines,
+      icon: "bi-building",
+    });
+  }
+
+  if (
+    hasAnyPermission(
+      permissions,
+      ADMINISTRATION_PERMISSIONS.aircraftBuy,
+      ADMINISTRATION_PERMISSIONS.aircraftEdit,
+      ADMINISTRATION_PERMISSIONS.aircraftSell,
+    )
+  ) {
+    administrationItems.push({
+      label: t.dashboard.admin.aircrafts,
+      href: ADMINISTRATION_ROUTES.aircrafts,
+      icon: "bi-airplane",
+    });
+  }
+
+  const defaultMenu: MenuItem[] = [
     { header: t.dashboard.general },
     { label: t.nav.home, href: "/dashboard/index", icon: "bi-house-fill" },
+    ...(administrationItems.length > 0
+      ? [
+          { header: t.dashboard.admin.title.toUpperCase() },
+          {
+            label: t.dashboard.admin.title,
+            icon: "bi-gear-fill",
+            children: administrationItems,
+          },
+        ]
+      : []),
   ];
+  const menu = customMenu ?? defaultMenu;
 
   return (
     <div className="app-wrapper">
