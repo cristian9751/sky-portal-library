@@ -1,7 +1,4 @@
 import { useId, useState, type FormEvent } from "react";
-import type { ComponentType } from "react";
-import { DashboardLayout } from "@/components/DashboardLayout";
-import type { AppLinkProps } from "@/components/SiteLayout";
 import { useApplicationContext } from "@/lib/ApplicationContext";
 import { useI18n } from "@/lib/i18n";
 import {
@@ -14,6 +11,7 @@ export type Airline = {
   id: string;
   name: string;
   code?: string;
+  isCharter: boolean;
 };
 
 export type AirlineInput = Omit<Airline, "id">;
@@ -23,7 +21,6 @@ export type AirlinesAdministrationProps = {
   onCreateAirline?: (airline: AirlineInput) => void | Promise<void>;
   onEditAirline?: (id: string, airline: AirlineInput) => void | Promise<void>;
   onDeleteAirline?: (id: string) => void | Promise<void>;
-  linkComponent?: ComponentType<AppLinkProps>;
 };
 
 type AirlineFormProps = {
@@ -49,6 +46,7 @@ function AirlineForm({ airline, submitLabel, onSubmit, onCancel }: AirlineFormPr
       await onSubmit({
         name: String(formData.get("name") ?? "").trim(),
         code: String(formData.get("code") ?? "").trim() || undefined,
+        isCharter: formData.has("isCharter"),
       });
       onCancel();
     } catch (submitError) {
@@ -60,7 +58,7 @@ function AirlineForm({ airline, submitLabel, onSubmit, onCancel }: AirlineFormPr
 
   return (
     <form className="row g-2 align-items-end" onSubmit={handleSubmit}>
-      <div className="col-md-5">
+      <div className="col-md-4">
         <label className="form-label" htmlFor={`${formId}-name`}>
           {t.dashboard.admin.name}
         </label>
@@ -72,7 +70,7 @@ function AirlineForm({ airline, submitLabel, onSubmit, onCancel }: AirlineFormPr
           required
         />
       </div>
-      <div className="col-md-3">
+      <div className="col-md-2">
         <label className="form-label" htmlFor={`${formId}-code`}>
           {t.dashboard.admin.code}
         </label>
@@ -83,7 +81,21 @@ function AirlineForm({ airline, submitLabel, onSubmit, onCancel }: AirlineFormPr
           defaultValue={airline?.code}
         />
       </div>
-      <div className="col-md-4 d-flex gap-2">
+      <div className="col-md-3">
+        <div className="form-check">
+          <input
+            id={`${formId}-is-charter`}
+            name="isCharter"
+            type="checkbox"
+            className="form-check-input"
+            defaultChecked={airline?.isCharter ?? false}
+          />
+          <label className="form-check-label" htmlFor={`${formId}-is-charter`}>
+            {t.dashboard.admin.isCharter}
+          </label>
+        </div>
+      </div>
+      <div className="col-md-3 d-flex gap-2">
         <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
           {isSubmitting ? t.dashboard.admin.saving : submitLabel}
         </button>
@@ -107,12 +119,11 @@ function AirlineForm({ airline, submitLabel, onSubmit, onCancel }: AirlineFormPr
   );
 }
 
-export function AirlinesAdministration({
+export function DashboardAirlinesAdministration({
   airlines,
   onCreateAirline,
   onEditAirline,
   onDeleteAirline,
-  linkComponent,
 }: AirlinesAdministrationProps) {
   const { t } = useI18n();
   const { user } = useApplicationContext();
@@ -249,19 +260,11 @@ export function AirlinesAdministration({
     </div>
   );
 
-  return (
-    <DashboardLayout
-      title={t.dashboard.admin.airlines}
-      crumbs={[{ label: t.dashboard.admin.title }, { label: t.dashboard.admin.airlines }]}
-      linkComponent={linkComponent}
-    >
-      {canAccess ? (
-        page
-      ) : (
-        <div className="alert alert-danger" role="alert">
-          {t.dashboard.admin.noPermission}
-        </div>
-      )}
-    </DashboardLayout>
+  return canAccess ? (
+    page
+  ) : (
+    <div className="alert alert-danger" role="alert">
+      {t.dashboard.admin.noPermission}
+    </div>
   );
 }

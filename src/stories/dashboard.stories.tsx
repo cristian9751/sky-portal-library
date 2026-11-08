@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import MustVerifyEmail from "@/components/pages/MustVerifyEmail";
 import { DashboardMain } from "@/components/pages/DashboardMain";
@@ -31,8 +31,8 @@ export const UserProfilePreview = () => (
 export const AirlinesAdministrationPreview = () => {
   const nextId = useRef(3);
   const [airlines, setAirlines] = useState<Airline[]>([
-    { id: "iberia", name: "Iberia", code: "IBE" },
-    { id: "air-europa", name: "Air Europa", code: "AEA" },
+    { id: "iberia", name: "Iberia", code: "IBE", isCharter: false },
+    { id: "air-europa", name: "Air Europa", code: "AEA", isCharter: true },
   ]);
 
   const createAirline = (input: AirlineInput) => {
@@ -62,26 +62,38 @@ export const AircraftsAdministrationPreview = () => {
   const [aircrafts, setAircrafts] = useState<Aircraft[]>([
     {
       id: "aircraft-1",
+      name: "Iberia One",
       airlineId: "iberia",
       aircraftTypeId: "a320",
       registration: "EC-ABC",
     },
     {
       id: "aircraft-2",
+      name: "Iberia Two",
       airlineId: "iberia",
       aircraftTypeId: "a350-900",
       registration: "EC-DEF",
     },
     {
       id: "aircraft-3",
+      name: "Europa One",
       airlineId: "air-europa",
       aircraftTypeId: "b737-800",
       registration: "EC-GHI",
     },
   ]);
+  const aircraftsRef = useRef(aircrafts);
+  const getAircrafts = useCallback(() => aircraftsRef.current, []);
+  const updateAircrafts = (update: (current: Aircraft[]) => Aircraft[]) => {
+    setAircrafts((current) => {
+      const next = update(current);
+      aircraftsRef.current = next;
+      return next;
+    });
+  };
   const airlines: Airline[] = [
-    { id: "iberia", name: "Iberia", code: "IBE" },
-    { id: "air-europa", name: "Air Europa", code: "AEA" },
+    { id: "iberia", name: "Iberia", code: "IBE", isCharter: false },
+    { id: "air-europa", name: "Air Europa", code: "AEA", isCharter: true },
   ];
   const aircraftTypes: AircraftType[] = [
     { id: "a320", name: "Airbus A320", purchasePrice: 98000000 },
@@ -91,25 +103,27 @@ export const AircraftsAdministrationPreview = () => {
   ];
 
   const buyAircraft = (input: AircraftInput) => {
-    setAircrafts((current) => [...current, { ...input, id: `aircraft-${nextId.current++}` }]);
+    updateAircrafts((current) => [...current, { ...input, id: `aircraft-${nextId.current++}` }]);
   };
   const editAircraft = (id: string, input: AircraftInput) => {
-    setAircrafts((current) =>
+    updateAircrafts((current) =>
       current.map((aircraft) => (aircraft.id === id ? { ...aircraft, ...input } : aircraft)),
     );
   };
   const sellAircraft = (id: string) => {
-    setAircrafts((current) => current.filter((aircraft) => aircraft.id !== id));
+    updateAircrafts((current) => current.filter((aircraft) => aircraft.id !== id));
   };
 
   return (
-    <AircraftsAdministration
-      airlines={airlines}
-      aircraftTypes={aircraftTypes}
-      aircrafts={aircrafts}
-      onBuyAircraft={buyAircraft}
-      onEditAircraft={editAircraft}
-      onSellAircraft={sellAircraft}
-    />
+    <DashboardLayout title="Aviones" crumbs={[{ label: "Administración" }, { label: "Aviones" }]}>
+      <AircraftsAdministration
+        airlines={airlines}
+        aircraftTypes={aircraftTypes}
+        getAircrafts={getAircrafts}
+        onBuyAircraft={buyAircraft}
+        onEditAircraft={editAircraft}
+        onSellAircraft={sellAircraft}
+      />
+    </DashboardLayout>
   );
 };

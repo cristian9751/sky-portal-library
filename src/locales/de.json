@@ -198,7 +198,9 @@
       "buyAircraft": "Flugzeug kaufen",
       "name": "Name",
       "code": "Code",
+      "isCharter": "Charterfluggesellschaft",
       "registration": "Kennzeichen",
+      "invalidRegistration": "Das Kennzeichen muss das Format EC-ABA haben.",
       "model": "Modell",
       "purchasePrice": "Kaufpreis",
       "airline": "Fluggesellschaft",
@@ -213,10 +215,14 @@
       "sell": "Verkaufen",
       "noAirlines": "Keine Fluggesellschaften verfügbar.",
       "noAircrafts": "Keine Flugzeuge verfügbar.",
+      "loadingAircrafts": "Flugzeuge werden geladen...",
       "noAircraftTypes": "Keine Flugzeugtypen konfiguriert.",
       "confirmDeleteAirline": "Möchtest du diese Fluggesellschaft löschen?",
       "confirmSellAircraftTitle": "Flugzeugverkauf bestätigen",
-      "confirmSellAircraft": "Möchtest du dieses Flugzeug verkaufen?"
+      "confirmSellAircraft": "Möchtest du dieses Flugzeug verkaufen?",
+      "registrationExists": "Ein Flugzeug mit diesem Kennzeichen existiert bereits.",
+      "nameExists": "Ein Flugzeug mit diesem Namen existiert bereits.",
+      "notEnoughMoney": "Es ist nicht genug Geld vorhanden, um dieses Flugzeug zu kaufen."
     }
   }
 }

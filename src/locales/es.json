@@ -198,7 +198,9 @@
       "buyAircraft": "Comprar avión",
       "name": "Nombre",
       "code": "Código",
+      "isCharter": "Aerolínea chárter",
       "registration": "Matrícula",
+      "invalidRegistration": "La matrícula debe tener el formato EC-ABA.",
       "model": "Modelo",
       "purchasePrice": "Precio de compra",
       "airline": "Aerolínea",
@@ -213,10 +215,14 @@
       "sell": "Vender",
       "noAirlines": "No hay aerolíneas disponibles.",
       "noAircrafts": "No hay aviones disponibles.",
+      "loadingAircrafts": "Cargando aviones...",
       "noAircraftTypes": "No hay tipos de avión configurados.",
       "confirmDeleteAirline": "¿Quieres eliminar esta aerolínea?",
       "confirmSellAircraftTitle": "Confirmar venta",
-      "confirmSellAircraft": "¿Quieres vender este avión?"
+      "confirmSellAircraft": "¿Quieres vender este avión?",
+      "registrationExists": "Ya existe un avión con esta matrícula.",
+      "nameExists": "Ya existe un avión con este nombre.",
+      "notEnoughMoney": "No hay suficiente dinero para comprar este avión."
     }
   }
 }

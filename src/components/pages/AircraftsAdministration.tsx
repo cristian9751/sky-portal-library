@@ -1,7 +1,7 @@
-import { useId, useState, type FormEvent } from "react";
-import type { ComponentType } from "react";
-import { DashboardLayout } from "@/components/DashboardLayout";
-import type { AppLinkProps } from "@/components/SiteLayout";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { useApplicationContext } from "@/lib/ApplicationContext";
 import { useI18n } from "@/lib/i18n";
 import {
@@ -22,6 +22,7 @@ import type { Airline } from "./AirlinesAdministration";
 
 export type Aircraft = {
   id: string;
+  name: string;
   airlineId: string;
   aircraftTypeId: string;
   registration: string;
@@ -38,11 +39,10 @@ export type AircraftType = {
 export type AircraftsAdministrationProps = {
   airlines: Airline[];
   aircraftTypes: AircraftType[];
-  aircrafts: Aircraft[];
+  getAircrafts: () => Aircraft[] | Promise<Aircraft[]>;
   onBuyAircraft?: (aircraft: AircraftInput) => void | Promise<void>;
-  onEditAircraft?: (id: string, aircraft: AircraftInput) => void | Promise<void>;
+  onEditAircraft?: (aircraft: Aircraft) => void | Promise<void>;
   onSellAircraft?: (id: string) => void | Promise<void>;
-  linkComponent?: ComponentType<AppLinkProps>;
 };
 
 type AircraftFormProps = {
@@ -54,6 +54,19 @@ type AircraftFormProps = {
   onCancel: () => void;
 };
 
+const buildAircraftFormSchema = (requiredMessage: string, invalidRegistrationMessage: string) =>
+  z.object({
+    name: z.string().trim().min(1, requiredMessage),
+    airlineId: z.string(),
+    aircraftTypeId: z.string(),
+    registration: z
+      .string()
+      .trim()
+      .regex(/^[A-Z]{2}-[A-Z]{3}$/, invalidRegistrationMessage),
+  });
+
+type AircraftFormValues = z.infer<ReturnType<typeof buildAircraftFormSchema>>;
+
 function AircraftForm({
   aircraft,
   airlines,
@@ -64,11 +77,30 @@ function AircraftForm({
 }: AircraftFormProps) {
   const { t, lang } = useI18n();
   const formId = useId();
-  const [selectedAircraftTypeId, setSelectedAircraftTypeId] = useState(
-    aircraft?.aircraftTypeId ?? aircraftTypes[0]?.id ?? "",
-  );
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const schema = useMemo(
+    () =>
+      buildAircraftFormSchema(
+        t.auth.required,
+        t.dashboard.admin.invalidRegistration,
+      ),
+    [t.auth.required, t.dashboard.admin.invalidRegistration],
+  );
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<AircraftFormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: aircraft?.name ?? "",
+      airlineId: aircraft?.airlineId ?? airlines[0]?.id ?? "",
+      aircraftTypeId: aircraft?.aircraftTypeId ?? aircraftTypes[0]?.id ?? "",
+      registration: aircraft?.registration ?? "",
+    },
+  });
+  const selectedAircraftTypeId = watch("aircraftTypeId");
   const selectedAircraftType = aircraftTypes.find(
     (aircraftType) => aircraftType.id === selectedAircraftTypeId,
   );
@@ -78,38 +110,43 @@ function AircraftForm({
     maximumFractionDigits: 0,
   });
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+  const onValid = async (values: AircraftFormValues) => {
     setError("");
-    setIsSubmitting(true);
 
     try {
-      await onSubmit({
-        airlineId: String(formData.get("airlineId") ?? ""),
-        aircraftTypeId: String(formData.get("aircraftTypeId") ?? ""),
-        registration: String(formData.get("registration") ?? "").trim(),
-      });
+      await onSubmit(values);
       onCancel();
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : String(submitError));
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
-    <form className="row g-2 align-items-end" onSubmit={handleSubmit}>
-      <div className="col-md-4">
+    <form className="row g-2 align-items-end" onSubmit={handleSubmit(onValid)} noValidate>
+      <div className="col-md-3">
+        <label className="form-label" htmlFor={`${formId}-name`}>
+          {t.dashboard.admin.name}
+        </label>
+        <input
+          {...register("name")}
+          id={`${formId}-name`}
+          className={`form-control${errors.name ? " is-invalid" : ""}`}
+          aria-invalid={Boolean(errors.name)}
+        />
+        {errors.name && (
+          <div className="invalid-feedback" role="alert">
+            {errors.name.message}
+          </div>
+        )}
+      </div>
+      <div className="col-md-3">
         <label className="form-label" htmlFor={`${formId}-airline`}>
           {t.dashboard.admin.airline}
         </label>
         <select
+          {...register("airlineId")}
           id={`${formId}-airline`}
-          name="airlineId"
           className="form-select"
-          defaultValue={aircraft?.airlineId ?? airlines[0]?.id ?? ""}
-          required
         >
           {airlines.map((airline) => (
             <option key={airline.id} value={airline.id}>
@@ -118,29 +155,30 @@ function AircraftForm({
           ))}
         </select>
       </div>
-      <div className="col-md-4">
+      <div className="col-md-3">
         <label className="form-label" htmlFor={`${formId}-registration`}>
           {t.dashboard.admin.registration}
         </label>
         <input
+          {...register("registration")}
           id={`${formId}-registration`}
-          name="registration"
-          className="form-control"
-          defaultValue={aircraft?.registration}
-          required
+          className={`form-control${errors.registration ? " is-invalid" : ""}`}
+          aria-invalid={Boolean(errors.registration)}
         />
+        {errors.registration && (
+          <div className="invalid-feedback" role="alert">
+            {errors.registration.message}
+          </div>
+        )}
       </div>
-      <div className="col-md-4">
+      <div className="col-md-3">
         <label className="form-label" htmlFor={`${formId}-model`}>
           {t.dashboard.admin.model}
         </label>
         <select
+          {...register("aircraftTypeId")}
           id={`${formId}-model`}
-          name="aircraftTypeId"
           className="form-select aircraft-model-select"
-          value={selectedAircraftTypeId}
-          onChange={(event) => setSelectedAircraftTypeId(event.currentTarget.value)}
-          required
         >
           {aircraftTypes.map((aircraftType) => (
             <option key={aircraftType.id} value={aircraftType.id}>
@@ -181,23 +219,29 @@ function AircraftForm({
   );
 }
 
-export function AircraftsAdministration({
+export function DashboardAircraftsAdministration({
   airlines,
   aircraftTypes,
-  aircrafts,
+  getAircrafts,
   onBuyAircraft,
   onEditAircraft,
   onSellAircraft,
-  linkComponent,
 }: AircraftsAdministrationProps) {
   const { t, lang } = useI18n();
   const { user } = useApplicationContext();
   const permissions = user?.permissions;
+  const [aircrafts, setAircrafts] = useState<Aircraft[]>([]);
+  const [isLoadingAircrafts, setIsLoadingAircrafts] = useState(true);
+  const [aircraftsError, setAircraftsError] = useState("");
   const [buying, setBuying] = useState(false);
   const [editingId, setEditingId] = useState<string>();
   const [sellingId, setSellingId] = useState<string>();
   const [aircraftToSell, setAircraftToSell] = useState<Aircraft>();
   const [actionError, setActionError] = useState("");
+  const getAircraftsRef = useRef(getAircrafts);
+  getAircraftsRef.current = getAircrafts;
+  const permissionsRef = useRef(permissions);
+  permissionsRef.current = permissions;
 
   const canAccess = hasAnyPermission(
     permissions,
@@ -210,12 +254,66 @@ export function AircraftsAdministration({
   );
   const canBuy = Boolean(onBuyAircraft) && buyableAirlines.length > 0 && aircraftTypes.length > 0;
 
+  const loadAircrafts = useCallback(async () => {
+    setIsLoadingAircrafts(true);
+    setAircraftsError("");
+
+    try {
+      const fetchedAircrafts = await getAircraftsRef.current();
+      setAircrafts(
+        fetchedAircrafts.filter(
+          (aircraft) =>
+            hasPermission(
+              permissionsRef.current,
+              ADMINISTRATION_PERMISSIONS.aircraftBuy,
+              aircraft.airlineId,
+            ) ||
+            hasPermission(
+              permissionsRef.current,
+              ADMINISTRATION_PERMISSIONS.aircraftEdit,
+              aircraft.airlineId,
+            ) ||
+            hasPermission(
+              permissionsRef.current,
+              ADMINISTRATION_PERMISSIONS.aircraftSell,
+              aircraft.airlineId,
+            ),
+        ),
+      );
+    } catch (loadError) {
+      setAircraftsError(loadError instanceof Error ? loadError.message : String(loadError));
+      throw loadError;
+    } finally {
+      setIsLoadingAircrafts(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!canAccess) return;
+    void loadAircrafts().catch(() => {
+      // The error is shown through aircraftsError.
+    });
+  }, [canAccess, loadAircrafts]);
+
+  const handleBuyAircraft = async (aircraft: AircraftInput) => {
+    if (!onBuyAircraft) return;
+    await onBuyAircraft(aircraft);
+    await loadAircrafts();
+  };
+
+  const handleEditAircraft = async ( aircraft: Aircraft) => {
+    if (!onEditAircraft) return;
+    await onEditAircraft(aircraft);
+    await loadAircrafts();
+  };
+
   const handleConfirmSell = async () => {
     if (!aircraftToSell || !onSellAircraft) return;
     setActionError("");
     setSellingId(aircraftToSell.id);
     try {
       await onSellAircraft(aircraftToSell.id);
+      await loadAircrafts();
       setAircraftToSell(undefined);
     } catch (sellError) {
       setActionError(sellError instanceof Error ? sellError.message : String(sellError));
@@ -258,6 +356,11 @@ export function AircraftsAdministration({
             {actionError}
           </div>
         )}
+        {aircraftsError && (
+          <div className="alert alert-danger" role="alert">
+            {aircraftsError}
+          </div>
+        )}
         {aircraftTypes.length === 0 && (
           <div className="alert alert-info" role="status">
             {t.dashboard.admin.noAircraftTypes}
@@ -269,18 +372,21 @@ export function AircraftsAdministration({
               airlines={buyableAirlines}
               aircraftTypes={aircraftTypes}
               submitLabel={t.dashboard.admin.buy}
-              onSubmit={onBuyAircraft}
+              onSubmit={handleBuyAircraft}
               onCancel={() => setBuying(false)}
             />
           </div>
         )}
-        {aircrafts.length === 0 ? (
+        {isLoadingAircrafts ? (
+          <p role="status">{t.dashboard.admin.loadingAircrafts}</p>
+        ) : aircrafts.length === 0 && !aircraftsError ? (
           <p className="mb-0">{t.dashboard.admin.noAircrafts}</p>
-        ) : (
+        ) : aircrafts.length > 0 ? (
           <div className="table-responsive">
             <table className="table table-striped align-middle">
               <thead>
                 <tr>
+                  <th scope="col">{t.dashboard.admin.name}</th>
                   <th scope="col">{t.dashboard.admin.registration}</th>
                   <th scope="col">{t.dashboard.admin.airline}</th>
                   <th scope="col">{t.dashboard.admin.model}</th>
@@ -295,31 +401,35 @@ export function AircraftsAdministration({
                     hasPermission(
                       permissions,
                       ADMINISTRATION_PERMISSIONS.aircraftEdit,
-                      aircraft.id,
+                      aircraft.airlineId,
                     );
                   const canSell =
                     Boolean(onSellAircraft) &&
                     hasPermission(
                       permissions,
                       ADMINISTRATION_PERMISSIONS.aircraftSell,
-                      aircraft.id,
+                      aircraft.airlineId,
                     );
 
                   return (
                     <tr key={aircraft.id}>
                       {editingId === aircraft.id && canEdit && onEditAircraft ? (
-                        <td colSpan={5}>
+                        <td colSpan={6}>
                           <AircraftForm
                             aircraft={aircraft}
                             airlines={airlines}
                             aircraftTypes={aircraftTypes}
                             submitLabel={t.dashboard.admin.save}
-                            onSubmit={(input) => onEditAircraft(aircraft.id, input)}
+                            onSubmit={(input) => handleEditAircraft({
+                              id: aircraft.id,
+                              ...input
+                            })}
                             onCancel={() => setEditingId(undefined)}
                           />
                         </td>
                       ) : (
                         <>
+                          <td>{aircraft.name}</td>
                           <td>{aircraft.registration}</td>
                           <td>{getAirlineName(aircraft.airlineId)}</td>
                           <td>{getAircraftTypeName(aircraft.aircraftTypeId)}</td>
@@ -360,17 +470,13 @@ export function AircraftsAdministration({
               </tbody>
             </table>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
 
   return (
-    <DashboardLayout
-      title={t.dashboard.admin.aircrafts}
-      crumbs={[{ label: t.dashboard.admin.title }, { label: t.dashboard.admin.aircrafts }]}
-      linkComponent={linkComponent}
-    >
+    <>
       {canAccess ? (
         page
       ) : (
@@ -415,6 +521,6 @@ export function AircraftsAdministration({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </DashboardLayout>
+    </>
   );
 }

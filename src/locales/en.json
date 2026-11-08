@@ -199,7 +199,9 @@
       "buyAircraft": "Buy aircraft",
       "name": "Name",
       "code": "Code",
+      "isCharter": "Charter airline",
       "registration": "Registration",
+      "invalidRegistration": "Registration must use the format EC-ABA.",
       "model": "Model",
       "purchasePrice": "Purchase price",
       "airline": "Airline",
@@ -214,10 +216,14 @@
       "sell": "Sell",
       "noAirlines": "No airlines available.",
       "noAircrafts": "No aircraft available.",
+      "loadingAircrafts": "Loading aircraft...",
       "noAircraftTypes": "No aircraft types configured.",
       "confirmDeleteAirline": "Do you want to delete this airline?",
       "confirmSellAircraftTitle": "Confirm aircraft sale",
-      "confirmSellAircraft": "Do you want to sell this aircraft?"
+      "confirmSellAircraft": "Do you want to sell this aircraft?",
+      "registrationExists": "An aircraft with this registration already exists.",
+      "nameExists": "An aircraft with this name already exists.",
+      "notEnoughMoney": "There is not enough money to buy this plane."
     }
   }
 }
