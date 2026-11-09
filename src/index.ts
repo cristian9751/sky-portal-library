@@ -3,11 +3,11 @@
  * Components are exported from the UI layer only; application routes are not part of the package.
  */
 
-
-import "./styles.css"
-import "./custom-adminlte.scss"
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import "./styles.css";
+import "./custom-adminlte.scss";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 export * from "./components/ui/accordion";
+export * from "./components/ui/administration-confirm-dialog";
 export * from "./components/ui/alert";
 export * from "./components/ui/alert-dialog";
 export * from "./components/ui/aspect-ratio";
@@ -53,9 +53,9 @@ export * from "./components/ui/textarea";
 export * from "./components/ui/toggle";
 export * from "./components/ui/toggle-group";
 export * from "./components/ui/tooltip";
-export {SiteLayout} from "./components/SiteLayout"
-export { DashboardLayout} from "./components/DashboardLayout"
-export { LangProvider, useI18n } from "./lib/i18n" 
+export { SiteLayout } from "./components/SiteLayout";
+export { DashboardLayout } from "./components/DashboardLayout";
+export { LangProvider, useI18n } from "./lib/i18n";
 export { cn } from "./lib/utils";
 export { useIsMobile } from "./hooks/use-mobile";
 export { About } from "./components/pages/about";
@@ -65,25 +65,31 @@ export { Login } from "./components/pages/login";
 export { Members } from "./components/pages/members";
 export { Normative } from "./components/pages/normative";
 export { Register } from "./components/pages/register";
-export { DashboardMain } from "./components/pages/DashboardMain"
-export {default as MustVerifyEmail} from "./components/pages/MustVerifyEmail"
-export type { AppLinkProps } from "./components/SiteLayout"
-export {default as ApplicationContext} from "./lib/ApplicationContext"
-export { useApplicationContext} from "./lib/ApplicationContext"
-export type {UserProps } from "./lib/ApplicationContext"
-export { AirportsProvider, useAirports } from "./lib/AirportContext"
-export {default as DashboardProfile} from "./components/pages/DashboardProfile"
-export {Staff} from "./components/pages/staff"
-export { DashboardAirlinesAdministration } from "./components/pages/AirlinesAdministration"
+export { DashboardMain } from "./components/pages/DashboardMain";
+export { default as MustVerifyEmail } from "./components/pages/MustVerifyEmail";
+export type { AppLinkProps } from "./components/SiteLayout";
+export { default as ApplicationContext } from "./lib/ApplicationContext";
+export { useApplicationContext } from "./lib/ApplicationContext";
+export type { UserProps } from "./lib/ApplicationContext";
+export { AirportsProvider, useAirports } from "./lib/AirportContext";
+export { default as DashboardProfile } from "./components/pages/DashboardProfile";
+export { Staff } from "./components/pages/staff";
+export { DashboardAirlinesAdministration } from "./components/pages/AirlinesAdministration";
 export type {
   Airline,
   AirlineInput,
   AirlinesAdministrationProps,
 } from "./components/pages/AirlinesAdministration";
-export { DashboardAircraftsAdministration} from "./components/pages/AircraftsAdministration";
+export { DashboardAircraftsAdministration } from "./components/pages/AircraftsAdministration";
 export type {
   Aircraft,
   AircraftInput,
   AircraftType,
   AircraftsAdministrationProps,
 } from "./components/pages/AircraftsAdministration";
+export { DashboardRoutesAdministration } from "./components/pages/RoutesAdministration";
+export type {
+  AirlineRoute,
+  AirlineRouteInput,
+  RoutesAdministrationProps,
+} from "./components/pages/RoutesAdministration";

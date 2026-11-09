@@ -5,11 +5,15 @@ export const ADMINISTRATION_PERMISSIONS = {
   aircraftBuy: "manage.aircrafts.buy",
   aircraftEdit: "manage.aircrafts.edit",
   aircraftSell: "manage.aircrafts.sell",
+  routeCreate: "manage.routes.create",
+  routeDelete: "manage.routes.delete",
+  routeEdit: "manage.routes.edit",
 } as const;
 
 export const ADMINISTRATION_ROUTES = {
   airlines: "/dashboard/administration/airlines",
   aircrafts: "/dashboard/administration/aircrafts",
+  routes: "/dashboard/administration/routes",
 } as const;
 
 /**

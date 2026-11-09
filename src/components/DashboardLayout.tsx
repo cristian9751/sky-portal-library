@@ -65,6 +65,19 @@ export function DashboardLayout({
     });
   }
 
+  if(hasAnyPermission(
+    permissions,
+    ADMINISTRATION_PERMISSIONS.routeCreate,
+    ADMINISTRATION_PERMISSIONS.routeDelete,
+    ADMINISTRATION_PERMISSIONS.routeEdit,
+  )) {
+    administrationItems.push({
+      label: t.dashboard.admin.routes,
+      href: ADMINISTRATION_ROUTES.routes,
+      icon: "bi-ticket"
+    })
+  }
+
   const defaultMenu: MenuItem[] = [
     { header: t.dashboard.general },
     { label: t.nav.home, href: "/dashboard/index", icon: "bi-house-fill" },

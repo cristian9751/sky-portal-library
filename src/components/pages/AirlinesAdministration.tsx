@@ -6,6 +6,8 @@ import {
   hasAnyPermission,
   hasPermission,
 } from "@/lib/administration-permissions";
+import { AdministrationTable } from "@/components/ui/table";
+import { AdministrationConfirmDialog } from "@/components/ui/administration-confirm-dialog";
 
 export type Airline = {
   id: string;
@@ -131,7 +133,8 @@ export function DashboardAirlinesAdministration({
   const [creating, setCreating] = useState(false);
   const [editingId, setEditingId] = useState<string>();
   const [deletingId, setDeletingId] = useState<string>();
-  const [actionError, setActionError] = useState("");
+  const [deleteError, setDeleteError] = useState("");
+  const [airlineToDelete, setAirlineToDelete] = useState<Airline>();
 
   const canAccess = hasAnyPermission(
     permissions,
@@ -143,15 +146,16 @@ export function DashboardAirlinesAdministration({
     Boolean(onCreateAirline) &&
     hasPermission(permissions, ADMINISTRATION_PERMISSIONS.airlineCreate, "*");
 
-  const handleDelete = async (airline: Airline) => {
-    if (!onDeleteAirline || !window.confirm(t.dashboard.admin.confirmDeleteAirline)) return;
+  const handleDelete = async () => {
+    if (!airlineToDelete || !onDeleteAirline) return;
 
-    setActionError("");
-    setDeletingId(airline.id);
+    setDeleteError("");
+    setDeletingId(airlineToDelete.id);
     try {
-      await onDeleteAirline(airline.id);
+      await onDeleteAirline(airlineToDelete.id);
+      setAirlineToDelete(undefined);
     } catch (deleteError) {
-      setActionError(deleteError instanceof Error ? deleteError.message : String(deleteError));
+      setDeleteError(deleteError instanceof Error ? deleteError.message : String(deleteError));
     } finally {
       setDeletingId(undefined);
     }
@@ -168,11 +172,6 @@ export function DashboardAirlinesAdministration({
         )}
       </div>
       <div className="card-body">
-        {actionError && (
-          <div className="alert alert-danger" role="alert">
-            {actionError}
-          </div>
-        )}
         {creating && canCreate && onCreateAirline && (
           <div className="mb-4">
             <AirlineForm
@@ -185,86 +184,90 @@ export function DashboardAirlinesAdministration({
         {airlines.length === 0 ? (
           <p className="mb-0">{t.dashboard.admin.noAirlines}</p>
         ) : (
-          <div className="table-responsive">
-            <table className="table table-striped align-middle">
-              <thead>
-                <tr>
-                  <th scope="col">{t.dashboard.admin.name}</th>
-                  <th scope="col">{t.dashboard.admin.code}</th>
-                  <th scope="col">{t.dashboard.admin.actions}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {airlines.map((airline) => {
-                  const canEdit =
-                    Boolean(onEditAirline) &&
-                    hasPermission(permissions, ADMINISTRATION_PERMISSIONS.airlineEdit, airline.id);
-                  const canDelete =
-                    Boolean(onDeleteAirline) &&
-                    hasPermission(
-                      permissions,
-                      ADMINISTRATION_PERMISSIONS.airlineDelete,
-                      airline.id,
-                    );
+          <AdministrationTable
+            headers={[t.dashboard.admin.name, t.dashboard.admin.code, t.dashboard.admin.actions]}
+            rows={airlines.map((airline) => {
+              const canEdit =
+                Boolean(onEditAirline) &&
+                hasPermission(permissions, ADMINISTRATION_PERMISSIONS.airlineEdit, airline.id);
+              const canDelete =
+                Boolean(onDeleteAirline) &&
+                hasPermission(permissions, ADMINISTRATION_PERMISSIONS.airlineDelete, airline.id);
 
-                  return (
-                    <tr key={airline.id}>
-                      {editingId === airline.id && canEdit && onEditAirline ? (
-                        <td colSpan={3}>
-                          <AirlineForm
-                            airline={airline}
-                            submitLabel={t.dashboard.admin.save}
-                            onSubmit={(input) => onEditAirline(airline.id, input)}
-                            onCancel={() => setEditingId(undefined)}
-                          />
-                        </td>
-                      ) : (
-                        <>
-                          <td>{airline.name}</td>
-                          <td>{airline.code || "—"}</td>
-                          <td>
-                            <div className="d-flex gap-2">
-                              {canEdit && (
-                                <button
-                                  type="button"
-                                  className="btn btn-sm btn-outline-primary"
-                                  onClick={() => setEditingId(airline.id)}
-                                >
-                                  {t.dashboard.admin.edit}
-                                </button>
-                              )}
-                              {canDelete && (
-                                <button
-                                  type="button"
-                                  className="btn btn-sm btn-outline-danger"
-                                  onClick={() => void handleDelete(airline)}
-                                  disabled={deletingId === airline.id}
-                                >
-                                  {deletingId === airline.id
-                                    ? t.dashboard.admin.saving
-                                    : t.dashboard.admin.delete}
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        </>
-                      )}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+              return {
+                id: airline.id,
+                cells: [airline.name, airline.code || "—"],
+                editContent:
+                  editingId === airline.id && canEdit && onEditAirline ? (
+                    <AirlineForm
+                      airline={airline}
+                      submitLabel={t.dashboard.admin.save}
+                      onSubmit={(input) => onEditAirline(airline.id, input)}
+                      onCancel={() => setEditingId(undefined)}
+                    />
+                  ) : undefined,
+                actions: (
+                  <div className="d-flex gap-2">
+                    {canEdit && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-primary"
+                        onClick={() => setEditingId(airline.id)}
+                      >
+                        {t.dashboard.admin.edit}
+                      </button>
+                    )}
+                    {canDelete && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() => {
+                          setDeleteError("");
+                          setAirlineToDelete(airline);
+                        }}
+                        disabled={deletingId === airline.id}
+                      >
+                        {deletingId === airline.id
+                          ? t.dashboard.admin.saving
+                          : t.dashboard.admin.delete}
+                      </button>
+                    )}
+                  </div>
+                ),
+              };
+            })}
+          />
         )}
       </div>
     </div>
   );
 
-  return canAccess ? (
-    page
-  ) : (
-    <div className="alert alert-danger" role="alert">
-      {t.dashboard.admin.noPermission}
-    </div>
+  return (
+    <>
+      {canAccess ? (
+        page
+      ) : (
+        <div className="alert alert-danger" role="alert">
+          {t.dashboard.admin.noPermission}
+        </div>
+      )}
+      <AdministrationConfirmDialog
+        open={airlineToDelete !== undefined}
+        onOpenChange={(open) => {
+          if (!open && deletingId === undefined) {
+            setAirlineToDelete(undefined);
+            setDeleteError("");
+          }
+        }}
+        title={t.dashboard.admin.confirmDeleteAirline}
+        description={airlineToDelete?.name}
+        error={deleteError}
+        isPending={deletingId !== undefined}
+        cancelLabel={t.dashboard.admin.cancel}
+        confirmLabel={t.dashboard.admin.delete}
+        pendingLabel={t.dashboard.admin.saving}
+        onConfirm={() => void handleDelete()}
+      />
+    </>
   );
 }

@@ -6,47 +6,56 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 
 const projectRoot = fileURLToPath(new URL(".", import.meta.url));
+const isLadle = Boolean(process.env["VITE_LADLE_APP_ID"]);
 
 export default defineConfig({
-  css: { preprocessorOptions: { scss: {
-  loadPaths: ["node_modules"],
-  quietDeps: true,
-  silenceDeprecations: ["import"],
-  }}},
+  css: {
+    preprocessorOptions: {
+      scss: {
+        loadPaths: ["node_modules"],
+        quietDeps: true,
+        silenceDeprecations: ["import"],
+      },
+    },
+  },
   resolve: {
     alias: {
-      "@": resolve(projectRoot, "src")
-    }
+      "@": resolve(projectRoot, "src"),
+    },
   },
   plugins: [
     react(),
     tailwindcss(),
-    dts({
-      tsconfigPath: "./tsconfig.build.json",
-      outDir: "dist/types",
-      entryRoot: "src",
-      include: [
-        "src/index.ts",
-        "src/components/ui/**/*.tsx",
-        "src/lib/utils.ts",
-        "src/hooks/use-mobile.tsx"
-      ],
-      exclude: ["src/**/*.test.*", "src/**/*.spec.*"]
-    })
+    ...(isLadle
+      ? []
+      : [
+          dts({
+            tsconfigPath: "./tsconfig.build.json",
+            outDir: "dist/types",
+            entryRoot: "src",
+            include: [
+              "src/index.ts",
+              "src/components/ui/**/*.tsx",
+              "src/lib/utils.ts",
+              "src/hooks/use-mobile.tsx",
+            ],
+            exclude: ["src/**/*.test.*", "src/**/*.spec.*"],
+          }),
+        ]),
   ],
-  build: {
-    lib: {
-      entry: resolve(projectRoot, "src/index.ts"),
-      name: "SkyPortalComponents",
-      formats: ["es", "cjs"],
-      fileName: (format) =>
-        format === "es"
-          ? "sky-portal-components.js"
-          : "sky-portal-components.cjs",
-      cssFileName: "style"
+  ...(!isLadle && {
+    build: {
+      lib: {
+        entry: resolve(projectRoot, "src/index.ts"),
+        name: "SkyPortalComponents",
+        formats: ["es", "cjs"],
+        fileName: (format) =>
+          format === "es" ? "sky-portal-components.js" : "sky-portal-components.cjs",
+        cssFileName: "style",
+      },
+      rollupOptions: {
+        external: ["react", "react-dom", "react/jsx-runtime", "react-dom/client"],
+      },
     },
-    rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "react-dom/client"]
-    }
-  }
+  }),
 });

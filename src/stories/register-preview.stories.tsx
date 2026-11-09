@@ -1,4 +1,3 @@
-
 import "../styles.css";
 import { Register } from "@/components/pages/register";
 
@@ -14,10 +13,7 @@ export const Registration = () => (
       }
 
       await new Promise((resolve) => setTimeout(resolve, 500));
-
     }}
-    redirectToLogin={() => () => {
-      alert("Redirecting to login...");
-    }}
+    redirectToLogin={() => window.alert("Redirecting to login...")}
   />
 );

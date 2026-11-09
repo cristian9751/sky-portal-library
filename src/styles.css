@@ -85,14 +85,16 @@
 }
 
 @layer components {
-  .aircraft-model-select {
+  .aircraft-model-select,
+  .route-select {
     background-color: var(--sidebar);
     border-color: var(--sidebar-border);
     color: var(--sidebar-foreground);
     color-scheme: dark;
   }
 
-  .aircraft-model-select option {
+  .aircraft-model-select option,
+  .route-select option {
     background-color: var(--sidebar);
     color: var(--sidebar-foreground);
   }

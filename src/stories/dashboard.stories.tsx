@@ -4,16 +4,21 @@ import MustVerifyEmail from "@/components/pages/MustVerifyEmail";
 import { DashboardMain } from "@/components/pages/DashboardMain";
 import DashboardProfile from "@/components/pages/DashboardProfile";
 import {
-  AircraftsAdministration,
+  DashboardAircraftsAdministration as AircraftsAdministration,
   type Aircraft,
   type AircraftInput,
   type AircraftType,
 } from "@/components/pages/AircraftsAdministration";
 import {
-  AirlinesAdministration,
+  DashboardAirlinesAdministration as AirlinesAdministration,
   type Airline,
   type AirlineInput,
 } from "@/components/pages/AirlinesAdministration";
+import {
+  DashboardRoutesAdministration as RoutesAdministration,
+  type AirlineRoute,
+  type AirlineRouteInput,
+} from "@/components/pages/RoutesAdministration";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 export const DashboardPreview = () => (
@@ -48,12 +53,17 @@ export const AirlinesAdministrationPreview = () => {
   };
 
   return (
-    <AirlinesAdministration
-      airlines={airlines}
-      onCreateAirline={createAirline}
-      onEditAirline={editAirline}
-      onDeleteAirline={deleteAirline}
-    />
+    <DashboardLayout
+      title="Aerolíneas"
+      crumbs={[{ label: "Administración" }, { label: "Aerolíneas" }]}
+    >
+      <AirlinesAdministration
+        airlines={airlines}
+        onCreateAirline={createAirline}
+        onEditAirline={editAirline}
+        onDeleteAirline={deleteAirline}
+      />
+    </DashboardLayout>
   );
 };
 
@@ -105,9 +115,11 @@ export const AircraftsAdministrationPreview = () => {
   const buyAircraft = (input: AircraftInput) => {
     updateAircrafts((current) => [...current, { ...input, id: `aircraft-${nextId.current++}` }]);
   };
-  const editAircraft = (id: string, input: AircraftInput) => {
+  const editAircraft = (aircraft: Aircraft) => {
     updateAircrafts((current) =>
-      current.map((aircraft) => (aircraft.id === id ? { ...aircraft, ...input } : aircraft)),
+      current.map((currentAircraft) =>
+        currentAircraft.id === aircraft.id ? aircraft : currentAircraft,
+      ),
     );
   };
   const sellAircraft = (id: string) => {
@@ -123,6 +135,60 @@ export const AircraftsAdministrationPreview = () => {
         onBuyAircraft={buyAircraft}
         onEditAircraft={editAircraft}
         onSellAircraft={sellAircraft}
+      />
+    </DashboardLayout>
+  );
+};
+
+export const RoutesAdministrationPreview = () => {
+  const nextId = useRef(3);
+  const [routes, setRoutes] = useState<AirlineRoute[]>([
+    {
+      id: "route-1",
+      airlineId: "iberia",
+      departure: "LEMD",
+      arrival: "LEBL",
+      number: "IBE204",
+      distance: 484,
+      flightMinutes: 75,
+      isActive: true,
+    },
+    {
+      id: "route-2",
+      airlineId: "air-europa",
+      departure: "LEMD",
+      arrival: "LEMG",
+      number: "AEA510",
+      distance: 431,
+      flightMinutes: 70,
+      isActive: true,
+    },
+  ]);
+  const airlines: Airline[] = [
+    { id: "iberia", name: "Iberia", code: "IBE", isCharter: false },
+    { id: "air-europa", name: "Air Europa", code: "AEA", isCharter: true },
+  ];
+
+  const createRoute = (input: AirlineRouteInput) => {
+    setRoutes((current) => [...current, { ...input, id: `route-${nextId.current++}` }]);
+  };
+  const editRoute = (id: string, input: AirlineRouteInput) => {
+    setRoutes((current) =>
+      current.map((route) => (route.id === id ? { ...route, ...input } : route)),
+    );
+  };
+  const deleteRoute = (id: string) => {
+    setRoutes((current) => current.filter((route) => route.id !== id));
+  };
+
+  return (
+    <DashboardLayout title="Rutas" crumbs={[{ label: "Administración" }, { label: "Rutas" }]}>
+      <RoutesAdministration
+        routes={routes}
+        airlines={airlines}
+        onCreateRoute={createRoute}
+        onEditRoute={editRoute}
+        onDeleteRoute={deleteRoute}
       />
     </DashboardLayout>
   );

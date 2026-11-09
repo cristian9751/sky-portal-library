@@ -4,20 +4,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useApplicationContext } from "@/lib/ApplicationContext";
 import { useI18n } from "@/lib/i18n";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { AdministrationConfirmDialog } from "@/components/ui/administration-confirm-dialog";
 import {
   ADMINISTRATION_PERMISSIONS,
   hasAnyPermission,
   hasPermission,
 } from "@/lib/administration-permissions";
+import { AdministrationTable } from "@/components/ui/table";
 import type { Airline } from "./AirlinesAdministration";
 
 export type Aircraft = {
@@ -79,11 +72,7 @@ function AircraftForm({
   const formId = useId();
   const [error, setError] = useState("");
   const schema = useMemo(
-    () =>
-      buildAircraftFormSchema(
-        t.auth.required,
-        t.dashboard.admin.invalidRegistration,
-      ),
+    () => buildAircraftFormSchema(t.auth.required, t.dashboard.admin.invalidRegistration),
     [t.auth.required, t.dashboard.admin.invalidRegistration],
   );
   const {
@@ -143,11 +132,7 @@ function AircraftForm({
         <label className="form-label" htmlFor={`${formId}-airline`}>
           {t.dashboard.admin.airline}
         </label>
-        <select
-          {...register("airlineId")}
-          id={`${formId}-airline`}
-          className="form-select"
-        >
+        <select {...register("airlineId")} id={`${formId}-airline`} className="form-select">
           {airlines.map((airline) => (
             <option key={airline.id} value={airline.id}>
               {airline.name}
@@ -301,7 +286,7 @@ export function DashboardAircraftsAdministration({
     await loadAircrafts();
   };
 
-  const handleEditAircraft = async ( aircraft: Aircraft) => {
+  const handleEditAircraft = async (aircraft: Aircraft) => {
     if (!onEditAircraft) return;
     await onEditAircraft(aircraft);
     await loadAircrafts();
@@ -382,94 +367,87 @@ export function DashboardAircraftsAdministration({
         ) : aircrafts.length === 0 && !aircraftsError ? (
           <p className="mb-0">{t.dashboard.admin.noAircrafts}</p>
         ) : aircrafts.length > 0 ? (
-          <div className="table-responsive">
-            <table className="table table-striped align-middle">
-              <thead>
-                <tr>
-                  <th scope="col">{t.dashboard.admin.name}</th>
-                  <th scope="col">{t.dashboard.admin.registration}</th>
-                  <th scope="col">{t.dashboard.admin.airline}</th>
-                  <th scope="col">{t.dashboard.admin.model}</th>
-                  <th scope="col">{t.dashboard.admin.purchasePrice}</th>
-                  <th scope="col">{t.dashboard.admin.actions}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {aircrafts.map((aircraft) => {
-                  const canEdit =
-                    Boolean(onEditAircraft) &&
-                    hasPermission(
-                      permissions,
-                      ADMINISTRATION_PERMISSIONS.aircraftEdit,
-                      aircraft.airlineId,
-                    );
-                  const canSell =
-                    Boolean(onSellAircraft) &&
-                    hasPermission(
-                      permissions,
-                      ADMINISTRATION_PERMISSIONS.aircraftSell,
-                      aircraft.airlineId,
-                    );
+          <AdministrationTable
+            headers={[
+              t.dashboard.admin.name,
+              t.dashboard.admin.registration,
+              t.dashboard.admin.airline,
+              t.dashboard.admin.model,
+              t.dashboard.admin.purchasePrice,
+              t.dashboard.admin.actions,
+            ]}
+            rows={aircrafts.map((aircraft) => {
+              const canEdit =
+                Boolean(onEditAircraft) &&
+                hasPermission(
+                  permissions,
+                  ADMINISTRATION_PERMISSIONS.aircraftEdit,
+                  aircraft.airlineId,
+                );
+              const canSell =
+                Boolean(onSellAircraft) &&
+                hasPermission(
+                  permissions,
+                  ADMINISTRATION_PERMISSIONS.aircraftSell,
+                  aircraft.airlineId,
+                );
 
-                  return (
-                    <tr key={aircraft.id}>
-                      {editingId === aircraft.id && canEdit && onEditAircraft ? (
-                        <td colSpan={6}>
-                          <AircraftForm
-                            aircraft={aircraft}
-                            airlines={airlines}
-                            aircraftTypes={aircraftTypes}
-                            submitLabel={t.dashboard.admin.save}
-                            onSubmit={(input) => handleEditAircraft({
-                              id: aircraft.id,
-                              ...input
-                            })}
-                            onCancel={() => setEditingId(undefined)}
-                          />
-                        </td>
-                      ) : (
-                        <>
-                          <td>{aircraft.name}</td>
-                          <td>{aircraft.registration}</td>
-                          <td>{getAirlineName(aircraft.airlineId)}</td>
-                          <td>{getAircraftTypeName(aircraft.aircraftTypeId)}</td>
-                          <td>{getAircraftTypePrice(aircraft.aircraftTypeId)}</td>
-                          <td>
-                            <div className="d-flex gap-2">
-                              {canEdit && (
-                                <button
-                                  type="button"
-                                  className="btn btn-sm btn-outline-primary"
-                                  onClick={() => setEditingId(aircraft.id)}
-                                >
-                                  {t.dashboard.admin.edit}
-                                </button>
-                              )}
-                              {canSell && (
-                                <button
-                                  type="button"
-                                  className="btn btn-sm btn-outline-danger"
-                                  onClick={() => {
-                                    setActionError("");
-                                    setAircraftToSell(aircraft);
-                                  }}
-                                  disabled={sellingId === aircraft.id}
-                                >
-                                  {sellingId === aircraft.id
-                                    ? t.dashboard.admin.saving
-                                    : t.dashboard.admin.sell}
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        </>
-                      )}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+              return {
+                id: aircraft.id,
+                cells: [
+                  aircraft.name,
+                  aircraft.registration,
+                  getAirlineName(aircraft.airlineId),
+                  getAircraftTypeName(aircraft.aircraftTypeId),
+                  getAircraftTypePrice(aircraft.aircraftTypeId),
+                ],
+                editContent:
+                  editingId === aircraft.id && canEdit && onEditAircraft ? (
+                    <AircraftForm
+                      aircraft={aircraft}
+                      airlines={airlines}
+                      aircraftTypes={aircraftTypes}
+                      submitLabel={t.dashboard.admin.save}
+                      onSubmit={(input) =>
+                        handleEditAircraft({
+                          id: aircraft.id,
+                          ...input,
+                        })
+                      }
+                      onCancel={() => setEditingId(undefined)}
+                    />
+                  ) : undefined,
+                actions: (
+                  <div className="d-flex gap-2">
+                    {canEdit && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-primary"
+                        onClick={() => setEditingId(aircraft.id)}
+                      >
+                        {t.dashboard.admin.edit}
+                      </button>
+                    )}
+                    {canSell && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() => {
+                          setActionError("");
+                          setAircraftToSell(aircraft);
+                        }}
+                        disabled={sellingId === aircraft.id}
+                      >
+                        {sellingId === aircraft.id
+                          ? t.dashboard.admin.saving
+                          : t.dashboard.admin.sell}
+                      </button>
+                    )}
+                  </div>
+                ),
+              };
+            })}
+          />
         ) : null}
       </div>
     </div>
@@ -484,7 +462,7 @@ export function DashboardAircraftsAdministration({
           {t.dashboard.admin.noPermission}
         </div>
       )}
-      <AlertDialog
+      <AdministrationConfirmDialog
         open={aircraftToSell !== undefined}
         onOpenChange={(open) => {
           if (!open && sellingId === undefined) {
@@ -492,35 +470,20 @@ export function DashboardAircraftsAdministration({
             setActionError("");
           }
         }}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t.dashboard.admin.confirmSellAircraftTitle}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t.dashboard.admin.confirmSellAircraft}{" "}
-              {aircraftToSell && <strong>{aircraftToSell.registration}</strong>}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          {actionError && (
-            <div className="alert alert-danger mb-0" role="alert">
-              {actionError}
-            </div>
-          )}
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={sellingId !== undefined}>
-              {t.dashboard.admin.cancel}
-            </AlertDialogCancel>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={() => void handleConfirmSell()}
-              disabled={sellingId !== undefined}
-            >
-              {sellingId !== undefined ? t.dashboard.admin.saving : t.dashboard.admin.sell}
-            </button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        title={t.dashboard.admin.confirmSellAircraftTitle}
+        description={
+          <>
+            {t.dashboard.admin.confirmSellAircraft}{" "}
+            {aircraftToSell && <strong>{aircraftToSell.registration}</strong>}
+          </>
+        }
+        error={actionError}
+        isPending={sellingId !== undefined}
+        cancelLabel={t.dashboard.admin.cancel}
+        confirmLabel={t.dashboard.admin.sell}
+        pendingLabel={t.dashboard.admin.saving}
+        onConfirm={() => void handleConfirmSell()}
+      />
     </>
   );
 }
