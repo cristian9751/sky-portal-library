@@ -1,7 +1,11 @@
 import { useCallback, useRef, useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import MustVerifyEmail from "@/components/pages/MustVerifyEmail";
-import { DashboardMain } from "@/components/pages/DashboardMain";
+import {
+  DashboardMain,
+  type DashboardEvent,
+  type DashboardFlight,
+} from "@/components/pages/DashboardMain";
 import DashboardProfile from "@/components/pages/DashboardProfile";
 import {
   DashboardAircraftsAdministration as AircraftsAdministration,
@@ -21,9 +25,58 @@ import {
 } from "@/components/pages/RoutesAdministration";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
+const dashboardFlights: DashboardFlight[] = [
+  {
+    id: "flight-ibe204",
+    flightNumber: "IBE204",
+    aircraft: "Airbus A320",
+    origin: "LEMD",
+    destination: "LEBL",
+  },
+  {
+    id: "flight-ibe512",
+    flightNumber: "IBE512",
+    aircraft: "Airbus A350-900",
+    origin: "LEMD",
+    destination: "GCTS",
+  },
+  {
+    id: "flight-ibe731",
+    flightNumber: "IBE731",
+    aircraft: "Airbus A320neo",
+    origin: "LEBL",
+    destination: "LEMD",
+  },
+];
+
+const dashboardEvents: DashboardEvent[] = [
+  {
+    id: "event-canarias",
+    name: "Tour por las Islas Canarias",
+    description:
+      "Acompáñanos en un recorrido especial por el archipiélago, con salidas desde Madrid y escalas en las principales islas.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Vista desde la ventanilla de un avión sobre las nubes",
+  },
+  {
+    id: "event-barcelona",
+    name: "Encuentro de pilotos en Barcelona",
+    description:
+      "Conecta con otros pilotos de la comunidad y participa en un vuelo grupal con destino a Barcelona-El Prat.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?auto=format&fit=crop&w=1200&q=80",
+    imageAlt: "Vista aérea de Barcelona",
+  },
+];
+
 export const DashboardPreview = () => (
   <DashboardLayout title="Panel">
-    <DashboardMain />
+    <DashboardMain
+      recentFlights={dashboardFlights}
+      events={dashboardEvents}
+      onFlightDetails={(flightId) => {}}
+    />
   </DashboardLayout>
 );
 

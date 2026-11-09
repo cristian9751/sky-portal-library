@@ -11,11 +11,38 @@ Librería de componentes React reutilizables basada en los componentes UI del pr
 
 ```bash
 npm install
+npm run ladle
 npm run typecheck
 npm run build
 ```
 
+`npm run ladle` abre Ladle en modo desarrollo. En la story **PuckEditor** puedes
+componer páginas con componentes de la librería; los borradores se guardan en
+`localStorage` del navegador. Usa **Export JSON** para descargar la configuración
+o abre **SavedPuckPagePreview** para previsualizarla. Puck es una dependencia de
+desarrollo y no forma parte del bundle publicado. El catálogo incluye bloques
+editables para botones, cards, alerts, badges, avatar, controles de formulario,
+tabs, acordeón, tablas y otros componentes UI. Los componentes que dependen de
+proveedores o de composición avanzada se ofrecen como bloques completos cuando
+se pueden previsualizar de forma independiente.
+
+Al usar **Publish React component** se descarga `PublishedPage.tsx`, con los
+componentes seleccionados y props callback tipadas para botones y controles.
+Implementa solo las acciones que necesites:
+
+```tsx
+<PublishedPage
+  onUiButtonClick={(componentId) => handleAction(componentId)}
+  onUiSelectChange={(componentId, value) => updateSelection(componentId, value)}
+/>
+```
+
+Los callbacks disponibles están declarados en el tipo `PublishedPageProps` del
+archivo generado. El archivo importa componentes desde
+`@cristian9751/sky-portal-component-library`.
+
 El resultado se genera en `dist/`:
+
 - `sky-portal-components.js`: bundle ESM.
 - `sky-portal-components.cjs`: bundle CommonJS.
 - `style.css`: estilos y tokens del sistema de diseño.
