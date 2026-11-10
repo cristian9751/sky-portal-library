@@ -12,6 +12,7 @@ import {
   ADMINISTRATION_PERMISSIONS,
   ADMINISTRATION_ROUTES,
   hasAnyPermission,
+  hasPermission,
 } from "@/lib/administration-permissions";
 
 type DashboardLayoutProps = {
@@ -78,7 +79,7 @@ export function DashboardLayout({
     })
   }
 
-  if (hasAnyPermission(permissions, ADMINISTRATION_PERMISSIONS.userPermissionsEdit)) {
+  if (hasPermission(permissions, ADMINISTRATION_PERMISSIONS.userPermissionsEdit, "*")) {
     administrationItems.push({
       label: t.dashboard.admin.users,
       href: ADMINISTRATION_ROUTES.users,

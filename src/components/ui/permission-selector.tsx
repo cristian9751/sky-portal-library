@@ -56,6 +56,10 @@ export interface PermissionSelectorProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   "onChange"
 > {
+  availablePermissions?: readonly AdministrationPermission[];
+  globalPermissions?: readonly AdministrationPermission[];
+  globalPermissionsLabel?: string;
+  disabledPermissions?: readonly AdministrationPermission[];
   selectedPermissions?: readonly AdministrationPermission[];
   defaultSelectedPermissions?: readonly AdministrationPermission[];
   onSelectionChange?: (permissions: AdministrationPermission[]) => void;
@@ -68,6 +72,10 @@ export interface PermissionSelectorProps extends Omit<
 }
 
 export function PermissionSelector({
+  availablePermissions,
+  globalPermissions = [],
+  globalPermissionsLabel = "Permisos globales",
+  disabledPermissions = [],
   selectedPermissions,
   defaultSelectedPermissions = [],
   onSelectionChange,
@@ -85,6 +93,22 @@ export function PermissionSelector({
   );
   const isControlled = selectedPermissions !== undefined;
   const selection = selectedPermissions ?? internalSelection;
+  const visibleGroups = availablePermissions
+    ? permissionGroups
+        .map((group) => ({
+          ...group,
+          permissions: group.permissions.filter(
+            ({ value }) =>
+              availablePermissions.includes(value) && !globalPermissions.includes(value),
+          ),
+        }))
+        .filter((group) => group.permissions.length > 0)
+    : permissionGroups;
+  const visibleGlobalPermissions = permissionGroups.flatMap((group) =>
+    group.permissions.filter(
+      ({ value }) => globalPermissions.includes(value) && availablePermissions?.includes(value),
+    ),
+  );
 
   const updateSelection = (permission: AdministrationPermission, checked: boolean) => {
     const nextSelection = checked
@@ -107,7 +131,7 @@ export function PermissionSelector({
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {permissionGroups.map((group) => (
+        {visibleGroups.map((group) => (
           <fieldset key={group.title} className="min-w-0 space-y-3">
             <legend className="mb-3 text-sm font-semibold">{group.title}</legend>
             <ul className="space-y-3">
@@ -120,7 +144,7 @@ export function PermissionSelector({
                       <Checkbox
                         id={id}
                         checked={selection.includes(value)}
-                        disabled={disabled}
+                        disabled={disabled || disabledPermissions.includes(value)}
                         onCheckedChange={(checked) => updateSelection(value, checked === true)}
                       />
                       <span>{label}</span>
@@ -131,6 +155,30 @@ export function PermissionSelector({
             </ul>
           </fieldset>
         ))}
+        {visibleGlobalPermissions.length > 0 && (
+          <fieldset className="min-w-0 space-y-3">
+            <legend className="mb-3 text-sm font-semibold">{globalPermissionsLabel}</legend>
+            <ul className="space-y-3">
+              {visibleGlobalPermissions.map(({ value, label }) => {
+                const id = `permission-${value.replaceAll(".", "-")}`;
+
+                return (
+                  <li key={value}>
+                    <label htmlFor={id} className="flex cursor-pointer items-center gap-3 text-sm">
+                      <Checkbox
+                        id={id}
+                        checked={selection.includes(value)}
+                        disabled={disabled || disabledPermissions.includes(value)}
+                        onCheckedChange={(checked) => updateSelection(value, checked === true)}
+                      />
+                      <span>{label}</span>
+                    </label>
+                  </li>
+                );
+              })}
+            </ul>
+          </fieldset>
+        )}
       </CardContent>
       <CardFooter className="justify-end border-t p-4">
         <Button

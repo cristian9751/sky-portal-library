@@ -257,7 +257,7 @@ const administrationUsers: AdministrationUser[] = [
     id: "pilot-1",
     name: "Alex García",
     email: "alex.garcia@example.com",
-    permissions: ["manage.airlines.edit.iberia", "manage.routes.create.*"],
+    permissions: ["manage.airlines.edit.iberia", "manage.routes.create.air-europa"],
   },
   {
     id: "pilot-2",
@@ -288,7 +288,14 @@ const UsersAdministrationPreviewContent = () => {
 
   return (
     <DashboardLayout title="Usuarios" crumbs={[{ label: "Administración" }, { label: "Usuarios" }]}>
-      <UsersAdministration users={users} onUpdateUserPermissions={updatePermissions} />
+      <UsersAdministration
+        users={users}
+        airlines={[
+          { id: "iberia", name: "Iberia", code: "IBE", isCharter: false },
+          { id: "air-europa", name: "Air Europa", code: "AEA", isCharter: true },
+        ]}
+        onUpdateUserPermissions={updatePermissions}
+      />
     </DashboardLayout>
   );
 };
