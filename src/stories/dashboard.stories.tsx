@@ -27,6 +27,11 @@ import {
   DashboardUsersAdministration as UsersAdministration,
   type AdministrationUser,
 } from "@/components/pages/UsersAdministration";
+import {
+  DashboardRolesAdministration as RolesAdministration,
+  type AdministrationRole,
+} from "@/components/pages/RolesAdministration";
+import { ADMINISTRATION_PERMISSIONS } from "@/lib/administration-permissions";
 import ApplicationContextProvider, { useApplicationContext } from "@/lib/ApplicationContext";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
@@ -305,3 +310,38 @@ export const UsersAdministrationPreview = () => (
     <UsersAdministrationPreviewContent />
   </ApplicationContextProvider>
 );
+
+export const RolesAdministrationPreview = () => {
+  const [roles, setRoles] = useState<AdministrationRole[]>([
+    {
+      id: "flight-operations",
+      name: "Flight Operations",
+      permissions: [
+        ADMINISTRATION_PERMISSIONS.airlineEdit,
+        ADMINISTRATION_PERMISSIONS.aircraftBuy,
+        ADMINISTRATION_PERMISSIONS.routeCreate,
+      ],
+    },
+    {
+      id: "route-manager",
+      name: "Route Manager",
+      permissions: [ADMINISTRATION_PERMISSIONS.routeCreate, ADMINISTRATION_PERMISSIONS.routeEdit],
+    },
+  ]);
+  const nextId = useRef(1);
+
+  const createRole = (role: Omit<AdministrationRole, "id">) => {
+    setRoles((current) => [...current, { ...role, id: `role-${nextId.current++}` }]);
+  };
+  const editRole = (id: string, role: Omit<AdministrationRole, "id">) => {
+    setRoles((current) =>
+      current.map((existing) => (existing.id === id ? { ...existing, ...role } : existing)),
+    );
+  };
+
+  return (
+    <DashboardLayout title="Roles" crumbs={[{ label: "Administración" }, { label: "Roles" }]}>
+      <RolesAdministration roles={roles} onCreateRole={createRole} onEditRole={editRole} />
+    </DashboardLayout>
+  );
+};

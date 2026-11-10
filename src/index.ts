@@ -106,3 +106,9 @@ export type {
   AdministrationUser,
   UsersAdministrationProps,
 } from "./components/pages/UsersAdministration";
+export { DashboardRolesAdministration } from "./components/pages/RolesAdministration";
+export type {
+  AdministrationRole,
+  AdministrationRoleInput,
+  RolesAdministrationProps,
+} from "./components/pages/RolesAdministration";
