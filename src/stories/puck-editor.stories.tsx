@@ -4,6 +4,7 @@ import "@puckeditor/core/puck.css";
 import "../styles.css";
 import "../custom-adminlte.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { AuthShell } from "@/components/AuthShell";
 import AdminLTECard from "@/components/dashboard/Card";
 import SmallBox from "@/components/dashboard/SmallBox";
 import {
@@ -47,6 +48,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
+import { FormContainer } from "@/components/ui/form-container";
 import { downloadReactComponent } from "@/lib/puck-component-generator";
 
 type MetricBoxProps = {
@@ -196,6 +198,19 @@ type ToggleBlockProps = {
   pressed: boolean;
 };
 
+type AuthShellBlockProps = {
+  eyebrow: string;
+  title: string;
+  image: string;
+  content: string;
+};
+
+type FormBlockProps = {
+  inputLabel: string;
+  placeholder: string;
+  submitLabel: string;
+};
+
 type LibraryEditorComponents = {
   HeadingBlock: HeadingProps;
   MetricBox: MetricBoxProps;
@@ -223,6 +238,8 @@ type LibraryEditorComponents = {
   UiSelect: SelectBlockProps;
   UiCollapsible: CollapsibleBlockProps;
   UiToggle: ToggleBlockProps;
+  AuthShell: AuthShellBlockProps;
+  Form: FormBlockProps;
 };
 
 type EditorData = Data<LibraryEditorComponents, { title?: string }>;
@@ -238,6 +255,10 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
     dashboard: {
       title: "Dashboard components",
       components: ["MetricBox"],
+    },
+    authentication: {
+      title: "Authentication components",
+      components: ["AuthShell", "Form"],
     },
     ui: {
       title: "Library UI components",
@@ -385,6 +406,49 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
             </div>
           </AdminLTECard>
         </div>
+      ),
+    },
+    AuthShell: {
+      label: "Authentication shell",
+      fields: {
+        eyebrow: { type: "text", label: "Eyebrow" },
+        title: { type: "text", label: "Title" },
+        image: { type: "text", label: "Image URL" },
+        content: { type: "textarea", label: "Content" },
+      },
+      defaultProps: {
+        eyebrow: "Welcome back",
+        title: "Sign in to your account",
+        image:
+          "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+        content: "Your sign-in form goes here.",
+      },
+      render: ({ eyebrow, title, image, content }) => (
+        <AuthShell eyebrow={eyebrow} title={title} image={image}>
+          <p>{content}</p>
+        </AuthShell>
+      ),
+    },
+    Form: {
+      label: "Form",
+      fields: {
+        inputLabel: { type: "text", label: "Input label" },
+        placeholder: { type: "text", label: "Placeholder" },
+        submitLabel: { type: "text", label: "Submit button text" },
+      },
+      defaultProps: {
+        inputLabel: "Email",
+        placeholder: "name@example.com",
+        submitLabel: "Submit",
+      },
+      render: ({ inputLabel, placeholder, submitLabel }) => (
+        <FormContainer onSubmit={(event) => event.preventDefault()} className="space-y-5">
+          <div className="space-y-2">
+            <Label>{inputLabel}</Label>
+            <Input name="value" placeholder={placeholder} />
+          </div>
+          <Button type="submit">{submitLabel}</Button>
+        </FormContainer>
       ),
     },
     UiButton: {

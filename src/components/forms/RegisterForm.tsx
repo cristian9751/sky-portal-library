@@ -5,6 +5,7 @@ import type { UseFormRegisterReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Field, authField } from "@/components/AuthShell";
+import { FormContainer } from "@/components/ui/form-container";
 import { COUNTRIES } from "@/data/countries";
 import { useI18n } from "@/lib/i18n";
 import AutocompleteInput from "../ui/autocomplete-input";
@@ -169,12 +170,12 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
 
   return (
     // Posts to the existing air-spain.es registration system
-    <form
+    <FormContainer
       ref={formRef}
       method="post"
       noValidate
       onSubmit={handleSubmit(onValid)}
-      className="space-y-6 rounded-xl border border-border bg-card p-8"
+      className="space-y-6"
     >
       {registrationSucceeded && (
         <InfoBox variant="success" icon="bi bi-check-circle">
@@ -183,7 +184,7 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
       )}
       <FieldError message={errors.root?.["server"]?.message} />
       <p className={sectionClass}>{a.personal}</p>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid min-w-0 gap-4">
         <TextField label={a.first} registration={register("nombre")} error={errors.nombre?.message} placeholder={user?.name} />
         <TextField label={a.last} registration={register("apellidos")} error={errors.apellidos?.message} placeholder={user?.surname} />
       </div>
@@ -238,7 +239,7 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
         />
         <FieldError message={errors.airport?.message} />
       </Field>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid min-w-0 gap-4">
         {networkIds.map(({ name, label }) => (
           <TextField
             key={name}
@@ -269,6 +270,6 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
         </button>
       </p>
       )}
-    </form>
+    </FormContainer>
   );
 }

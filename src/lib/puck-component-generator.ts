@@ -12,7 +12,7 @@ export function generateReactComponent(data: PuckPageData): string {
   return `import type { ReactNode } from "react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
-  AdminLTECard, Alert, AlertDescription, AlertTitle, AspectRatio,
+  AdminLTECard, Alert, AlertDescription, AlertTitle, AspectRatio, AuthShell,
   Avatar, AvatarFallback, AvatarImage, Badge, Button, Calendar,
   Card, CardContent, CardHeader, CardTitle, Checkbox, Collapsible,
   CollapsibleContent, CollapsibleTrigger, Input, Label, LangProvider,
@@ -20,6 +20,7 @@ import {
   SelectItem, SelectTrigger, SelectValue, Skeleton, Slider, SmallBox,
   Switch, Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
   Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toggle,
+  FormContainer,
 } from "${COMPONENT_LIBRARY}";
 
 type PageBlock = {
@@ -41,6 +42,7 @@ export type PublishedPageProps = {
   onUiAccordionChange?: (componentId: string, value: string | string[]) => void;
   onUiCollapsibleChange?: (componentId: string, open: boolean) => void;
   onUiCalendarSelect?: (componentId: string, date: Date | undefined) => void;
+  onFormSubmit?: (componentId: string, value: string) => void;
 };
 
 const pageBlocks: PageBlock[] = ${JSON.stringify(data.content, null, 2)};
@@ -83,6 +85,10 @@ function renderBlock(block: PageBlock, callbacks: PublishedPageProps): ReactNode
       const name = getText(block, "name");
       return <div key={id} className="col-12"><AdminLTECard title="Featured event" collapsible={false}><div className="row g-3 align-items-center"><div className="col-12 col-md-7"><h4>{name}</h4><p className="mb-0 text-muted">{getText(block, "description")}</p></div><div className="col-12 col-md-5"><img src={getText(block, "imageUrl")} alt={getText(block, "imageAlt", name)} className="dashboard-event-image" /></div></div></AdminLTECard></div>;
     }
+    case "AuthShell":
+      return <AuthShell key={id} eyebrow={getText(block, "eyebrow")} title={getText(block, "title")} image={getText(block, "image")}><p>{getText(block, "content")}</p></AuthShell>;
+    case "Form":
+      return <FormContainer key={id} className="space-y-5" onSubmit={(event) => { event.preventDefault(); const value = new FormData(event.currentTarget).get("value"); callbacks.onFormSubmit?.(id, typeof value === "string" ? value : ""); }}><div className="space-y-2"><Label>{getText(block, "inputLabel", "Email")}</Label><Input name="value" placeholder={getText(block, "placeholder")} /></div><Button type="submit">{getText(block, "submitLabel", "Submit")}</Button></FormContainer>;
     case "UiButton":
       return <div key={id} className="col-12"><Button variant={getText(block, "variant", "default") as "default" | "secondary" | "destructive" | "outline" | "ghost" | "link"} size={getText(block, "size", "default") as "default" | "sm" | "lg"} onClick={() => callbacks.onUiButtonClick?.(id)}>{getText(block, "label", "Button")}</Button></div>;
     case "UiBadge":

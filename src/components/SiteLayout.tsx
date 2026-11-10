@@ -1,9 +1,55 @@
 import { createContext, useContext, useState, type ComponentType, type ReactNode } from "react";
-import { LangProvider, LANGS, useI18n } from "@/lib/i18n";
+import { LangProvider, LANGS, useI18n, type Lang } from "@/lib/i18n";
 import { useApplicationContext } from "@/lib/ApplicationContext";
 
 const hostname = window.location.hostname;
 export const BASE = hostname == "localhost" ? "https://air-spain.es" : `${window.location.protocol}//${hostname}`;
+
+const LANGUAGE_NAMES: Record<Lang, string> = {
+  es: "Español",
+  en: "English",
+  fr: "Français",
+  de: "Deutsch",
+};
+
+const LANGUAGE_FLAG_CODES: Record<Lang, string> = {
+  es: "ES",
+  en: "GB",
+  fr: "FR",
+  de: "DE",
+};
+
+function LanguageSelector({
+  lang,
+  setLang,
+  className,
+}: {
+  lang: Lang;
+  setLang: (language: Lang) => void;
+  className: string;
+}) {
+  return (
+    <div className={className}>
+      {LANGS.map((language) => (
+        <button
+          key={language}
+          type="button"
+          onClick={() => setLang(language)}
+          aria-label={LANGUAGE_NAMES[language]}
+          aria-pressed={lang === language}
+          title={LANGUAGE_NAMES[language]}
+          className={`rounded p-1.5 hover:bg-muted ${lang === language ? "bg-muted ring-2 ring-secondary" : ""}`}
+        >
+          <img
+            src={`${BASE}/imagenes/flags/${LANGUAGE_FLAG_CODES[language]}.png`}
+            alt=""
+            className="h-4 w-6 object-cover"
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
 
 /* ---------- Abstracción de enlaces (sin dependencia de router) ---------- */
 
@@ -94,18 +140,7 @@ export function SiteLayout({
               ))}
             </nav>
             <div className="hidden items-center gap-3 lg:flex">
-              <div className="flex gap-1 text-xs uppercase">
-                {LANGS.map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => setLang(l)}
-                    aria-pressed={lang === l}
-                    className={`rounded px-1.5 py-1 uppercase hover:bg-muted ${lang === l ? "bg-muted text-secondary" : "text-muted-foreground"}`}
-                  >
-                    {l}
-                  </button>
-                ))}
-              </div>
+              <LanguageSelector lang={lang} setLang={setLang} className="flex gap-1" />
               {isAuthenticated ? (
                 <>
                   <Link
@@ -164,16 +199,8 @@ export function SiteLayout({
                   </Link>
                 </>
               )}
-              <div className="mt-2 flex gap-2" onClick={(e) => e.stopPropagation()}>
-                {LANGS.map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => setLang(l)}
-                    className={`rounded px-2 py-1 text-xs uppercase ${lang === l ? "bg-muted text-secondary" : "text-muted-foreground"}`}
-                  >
-                    {l}
-                  </button>
-                ))}
+              <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+                <LanguageSelector lang={lang} setLang={setLang} className="flex gap-2" />
               </div>
             </nav>
           )}

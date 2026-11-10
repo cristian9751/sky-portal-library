@@ -20,6 +20,25 @@ describe("generateReactComponent", () => {
             secondOption: "Boeing 737",
           },
         },
+        {
+          type: "AuthShell",
+          props: {
+            id: "sign-in-shell",
+            eyebrow: "Welcome back",
+            title: "Sign in",
+            image: "/login.jpg",
+            content: "Sign-in form placeholder",
+          },
+        },
+        {
+          type: "Form",
+          props: {
+            id: "email-form",
+            inputLabel: "Email",
+            placeholder: "name@example.com",
+            submitLabel: "Continue",
+          },
+        },
       ],
     });
 
@@ -31,6 +50,9 @@ describe("generateReactComponent", () => {
     expect(source).toContain("onUiButtonClick?: (componentId: string) => void");
     expect(source).toContain("onUiSelectChange?: (componentId: string, value: string) => void");
     expect(source).toContain("callbacks.onUiButtonClick?.(id)");
+    expect(source).toContain('case "AuthShell"');
+    expect(source).toContain('case "Form"');
+    expect(source).toContain("callbacks.onFormSubmit?.(id");
     expect(source).toContain('from "@cristian9751/sky-portal-component-library"');
     expect(source).not.toContain("@puckeditor/core");
   });
