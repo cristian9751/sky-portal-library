@@ -39,6 +39,15 @@ describe("generateReactComponent", () => {
             submitLabel: "Continue",
           },
         },
+        {
+          type: "PermissionSelector",
+          props: {
+            id: "permissions",
+            title: "Assign permissions",
+            description: "Choose permissions",
+            assignLabel: "Assign",
+          },
+        },
       ],
     });
 
@@ -53,6 +62,8 @@ describe("generateReactComponent", () => {
     expect(source).toContain('case "AuthShell"');
     expect(source).toContain('case "Form"');
     expect(source).toContain("callbacks.onFormSubmit?.(id");
+    expect(source).toContain('case "PermissionSelector"');
+    expect(source).toContain("callbacks.onPermissionAssign?.(id, permissions)");
     expect(source).toContain('from "@cristian9751/sky-portal-component-library"');
     expect(source).not.toContain("@puckeditor/core");
   });

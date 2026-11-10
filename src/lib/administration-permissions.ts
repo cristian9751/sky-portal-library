@@ -8,12 +8,14 @@ export const ADMINISTRATION_PERMISSIONS = {
   routeCreate: "manage.routes.create",
   routeDelete: "manage.routes.delete",
   routeEdit: "manage.routes.edit",
+  userPermissionsEdit: "manage.users.permissions",
 } as const;
 
 export const ADMINISTRATION_ROUTES = {
   airlines: "/dashboard/administration/airlines",
   aircrafts: "/dashboard/administration/aircrafts",
   routes: "/dashboard/administration/routes",
+  users: "/dashboard/administration/users",
 } as const;
 
 /**

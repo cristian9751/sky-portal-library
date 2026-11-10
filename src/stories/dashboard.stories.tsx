@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import MustVerifyEmail from "@/components/pages/MustVerifyEmail";
 import {
@@ -23,6 +23,11 @@ import {
   type AirlineRoute,
   type AirlineRouteInput,
 } from "@/components/pages/RoutesAdministration";
+import {
+  DashboardUsersAdministration as UsersAdministration,
+  type AdministrationUser,
+} from "@/components/pages/UsersAdministration";
+import ApplicationContextProvider, { useApplicationContext } from "@/lib/ApplicationContext";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const dashboardFlights: DashboardFlight[] = [
@@ -246,3 +251,50 @@ export const RoutesAdministrationPreview = () => {
     </DashboardLayout>
   );
 };
+
+const administrationUsers: AdministrationUser[] = [
+  {
+    id: "pilot-1",
+    name: "Alex García",
+    email: "alex.garcia@example.com",
+    permissions: ["manage.airlines.edit.iberia", "manage.routes.create.*"],
+  },
+  {
+    id: "pilot-2",
+    name: "Lucía Martín",
+    email: "lucia.martin@example.com",
+    permissions: ["manage.aircrafts.buy.iberia"],
+  },
+];
+
+const UsersAdministrationPreviewContent = () => {
+  const { setUser } = useApplicationContext();
+  const [users, setUsers] = useState(administrationUsers);
+
+  useEffect(() => {
+    setUser({
+      name: "Sky Portal Administrator",
+      email: "admin@example.com",
+      permissions: ["manage.users.permissions.*"],
+      profileLink: { onClick: () => {} },
+    });
+  }, [setUser]);
+
+  const updatePermissions = (userId: string, permissions: string[]) => {
+    setUsers((current) =>
+      current.map((user) => (user.id === userId ? { ...user, permissions } : user)),
+    );
+  };
+
+  return (
+    <DashboardLayout title="Usuarios" crumbs={[{ label: "Administración" }, { label: "Usuarios" }]}>
+      <UsersAdministration users={users} onUpdateUserPermissions={updatePermissions} />
+    </DashboardLayout>
+  );
+};
+
+export const UsersAdministrationPreview = () => (
+  <ApplicationContextProvider>
+    <UsersAdministrationPreviewContent />
+  </ApplicationContextProvider>
+);

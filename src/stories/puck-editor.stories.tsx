@@ -49,6 +49,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 import { FormContainer } from "@/components/ui/form-container";
+import { PermissionSelector } from "@/components/ui/permission-selector";
 import { downloadReactComponent } from "@/lib/puck-component-generator";
 
 type MetricBoxProps = {
@@ -211,6 +212,12 @@ type FormBlockProps = {
   submitLabel: string;
 };
 
+type PermissionSelectorBlockProps = {
+  title: string;
+  description: string;
+  assignLabel: string;
+};
+
 type LibraryEditorComponents = {
   HeadingBlock: HeadingProps;
   MetricBox: MetricBoxProps;
@@ -240,6 +247,7 @@ type LibraryEditorComponents = {
   UiToggle: ToggleBlockProps;
   AuthShell: AuthShellBlockProps;
   Form: FormBlockProps;
+  PermissionSelector: PermissionSelectorBlockProps;
 };
 
 type EditorData = Data<LibraryEditorComponents, { title?: string }>;
@@ -285,6 +293,7 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
         "UiSelect",
         "UiCollapsible",
         "UiToggle",
+        "PermissionSelector",
       ],
     },
   },
@@ -953,6 +962,29 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
           <Toggle defaultPressed={pressed} aria-label={label}>
             {label}
           </Toggle>
+        </div>
+      ),
+    },
+    PermissionSelector: {
+      label: "Permission selector",
+      fields: {
+        title: { type: "text", label: "Title" },
+        description: { type: "textarea", label: "Description" },
+        assignLabel: { type: "text", label: "Assign button label" },
+      },
+      defaultProps: {
+        title: "Assign permissions",
+        description: "Select the permissions you want to assign.",
+        assignLabel: "Assign",
+      },
+      render: ({ title, description, assignLabel }) => (
+        <div className="col-12">
+          <PermissionSelector
+            title={title}
+            description={description}
+            assignLabel={assignLabel}
+            onAssign={() => {}}
+          />
         </div>
       ),
     },

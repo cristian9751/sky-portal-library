@@ -61,7 +61,14 @@ npm install sky-portal-component-library
 Importa los componentes y los estilos:
 
 ```tsx
-import { Button, Card, CardHeader, CardTitle, CardContent } from "sky-portal-component-library";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  PermissionSelector,
+} from "sky-portal-component-library";
 import "sky-portal-component-library/style.css";
 
 export function Example() {
@@ -76,6 +83,16 @@ export function Example() {
     </Card>
   );
 }
+```
+
+`PermissionSelector` lista los permisos de administración agrupados por área y
+entrega los permisos seleccionados al confirmar:
+
+```tsx
+<PermissionSelector
+  defaultSelectedPermissions={[]}
+  onAssign={(permissions) => savePermissions(permissions)}
+/>
 ```
 
 React y React DOM son `peerDependencies`, por lo que la aplicación consumidora debe instalarlos. El CSS incluye los tokens de diseño del proyecto; revisa `src/styles.css` si deseas adaptar colores, tipografía o estilos globales antes de publicar.

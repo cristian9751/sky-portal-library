@@ -78,6 +78,14 @@ export function DashboardLayout({
     })
   }
 
+  if (hasAnyPermission(permissions, ADMINISTRATION_PERMISSIONS.userPermissionsEdit)) {
+    administrationItems.push({
+      label: t.dashboard.admin.users,
+      href: ADMINISTRATION_ROUTES.users,
+      icon: "bi-people",
+    });
+  }
+
   const defaultMenu: MenuItem[] = [
     { header: t.dashboard.general },
     { label: t.nav.home, href: "/dashboard/index", icon: "bi-house-fill" },

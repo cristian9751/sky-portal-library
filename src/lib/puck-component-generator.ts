@@ -20,7 +20,7 @@ import {
   SelectItem, SelectTrigger, SelectValue, Skeleton, Slider, SmallBox,
   Switch, Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
   Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toggle,
-  FormContainer,
+  FormContainer, PermissionSelector,
 } from "${COMPONENT_LIBRARY}";
 
 type PageBlock = {
@@ -43,6 +43,7 @@ export type PublishedPageProps = {
   onUiCollapsibleChange?: (componentId: string, open: boolean) => void;
   onUiCalendarSelect?: (componentId: string, date: Date | undefined) => void;
   onFormSubmit?: (componentId: string, value: string) => void;
+  onPermissionAssign?: (componentId: string, permissions: string[]) => void;
 };
 
 const pageBlocks: PageBlock[] = ${JSON.stringify(data.content, null, 2)};
@@ -89,6 +90,8 @@ function renderBlock(block: PageBlock, callbacks: PublishedPageProps): ReactNode
       return <AuthShell key={id} eyebrow={getText(block, "eyebrow")} title={getText(block, "title")} image={getText(block, "image")}><p>{getText(block, "content")}</p></AuthShell>;
     case "Form":
       return <FormContainer key={id} className="space-y-5" onSubmit={(event) => { event.preventDefault(); const value = new FormData(event.currentTarget).get("value"); callbacks.onFormSubmit?.(id, typeof value === "string" ? value : ""); }}><div className="space-y-2"><Label>{getText(block, "inputLabel", "Email")}</Label><Input name="value" placeholder={getText(block, "placeholder")} /></div><Button type="submit">{getText(block, "submitLabel", "Submit")}</Button></FormContainer>;
+    case "PermissionSelector":
+      return <div key={id} className="col-12"><PermissionSelector title={getText(block, "title", "Assign permissions")} description={getText(block, "description", "Select the permissions you want to assign.")} assignLabel={getText(block, "assignLabel", "Assign")} onAssign={(permissions) => callbacks.onPermissionAssign?.(id, permissions)} /></div>;
     case "UiButton":
       return <div key={id} className="col-12"><Button variant={getText(block, "variant", "default") as "default" | "secondary" | "destructive" | "outline" | "ghost" | "link"} size={getText(block, "size", "default") as "default" | "sm" | "lg"} onClick={() => callbacks.onUiButtonClick?.(id)}>{getText(block, "label", "Button")}</Button></div>;
     case "UiBadge":

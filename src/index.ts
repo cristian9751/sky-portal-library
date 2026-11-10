@@ -36,6 +36,7 @@ export * from "./components/ui/menubar";
 export * from "./components/ui/navigation-menu";
 export * from "./components/ui/pagination";
 export * from "./components/ui/popover";
+export * from "./components/ui/permission-selector";
 export * from "./components/ui/progress";
 export * from "./components/ui/radio-group";
 export * from "./components/ui/resizable";
@@ -61,6 +62,7 @@ export { default as SmallBox } from "./components/dashboard/SmallBox";
 export { AuthShell } from "./components/AuthShell";
 export { LangProvider, useI18n } from "./lib/i18n";
 export { cn } from "./lib/utils";
+export { ADMINISTRATION_PERMISSIONS } from "./lib/administration-permissions";
 export { useIsMobile } from "./hooks/use-mobile";
 export { About } from "./components/pages/about";
 export { Contact } from "./components/pages/contact";
@@ -99,3 +101,8 @@ export type {
   AirlineRouteInput,
   RoutesAdministrationProps,
 } from "./components/pages/RoutesAdministration";
+export { DashboardUsersAdministration } from "./components/pages/UsersAdministration";
+export type {
+  AdministrationUser,
+  UsersAdministrationProps,
+} from "./components/pages/UsersAdministration";
