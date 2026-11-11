@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useApplicationContext } from "@/lib/ApplicationContext";
 import { useI18n } from "@/lib/i18n";
 import { ADMINISTRATION_PERMISSIONS, hasPermission } from "@/lib/administration-permissions";
@@ -38,12 +38,15 @@ export type { AdministrationUser } from "./users-administration-permissions";
 export type UsersAdministrationProps = {
   users: AdministrationUser[];
   airlines: Airline[];
+  /** Returns the user's complete permission list, including grants for other scopes. */
+  getUserPermissions?: (userId: string) => string[] | Promise<string[]>;
   onUpdateUserPermissions?: (userId: string, permissions: string[]) => void | Promise<void>;
 };
 
 export function DashboardUsersAdministration({
   users,
   airlines,
+  getUserPermissions,
   onUpdateUserPermissions,
 }: UsersAdministrationProps) {
   const { t } = useI18n();
@@ -52,7 +55,10 @@ export function DashboardUsersAdministration({
   const [selectedAirlineId, setSelectedAirlineId] = useState("");
   const [selectedPermissions, setSelectedPermissions] = useState<AdministrationPermission[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoadingPermissions, setIsLoadingPermissions] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [permissionsLoadError, setPermissionsLoadError] = useState("");
+  const permissionRequestId = useRef(0);
 
   const canManageUsers = hasPermission(
     currentUser?.permissions,
@@ -67,6 +73,42 @@ export function DashboardUsersAdministration({
     ),
   );
 
+  const loadUserPermissions = async (target: AdministrationUser, airlineId: string) => {
+    if (!getUserPermissions) {
+      return;
+    }
+
+    const requestId = ++permissionRequestId.current;
+    setSelectedPermissions([]);
+    setIsLoadingPermissions(true);
+    setPermissionsLoadError("");
+    setSaveError("");
+
+    try {
+      const permissions = await getUserPermissions(target.id);
+      if (requestId !== permissionRequestId.current) {
+        return;
+      }
+
+      const userWithPermissions = { ...target, permissions };
+      setSelectedUser((currentUser) =>
+        currentUser?.id === target.id ? userWithPermissions : currentUser,
+      );
+      setSelectedPermissions([
+        ...getAirlinePermissions(userWithPermissions, airlineId),
+        ...getGlobalAdministrationPermissions(userWithPermissions),
+      ]);
+    } catch (error) {
+      if (requestId === permissionRequestId.current) {
+        setPermissionsLoadError(error instanceof Error ? error.message : String(error));
+      }
+    } finally {
+      if (requestId === permissionRequestId.current) {
+        setIsLoadingPermissions(false);
+      }
+    }
+  };
+
   const openPermissionEditor = (target: AdministrationUser) => {
     setSelectedUser(target);
     const firstAirlineId = manageableAirlines[0]?.id ?? "";
@@ -76,12 +118,16 @@ export function DashboardUsersAdministration({
       ...getGlobalAdministrationPermissions(target),
     ]);
     setSaveError("");
+    setPermissionsLoadError("");
+    void loadUserPermissions(target, firstAirlineId);
   };
 
   const handleSavePermissions = async (permissions: AdministrationPermission[]) => {
     if (
       !selectedUser ||
       !onUpdateUserPermissions ||
+      isLoadingPermissions ||
+      permissionsLoadError ||
       !canManageUsers ||
       (selectedAirlineId !== "" &&
         !hasPermission(
@@ -142,7 +188,8 @@ export function DashboardUsersAdministration({
             <AdministrationTable
               headers={[t.dashboard.admin.name, t.dashboard.admin.email, t.dashboard.admin.actions]}
               rows={users.map((target) => {
-                const canEditPermissions = Boolean(onUpdateUserPermissions) && canManageUsers;
+                const canEditPermissions =
+                  Boolean(onUpdateUserPermissions || getUserPermissions) && canManageUsers;
 
                 return {
                   id: target.id,
@@ -168,8 +215,11 @@ export function DashboardUsersAdministration({
         open={selectedUser !== undefined}
         onOpenChange={(open) => {
           if (!open && !isSaving) {
+            permissionRequestId.current += 1;
             setSelectedUser(undefined);
+            setIsLoadingPermissions(false);
             setSaveError("");
+            setPermissionsLoadError("");
           }
         }}
       >
@@ -215,6 +265,11 @@ export function DashboardUsersAdministration({
               {saveError}
             </div>
           )}
+          {permissionsLoadError && (
+            <div className="alert alert-danger mb-0" role="alert">
+              {permissionsLoadError}
+            </div>
+          )}
           {manageableAirlines.length === 0 && (
             <div className="alert alert-warning mb-0" role="status">
               {t.dashboard.admin.noManageableAirlines}
@@ -235,7 +290,12 @@ export function DashboardUsersAdministration({
               title={t.dashboard.admin.userPermissionsTitle}
               description={t.dashboard.admin.userPermissionsDescription}
               assignLabel={isSaving ? t.dashboard.admin.saving : t.dashboard.admin.save}
-              disabled={isSaving}
+              disabled={
+                isSaving ||
+                isLoadingPermissions ||
+                !onUpdateUserPermissions ||
+                Boolean(permissionsLoadError)
+              }
               allowEmptySelection
             />
           )}

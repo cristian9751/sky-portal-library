@@ -85,13 +85,11 @@ export { Staff } from "./components/pages/staff";
 export { DashboardAirlinesAdministration } from "./components/pages/AirlinesAdministration";
 export type {
   Airline,
-  AirlineInput,
   AirlinesAdministrationProps,
 } from "./components/pages/AirlinesAdministration";
 export { DashboardAircraftsAdministration } from "./components/pages/AircraftsAdministration";
 export type {
   Aircraft,
-  AircraftInput,
   AircraftType,
   AircraftsAdministrationProps,
 } from "./components/pages/AircraftsAdministration";

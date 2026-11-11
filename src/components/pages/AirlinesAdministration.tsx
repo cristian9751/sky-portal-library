@@ -16,19 +16,19 @@ export type Airline = {
   isCharter: boolean;
 };
 
-export type AirlineInput = Omit<Airline, "id">;
+
 
 export type AirlinesAdministrationProps = {
   airlines: Airline[];
-  onCreateAirline?: (airline: AirlineInput) => void | Promise<void>;
-  onEditAirline?: (id: string, airline: AirlineInput) => void | Promise<void>;
+  onCreateAirline?: (airline: Airline) => void | Promise<void>;
+  onEditAirline?: (id: string, airline: Airline) => void | Promise<void>;
   onDeleteAirline?: (id: string) => void | Promise<void>;
 };
 
 type AirlineFormProps = {
   airline?: Airline;
   submitLabel: string;
-  onSubmit: (airline: AirlineInput) => void | Promise<void>;
+  onSubmit: (airline: Airline) => void | Promise<void>;
   onCancel: () => void;
 };
 
@@ -46,6 +46,7 @@ function AirlineForm({ airline, submitLabel, onSubmit, onCancel }: AirlineFormPr
 
     try {
       await onSubmit({
+        id : String(airline?.id),
         name: String(formData.get("name") ?? "").trim(),
         code: String(formData.get("code") ?? "").trim() || undefined,
         isCharter: formData.has("isCharter"),

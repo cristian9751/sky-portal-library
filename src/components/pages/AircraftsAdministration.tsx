@@ -21,7 +21,6 @@ export type Aircraft = {
   registration: string;
 };
 
-export type AircraftInput = Omit<Aircraft, "id">;
 
 export type AircraftType = {
   id: string;
@@ -33,9 +32,9 @@ export type AircraftsAdministrationProps = {
   airlines: Airline[];
   aircraftTypes: AircraftType[];
   getAircrafts: () => Aircraft[] | Promise<Aircraft[]>;
-  onBuyAircraft?: (aircraft: AircraftInput) => void | Promise<void>;
+  onBuyAircraft?: (aircraft: Aircraft) => void | Promise<void>;
   onEditAircraft?: (aircraft: Aircraft) => void | Promise<void>;
-  onSellAircraft?: (id: string) => void | Promise<void>;
+  onSellAircraft?: (aircraft: Aircraft) => void | Promise<void>;
 };
 
 type AircraftFormProps = {
@@ -43,7 +42,7 @@ type AircraftFormProps = {
   airlines: Airline[];
   aircraftTypes: AircraftType[];
   submitLabel: string;
-  onSubmit: (aircraft: AircraftInput) => void | Promise<void>;
+  onSubmit: (aircraft: Aircraft) => void | Promise<void>;
   onCancel: () => void;
 };
 
@@ -103,7 +102,10 @@ function AircraftForm({
     setError("");
 
     try {
-      await onSubmit(values);
+      await onSubmit({
+        ...values,
+        id : String(aircraft?.id)
+      });
       onCancel();
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : String(submitError));
@@ -280,7 +282,7 @@ export function DashboardAircraftsAdministration({
     });
   }, [canAccess, loadAircrafts]);
 
-  const handleBuyAircraft = async (aircraft: AircraftInput) => {
+  const handleBuyAircraft = async (aircraft: Aircraft) => {
     if (!onBuyAircraft) return;
     await onBuyAircraft(aircraft);
     await loadAircrafts();
@@ -297,7 +299,7 @@ export function DashboardAircraftsAdministration({
     setActionError("");
     setSellingId(aircraftToSell.id);
     try {
-      await onSellAircraft(aircraftToSell.id);
+      await onSellAircraft(aircraftToSell);
       await loadAircrafts();
       setAircraftToSell(undefined);
     } catch (sellError) {
@@ -410,7 +412,6 @@ export function DashboardAircraftsAdministration({
                       submitLabel={t.dashboard.admin.save}
                       onSubmit={(input) =>
                         handleEditAircraft({
-                          id: aircraft.id,
                           ...input,
                         })
                       }
