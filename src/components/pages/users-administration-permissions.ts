@@ -49,10 +49,7 @@ export function updateAirlinePermissions(
       !airlineScopedPermissions.some((permission) => granted === `${permission}.${airlineId}`),
   );
   const selectedGrants = selectedPermissions
-    .filter(
-      (permission) =>
-        !existing.includes(`${permission}.*`) && !existing.includes(`${permission}.${airlineId}`),
-    )
+    .filter((permission) => !existing.includes(`${permission}.*`))
     .map((permission) => `${permission}.${airlineId}`);
 
   return [...permissionsForOtherScopes, ...selectedGrants];

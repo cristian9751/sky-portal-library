@@ -46,6 +46,59 @@ describe("airline-scoped user permissions", () => {
     ]);
   });
 
+  it("includes every selected permission in the final grants, including existing grants", () => {
+    const permissions = updateAirlinePermissions(
+      [
+        `${ADMINISTRATION_PERMISSIONS.airlineEdit}.iberia`,
+        `${ADMINISTRATION_PERMISSIONS.routeCreate}.iberia`,
+        `${ADMINISTRATION_PERMISSIONS.airlineDelete}.air-europa`,
+        "profile.read",
+      ],
+      [
+        ADMINISTRATION_PERMISSIONS.airlineEdit,
+        ADMINISTRATION_PERMISSIONS.routeCreate,
+        ADMINISTRATION_PERMISSIONS.routeEdit,
+      ],
+      "iberia",
+    );
+
+    expect(permissions).toEqual([
+      `${ADMINISTRATION_PERMISSIONS.airlineDelete}.air-europa`,
+      "profile.read",
+      `${ADMINISTRATION_PERMISSIONS.airlineEdit}.iberia`,
+      `${ADMINISTRATION_PERMISSIONS.routeCreate}.iberia`,
+      `${ADMINISTRATION_PERMISSIONS.routeEdit}.iberia`,
+    ]);
+  });
+
+  it("applies independent final permission selections to multiple airlines", () => {
+    const existing = [
+      `${ADMINISTRATION_PERMISSIONS.airlineEdit}.iberia`,
+      `${ADMINISTRATION_PERMISSIONS.routeCreate}.air-europa`,
+      `${ADMINISTRATION_PERMISSIONS.airlineDelete}.lufthansa`,
+      "profile.read",
+    ];
+    const iberiaPermissions = updateAirlinePermissions(
+      existing,
+      [ADMINISTRATION_PERMISSIONS.airlineEdit, ADMINISTRATION_PERMISSIONS.routeEdit],
+      "iberia",
+    );
+    const finalPermissions = updateAirlinePermissions(
+      iberiaPermissions,
+      [ADMINISTRATION_PERMISSIONS.routeCreate, ADMINISTRATION_PERMISSIONS.airlineDelete],
+      "air-europa",
+    );
+
+    expect(finalPermissions).toEqual([
+      `${ADMINISTRATION_PERMISSIONS.airlineDelete}.lufthansa`,
+      "profile.read",
+      `${ADMINISTRATION_PERMISSIONS.airlineEdit}.iberia`,
+      `${ADMINISTRATION_PERMISSIONS.routeEdit}.iberia`,
+      `${ADMINISTRATION_PERMISSIONS.routeCreate}.air-europa`,
+      `${ADMINISTRATION_PERMISSIONS.airlineDelete}.air-europa`,
+    ]);
+  });
+
   it("does not override global grants when updating one airline", () => {
     const permissions = updateAirlinePermissions(
       [`${ADMINISTRATION_PERMISSIONS.routeCreate}.*`],

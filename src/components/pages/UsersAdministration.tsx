@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useApplicationContext } from "@/lib/ApplicationContext";
 import { useI18n } from "@/lib/i18n";
 import { ADMINISTRATION_PERMISSIONS, hasPermission } from "@/lib/administration-permissions";
+import { PermissionSelector } from "@/components/ui/permission-selector";
 import {
   Dialog,
   DialogContent,
@@ -9,10 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  PermissionSelector,
-  type AdministrationPermission,
-} from "@/components/ui/permission-selector";
+import { MultiAirlinePermissionSelector } from "@/components/ui/multi-airline-permission-selector";
+import type { AdministrationPermission } from "@/components/ui/permission-selector";
+import { Button } from "@/components/ui/button";
 import {
   airlineScopedPermissions,
   globalAdministrationPermissions,
@@ -23,14 +23,6 @@ import {
   type AdministrationUser,
 } from "./users-administration-permissions";
 import { AdministrationTable } from "@/components/ui/table";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import type { Airline } from "./AirlinesAdministration";
 
 export type { AdministrationUser } from "./users-administration-permissions";
@@ -52,8 +44,13 @@ export function DashboardUsersAdministration({
   const { t } = useI18n();
   const { user: currentUser } = useApplicationContext();
   const [selectedUser, setSelectedUser] = useState<AdministrationUser>();
-  const [selectedAirlineId, setSelectedAirlineId] = useState("");
-  const [selectedPermissions, setSelectedPermissions] = useState<AdministrationPermission[]>([]);
+  const [selectedAirlineIds, setSelectedAirlineIds] = useState<string[]>([]);
+  const [airlinePermissionSelections, setAirlinePermissionSelections] = useState<
+    Record<string, AdministrationPermission[]>
+  >({});
+  const [selectedGlobalPermissions, setSelectedGlobalPermissions] = useState<
+    AdministrationPermission[]
+  >([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingPermissions, setIsLoadingPermissions] = useState(false);
   const [saveError, setSaveError] = useState("");
@@ -73,13 +70,12 @@ export function DashboardUsersAdministration({
     ),
   );
 
-  const loadUserPermissions = async (target: AdministrationUser, airlineId: string) => {
+  const loadUserPermissions = async (target: AdministrationUser) => {
     if (!getUserPermissions) {
       return;
     }
 
     const requestId = ++permissionRequestId.current;
-    setSelectedPermissions([]);
     setIsLoadingPermissions(true);
     setPermissionsLoadError("");
     setSaveError("");
@@ -94,10 +90,15 @@ export function DashboardUsersAdministration({
       setSelectedUser((currentUser) =>
         currentUser?.id === target.id ? userWithPermissions : currentUser,
       );
-      setSelectedPermissions([
-        ...getAirlinePermissions(userWithPermissions, airlineId),
-        ...getGlobalAdministrationPermissions(userWithPermissions),
-      ]);
+      setAirlinePermissionSelections(
+        Object.fromEntries(
+          manageableAirlines.map(({ id: airlineId }) => [
+            airlineId,
+            getAirlinePermissions(userWithPermissions, airlineId),
+          ]),
+        ),
+      );
+      setSelectedGlobalPermissions(getGlobalAdministrationPermissions(userWithPermissions));
     } catch (error) {
       if (requestId === permissionRequestId.current) {
         setPermissionsLoadError(error instanceof Error ? error.message : String(error));
@@ -111,30 +112,37 @@ export function DashboardUsersAdministration({
 
   const openPermissionEditor = (target: AdministrationUser) => {
     setSelectedUser(target);
-    const firstAirlineId = manageableAirlines[0]?.id ?? "";
-    setSelectedAirlineId(firstAirlineId);
-    setSelectedPermissions([
-      ...(firstAirlineId ? getAirlinePermissions(target, firstAirlineId) : []),
-      ...getGlobalAdministrationPermissions(target),
-    ]);
+    const initialAirlineIds = manageableAirlines[0] ? [manageableAirlines[0].id] : [];
+    setSelectedAirlineIds(initialAirlineIds);
+    setAirlinePermissionSelections(
+      Object.fromEntries(
+        manageableAirlines.map(({ id: airlineId }) => [
+          airlineId,
+          getAirlinePermissions(target, airlineId),
+        ]),
+      ),
+    );
+    setSelectedGlobalPermissions(getGlobalAdministrationPermissions(target));
     setSaveError("");
     setPermissionsLoadError("");
-    void loadUserPermissions(target, firstAirlineId);
+    void loadUserPermissions(target);
   };
 
-  const handleSavePermissions = async (permissions: AdministrationPermission[]) => {
+  const handleSavePermissions = async () => {
     if (
       !selectedUser ||
       !onUpdateUserPermissions ||
       isLoadingPermissions ||
       permissionsLoadError ||
       !canManageUsers ||
-      (selectedAirlineId !== "" &&
-        !hasPermission(
-          currentUser?.permissions,
-          ADMINISTRATION_PERMISSIONS.userPermissionsEdit,
-          selectedAirlineId,
-        ))
+      selectedAirlineIds.some(
+        (airlineId) =>
+          !hasPermission(
+            currentUser?.permissions,
+            ADMINISTRATION_PERMISSIONS.userPermissionsEdit,
+            airlineId,
+          ),
+      )
     ) {
       return;
     }
@@ -142,19 +150,15 @@ export function DashboardUsersAdministration({
     setSaveError("");
     setIsSaving(true);
     try {
-      const selectedAirlinePermissions = permissions.filter((permission) =>
-        airlineScopedPermissions.some((scopedPermission) => scopedPermission === permission),
+      const airlinePermissions = selectedAirlineIds.reduce(
+        (permissions, airlineId) =>
+          updateAirlinePermissions(
+            permissions,
+            airlinePermissionSelections[airlineId] ?? [],
+            airlineId,
+          ),
+        selectedUser.permissions ?? [],
       );
-      const selectedGlobalPermissions = permissions.filter((permission) =>
-        globalAdministrationPermissions.some((globalPermission) => globalPermission === permission),
-      );
-      const airlinePermissions = selectedAirlineId
-        ? updateAirlinePermissions(
-            selectedUser.permissions,
-            selectedAirlinePermissions,
-            selectedAirlineId,
-          )
-        : (selectedUser.permissions ?? []);
       await onUpdateUserPermissions(
         selectedUser.id,
         updateGlobalAdministrationPermissions(airlinePermissions, selectedGlobalPermissions),
@@ -218,6 +222,9 @@ export function DashboardUsersAdministration({
             permissionRequestId.current += 1;
             setSelectedUser(undefined);
             setIsLoadingPermissions(false);
+            setSelectedAirlineIds([]);
+            setAirlinePermissionSelections({});
+            setSelectedGlobalPermissions([]);
             setSaveError("");
             setPermissionsLoadError("");
           }
@@ -230,36 +237,6 @@ export function DashboardUsersAdministration({
             </DialogTitle>
             <DialogDescription>{selectedUser?.email}</DialogDescription>
           </DialogHeader>
-          <div className="space-y-2">
-            <Label htmlFor="user-permission-airline">{t.dashboard.admin.airline}</Label>
-            <Select
-              value={selectedAirlineId}
-              onValueChange={(airlineId) => {
-                setSelectedAirlineId(airlineId);
-                const globalPermissions = selectedPermissions.filter((permission) =>
-                  globalAdministrationPermissions.some(
-                    (globalPermission) => globalPermission === permission,
-                  ),
-                );
-                setSelectedPermissions([
-                  ...(selectedUser ? getAirlinePermissions(selectedUser, airlineId) : []),
-                  ...globalPermissions,
-                ]);
-              }}
-              disabled={isSaving || manageableAirlines.length === 0}
-            >
-              <SelectTrigger id="user-permission-airline">
-                <SelectValue placeholder={t.dashboard.admin.selectAirline} />
-              </SelectTrigger>
-              <SelectContent>
-                {manageableAirlines.map((airline) => (
-                  <SelectItem key={airline.id} value={airline.id}>
-                    {airline.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
           {saveError && (
             <div className="alert alert-danger mb-0" role="alert">
               {saveError}
@@ -276,28 +253,77 @@ export function DashboardUsersAdministration({
             </div>
           )}
           {selectedUser && (
-            <PermissionSelector
-              availablePermissions={[
-                ...airlineScopedPermissions,
-                ...globalAdministrationPermissions,
-              ]}
-              globalPermissions={globalAdministrationPermissions}
-              globalPermissionsLabel={t.dashboard.admin.globalPermissions}
-              disabledPermissions={selectedAirlineId === "" ? airlineScopedPermissions : []}
-              selectedPermissions={selectedPermissions}
-              onSelectionChange={setSelectedPermissions}
-              onAssign={(permissions) => void handleSavePermissions(permissions)}
-              title={t.dashboard.admin.userPermissionsTitle}
-              description={t.dashboard.admin.userPermissionsDescription}
-              assignLabel={isSaving ? t.dashboard.admin.saving : t.dashboard.admin.save}
-              disabled={
-                isSaving ||
-                isLoadingPermissions ||
-                !onUpdateUserPermissions ||
-                Boolean(permissionsLoadError)
-              }
-              allowEmptySelection
-            />
+            <div className="space-y-4">
+              <MultiAirlinePermissionSelector
+                airlines={manageableAirlines}
+                selectedAirlineIds={selectedAirlineIds}
+                onSelectedAirlineIdsChange={(airlineIds) => {
+                  setSelectedAirlineIds(airlineIds);
+                  if (selectedUser) {
+                    setAirlinePermissionSelections((current) => ({
+                      ...current,
+                      ...Object.fromEntries(
+                        airlineIds.map((airlineId) => [
+                          airlineId,
+                          current[airlineId] ?? getAirlinePermissions(selectedUser, airlineId),
+                        ]),
+                      ),
+                    }));
+                  }
+                }}
+                permissionsByAirline={airlinePermissionSelections}
+                onPermissionsChange={(airlineId, permissions) =>
+                  setAirlinePermissionSelections((current) => ({
+                    ...current,
+                    [airlineId]: permissions,
+                  }))
+                }
+                availablePermissions={airlineScopedPermissions}
+                airlineLabel={t.dashboard.admin.airline}
+                selectAirlineLabel={t.dashboard.admin.selectAirline}
+                permissionTitle={t.dashboard.admin.userPermissionsTitle}
+                permissionDescription={t.dashboard.admin.userPermissionsDescription}
+                idPrefix={`user-${selectedUser.id}`}
+                disabled={
+                  isSaving ||
+                  isLoadingPermissions ||
+                  !onUpdateUserPermissions ||
+                  Boolean(permissionsLoadError)
+                }
+              />
+              <PermissionSelector
+                idPrefix={`user-${selectedUser.id}-global-permission`}
+                availablePermissions={globalAdministrationPermissions}
+                globalPermissions={globalAdministrationPermissions}
+                globalPermissionsLabel={t.dashboard.admin.globalPermissions}
+                selectedPermissions={selectedGlobalPermissions}
+                onSelectionChange={setSelectedGlobalPermissions}
+                title={t.dashboard.admin.userPermissionsTitle}
+                description={t.dashboard.admin.userPermissionsDescription}
+                disabled={
+                  isSaving ||
+                  isLoadingPermissions ||
+                  !onUpdateUserPermissions ||
+                  Boolean(permissionsLoadError)
+                }
+                allowEmptySelection
+                showAssignButton={false}
+              />
+              <div className="flex justify-end">
+                <Button
+                  type="button"
+                  disabled={
+                    isSaving ||
+                    isLoadingPermissions ||
+                    !onUpdateUserPermissions ||
+                    Boolean(permissionsLoadError)
+                  }
+                  onClick={() => void handleSavePermissions()}
+                >
+                  {isSaving ? t.dashboard.admin.saving : t.dashboard.admin.save}
+                </Button>
+              </div>
+            </div>
           )}
         </DialogContent>
       </Dialog>

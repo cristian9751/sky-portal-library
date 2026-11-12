@@ -10,13 +10,11 @@ import DashboardProfile from "@/components/pages/DashboardProfile";
 import {
   DashboardAircraftsAdministration as AircraftsAdministration,
   type Aircraft,
-  type AircraftInput,
   type AircraftType,
 } from "@/components/pages/AircraftsAdministration";
 import {
   DashboardAirlinesAdministration as AirlinesAdministration,
   type Airline,
-  type AirlineInput,
 } from "@/components/pages/AirlinesAdministration";
 import {
   DashboardRoutesAdministration as RoutesAdministration,
@@ -103,10 +101,10 @@ export const AirlinesAdministrationPreview = () => {
     { id: "air-europa", name: "Air Europa", code: "AEA", isCharter: true },
   ]);
 
-  const createAirline = (input: AirlineInput) => {
+  const createAirline = (input: Airline) => {
     setAirlines((current) => [...current, { ...input, id: `airline-${nextId.current++}` }]);
   };
-  const editAirline = (id: string, input: AirlineInput) => {
+  const editAirline = (id: string, input: Airline) => {
     setAirlines((current) =>
       current.map((airline) => (airline.id === id ? { ...airline, ...input } : airline)),
     );
@@ -175,7 +173,7 @@ export const AircraftsAdministrationPreview = () => {
     { id: "b787-9", name: "Boeing 787-9", purchasePrice: 292000000 },
   ];
 
-  const buyAircraft = (input: AircraftInput) => {
+  const buyAircraft = (input: Aircraft) => {
     updateAircrafts((current) => [...current, { ...input, id: `aircraft-${nextId.current++}` }]);
   };
   const editAircraft = (aircraft: Aircraft) => {
@@ -185,8 +183,8 @@ export const AircraftsAdministrationPreview = () => {
       ),
     );
   };
-  const sellAircraft = (id: string) => {
-    updateAircrafts((current) => current.filter((aircraft) => aircraft.id !== id));
+  const sellAircraft = (aircraft : Aircraft) => {
+    updateAircrafts((current) => current.filter((a) => aircraft !== a));
   };
 
   return (
@@ -312,20 +310,27 @@ export const UsersAdministrationPreview = () => (
 );
 
 export const RolesAdministrationPreview = () => {
+  const airlines: Airline[] = [
+    { id: "iberia", name: "Iberia", code: "IBE", isCharter: false },
+    { id: "air-europa", name: "Air Europa", code: "AEA", isCharter: true },
+  ];
   const [roles, setRoles] = useState<AdministrationRole[]>([
     {
       id: "flight-operations",
       name: "Flight Operations",
       permissions: [
-        ADMINISTRATION_PERMISSIONS.airlineEdit,
-        ADMINISTRATION_PERMISSIONS.aircraftBuy,
-        ADMINISTRATION_PERMISSIONS.routeCreate,
+        `${ADMINISTRATION_PERMISSIONS.airlineEdit}.iberia`,
+        `${ADMINISTRATION_PERMISSIONS.aircraftBuy}.iberia`,
+        `${ADMINISTRATION_PERMISSIONS.routeCreate}.iberia`,
       ],
     },
     {
       id: "route-manager",
       name: "Route Manager",
-      permissions: [ADMINISTRATION_PERMISSIONS.routeCreate, ADMINISTRATION_PERMISSIONS.routeEdit],
+      permissions: [
+        `${ADMINISTRATION_PERMISSIONS.routeCreate}.air-europa`,
+        `${ADMINISTRATION_PERMISSIONS.routeEdit}.air-europa`,
+      ],
     },
   ]);
   const nextId = useRef(1);
@@ -338,10 +343,19 @@ export const RolesAdministrationPreview = () => {
       current.map((existing) => (existing.id === id ? { ...existing, ...role } : existing)),
     );
   };
+  const deleteRole = (id: string) => {
+    setRoles((current) => current.filter((role) => role.id !== id));
+  };
 
   return (
     <DashboardLayout title="Roles" crumbs={[{ label: "Administración" }, { label: "Roles" }]}>
-      <RolesAdministration roles={roles} onCreateRole={createRole} onEditRole={editRole} />
+      <RolesAdministration
+        roles={roles}
+        airlines={airlines}
+        onCreateRole={createRole}
+        onEditRole={editRole}
+        onDeleteRole={deleteRole}
+      />
     </DashboardLayout>
   );
 };

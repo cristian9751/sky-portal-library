@@ -63,7 +63,9 @@ export interface PermissionSelectorProps extends Omit<
   selectedPermissions?: readonly AdministrationPermission[];
   defaultSelectedPermissions?: readonly AdministrationPermission[];
   onSelectionChange?: (permissions: AdministrationPermission[]) => void;
-  onAssign: (permissions: AdministrationPermission[]) => void;
+  onAssign?: (permissions: AdministrationPermission[]) => void;
+  idPrefix?: string;
+  showAssignButton?: boolean;
   title?: string;
   description?: string;
   assignLabel?: string;
@@ -80,6 +82,8 @@ export function PermissionSelector({
   defaultSelectedPermissions = [],
   onSelectionChange,
   onAssign,
+  idPrefix = "permission",
+  showAssignButton = true,
   title = "Asignar permisos",
   description = "Selecciona los permisos que deseas asignar.",
   assignLabel = "Asignar",
@@ -136,7 +140,7 @@ export function PermissionSelector({
             <legend className="mb-3 text-sm font-semibold">{group.title}</legend>
             <ul className="space-y-3">
               {group.permissions.map(({ value, label }) => {
-                const id = `permission-${value.replaceAll(".", "-")}`;
+                const id = `${idPrefix}-${value.replaceAll(".", "-")}`;
 
                 return (
                   <li key={value}>
@@ -160,7 +164,7 @@ export function PermissionSelector({
             <legend className="mb-3 text-sm font-semibold">{globalPermissionsLabel}</legend>
             <ul className="space-y-3">
               {visibleGlobalPermissions.map(({ value, label }) => {
-                const id = `permission-${value.replaceAll(".", "-")}`;
+                const id = `${idPrefix}-${value.replaceAll(".", "-")}`;
 
                 return (
                   <li key={value}>
@@ -180,15 +184,17 @@ export function PermissionSelector({
           </fieldset>
         )}
       </CardContent>
-      <CardFooter className="justify-end border-t p-4">
-        <Button
-          type="button"
-          disabled={disabled || (!allowEmptySelection && selection.length === 0)}
-          onClick={() => onAssign([...selection])}
-        >
-          {assignLabel}
-        </Button>
-      </CardFooter>
+      {showAssignButton && onAssign && (
+        <CardFooter className="justify-end border-t p-4">
+          <Button
+            type="button"
+            disabled={disabled || (!allowEmptySelection && selection.length === 0)}
+            onClick={() => onAssign([...selection])}
+          >
+            {assignLabel}
+          </Button>
+        </CardFooter>
+      )}
     </Card>
   );
 }

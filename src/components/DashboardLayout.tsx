@@ -85,6 +85,11 @@ export function DashboardLayout({
       href: ADMINISTRATION_ROUTES.users,
       icon: "bi-people",
     });
+    administrationItems.push({
+      label: t.dashboard.admin.roles,
+      href: ADMINISTRATION_ROUTES.roles,
+      icon: "bi-shield-lock",
+    });
   }
 
   const defaultMenu: MenuItem[] = [

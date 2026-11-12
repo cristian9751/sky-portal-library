@@ -16,6 +16,7 @@ export const ADMINISTRATION_ROUTES = {
   aircrafts: "/dashboard/administration/aircrafts",
   routes: "/dashboard/administration/routes",
   users: "/dashboard/administration/users",
+  roles: "/dashboard/administration/roles",
 } as const;
 
 /**
