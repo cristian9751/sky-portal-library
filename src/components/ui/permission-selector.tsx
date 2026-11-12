@@ -59,6 +59,7 @@ export interface PermissionSelectorProps extends Omit<
   availablePermissions?: readonly AdministrationPermission[];
   globalPermissions?: readonly AdministrationPermission[];
   globalPermissionsLabel?: string;
+  permissionLabels?: Partial<Record<AdministrationPermission, string>>;
   disabledPermissions?: readonly AdministrationPermission[];
   selectedPermissions?: readonly AdministrationPermission[];
   defaultSelectedPermissions?: readonly AdministrationPermission[];
@@ -77,6 +78,7 @@ export function PermissionSelector({
   availablePermissions,
   globalPermissions = [],
   globalPermissionsLabel = "Permisos globales",
+  permissionLabels = {},
   disabledPermissions = [],
   selectedPermissions,
   defaultSelectedPermissions = [],
@@ -141,6 +143,7 @@ export function PermissionSelector({
             <ul className="space-y-3">
               {group.permissions.map(({ value, label }) => {
                 const id = `${idPrefix}-${value.replaceAll(".", "-")}`;
+                const permissionLabel = permissionLabels[value] ?? label;
 
                 return (
                   <li key={value}>
@@ -151,7 +154,7 @@ export function PermissionSelector({
                         disabled={disabled || disabledPermissions.includes(value)}
                         onCheckedChange={(checked) => updateSelection(value, checked === true)}
                       />
-                      <span>{label}</span>
+                      <span>{permissionLabel}</span>
                     </label>
                   </li>
                 );
@@ -165,6 +168,7 @@ export function PermissionSelector({
             <ul className="space-y-3">
               {visibleGlobalPermissions.map(({ value, label }) => {
                 const id = `${idPrefix}-${value.replaceAll(".", "-")}`;
+                const permissionLabel = permissionLabels[value] ?? label;
 
                 return (
                   <li key={value}>
@@ -175,7 +179,7 @@ export function PermissionSelector({
                         disabled={disabled || disabledPermissions.includes(value)}
                         onCheckedChange={(checked) => updateSelection(value, checked === true)}
                       />
-                      <span>{label}</span>
+                      <span>{permissionLabel}</span>
                     </label>
                   </li>
                 );

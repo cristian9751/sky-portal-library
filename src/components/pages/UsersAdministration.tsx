@@ -296,6 +296,9 @@ export function DashboardUsersAdministration({
                 availablePermissions={globalAdministrationPermissions}
                 globalPermissions={globalAdministrationPermissions}
                 globalPermissionsLabel={t.dashboard.admin.globalPermissions}
+                permissionLabels={{
+                  [ADMINISTRATION_PERMISSIONS.airlineCreate]: t.dashboard.admin.createAirline,
+                }}
                 selectedPermissions={selectedGlobalPermissions}
                 onSelectionChange={setSelectedGlobalPermissions}
                 title={t.dashboard.admin.userPermissionsTitle}

@@ -125,6 +125,31 @@ describe("airline-scoped user permissions", () => {
     ]);
   });
 
+  it("normalizes airline creation to a global permission and removes scoped legacy grants", () => {
+    const user: AdministrationUser = {
+      id: "pilot-1",
+      name: "Alex",
+      email: "alex@example.com",
+      permissions: [
+        `${ADMINISTRATION_PERMISSIONS.airlineCreate}.iberia`,
+        `${ADMINISTRATION_PERMISSIONS.airlineCreate}.air-europa`,
+        `${ADMINISTRATION_PERMISSIONS.routeEdit}.iberia`,
+      ],
+    };
+
+    expect(getGlobalAdministrationPermissions(user)).toContain(
+      ADMINISTRATION_PERMISSIONS.airlineCreate,
+    );
+    expect(
+      updateGlobalAdministrationPermissions(user.permissions ?? [], [
+        ADMINISTRATION_PERMISSIONS.airlineCreate,
+      ]),
+    ).toEqual([
+      `${ADMINISTRATION_PERMISSIONS.routeEdit}.iberia`,
+      `${ADMINISTRATION_PERMISSIONS.airlineCreate}.*`,
+    ]);
+  });
+
   it("adds or removes the users permission globally, not for an airline scope", () => {
     expect(
       updateGlobalAdministrationPermissions(

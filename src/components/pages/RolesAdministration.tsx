@@ -5,9 +5,19 @@ import { ADMINISTRATION_PERMISSIONS, hasPermission } from "@/lib/administration-
 import { AdministrationTable } from "@/components/ui/table";
 import { AdministrationConfirmDialog } from "@/components/ui/administration-confirm-dialog";
 import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { Airline } from "@/components/pages/AirlinesAdministration";
 import { MultiAirlinePermissionSelector } from "@/components/ui/multi-airline-permission-selector";
-import type { AdministrationPermission } from "@/components/ui/permission-selector";
+import {
+  PermissionSelector,
+  type AdministrationPermission,
+} from "@/components/ui/permission-selector";
 
 export type AdministrationRole = {
   id: string;
@@ -33,7 +43,12 @@ type RoleFormProps = {
   onCancel: () => void;
 };
 
-const permissionNodes: AdministrationPermission[] = Object.values(ADMINISTRATION_PERMISSIONS);
+const globalPermissionNodes: AdministrationPermission[] = [
+  ADMINISTRATION_PERMISSIONS.airlineCreate,
+];
+const permissionNodes: AdministrationPermission[] = Object.values(
+  ADMINISTRATION_PERMISSIONS,
+).filter((permission) => !globalPermissionNodes.includes(permission));
 
 function getPermissionsForScope(
   permissions: readonly string[],
@@ -76,6 +91,15 @@ function RoleForm({ role, airlines, submitLabel, onSubmit, onCancel }: RoleFormP
       ]),
     ),
   );
+  const [selectedGlobalPermissions, setSelectedGlobalPermissions] = useState<
+    AdministrationPermission[]
+  >(() =>
+    globalPermissionNodes.filter((permission) =>
+      permission === ADMINISTRATION_PERMISSIONS.airlineCreate
+        ? rolePermissions.some((granted) => granted.startsWith(`${permission}.`))
+        : rolePermissions.includes(`${permission}.*`),
+    ),
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
@@ -93,11 +117,19 @@ function RoleForm({ role, airlines, submitLabel, onSubmit, onCancel }: RoleFormP
     setError("");
     setIsSubmitting(true);
     try {
-      const nextRolePermissions = selectedAirlineIds.reduce(
+      const scopedPermissions = selectedAirlineIds.reduce(
         (permissions, airlineId) =>
           updatePermissionsForScope(permissions, permissionsByAirline[airlineId] ?? [], airlineId),
         rolePermissions,
       );
+      const withoutGlobalPermissions = scopedPermissions.filter(
+        (granted) =>
+          !globalPermissionNodes.some((permission) => granted.startsWith(`${permission}.`)),
+      );
+      const nextRolePermissions = [
+        ...withoutGlobalPermissions,
+        ...selectedGlobalPermissions.map((permission) => `${permission}.*`),
+      ];
       await onSubmit({
         name: trimmedName,
         permissions: nextRolePermissions,
@@ -161,6 +193,22 @@ function RoleForm({ role, airlines, submitLabel, onSubmit, onCancel }: RoleFormP
         idPrefix={`role-${role?.id ?? "new"}`}
         disabled={isSubmitting}
       />
+      <PermissionSelector
+        idPrefix={`role-${role?.id ?? "new"}-global`}
+        availablePermissions={globalPermissionNodes}
+        globalPermissions={globalPermissionNodes}
+        globalPermissionsLabel={t.dashboard.admin.globalPermissions}
+        permissionLabels={{
+          [ADMINISTRATION_PERMISSIONS.airlineCreate]: t.dashboard.admin.createAirline,
+        }}
+        selectedPermissions={selectedGlobalPermissions}
+        onSelectionChange={setSelectedGlobalPermissions}
+        title={t.dashboard.admin.rolePermissions}
+        description={t.dashboard.admin.rolePermissionsDescription}
+        disabled={isSubmitting}
+        allowEmptySelection
+        showAssignButton={false}
+      />
       <button
         type="button"
         className="btn btn-primary"
@@ -191,7 +239,7 @@ export function DashboardRolesAdministration({
   const { t } = useI18n();
   const { user } = useApplicationContext();
   const [creating, setCreating] = useState(false);
-  const [editingId, setEditingId] = useState<string>();
+  const [editingRole, setEditingRole] = useState<AdministrationRole>();
   const [roleToDelete, setRoleToDelete] = useState<AdministrationRole>();
   const [deletingId, setDeletingId] = useState<string>();
   const [deleteError, setDeleteError] = useState("");
@@ -233,7 +281,7 @@ export function DashboardRolesAdministration({
             type="button"
             className="btn btn-primary"
             onClick={() => {
-              setEditingId(undefined);
+              setEditingRole(undefined);
               setCreating(true);
             }}
           >
@@ -256,24 +304,10 @@ export function DashboardRolesAdministration({
           <p className="mb-0">{t.dashboard.admin.noRoles}</p>
         ) : (
           <AdministrationTable
-            headers={[
-              t.dashboard.admin.roleName,
-              t.dashboard.admin.rolePermissions,
-              t.dashboard.admin.actions,
-            ]}
+            headers={[t.dashboard.admin.roleName, t.dashboard.admin.actions]}
             rows={roles.map((role) => ({
               id: role.id,
-              cells: [role.name, role.permissions.length > 0 ? role.permissions.join(", ") : "—"],
-              editContent:
-                editingId === role.id && onEditRole ? (
-                  <RoleForm
-                    role={role}
-                    airlines={airlines}
-                    submitLabel={t.dashboard.admin.saveRole}
-                    onSubmit={(input) => onEditRole(role.id, input)}
-                    onCancel={() => setEditingId(undefined)}
-                  />
-                ) : undefined,
+              cells: [role.name],
               actions: (
                 <div className="d-flex gap-2">
                   {onEditRole && (
@@ -282,7 +316,7 @@ export function DashboardRolesAdministration({
                       className="btn btn-sm btn-outline-primary"
                       onClick={() => {
                         setCreating(false);
-                        setEditingId(role.id);
+                        setEditingRole(role);
                       }}
                     >
                       {t.dashboard.admin.edit}
@@ -308,6 +342,33 @@ export function DashboardRolesAdministration({
           />
         )}
       </div>
+      <Dialog
+        open={editingRole !== undefined}
+        onOpenChange={(open) => {
+          if (!open) {
+            setEditingRole(undefined);
+          }
+        }}
+      >
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {t.dashboard.admin.edit}: {editingRole?.name}
+            </DialogTitle>
+            <DialogDescription>{t.dashboard.admin.rolePermissionsDescription}</DialogDescription>
+          </DialogHeader>
+          {editingRole && onEditRole && (
+            <RoleForm
+              key={editingRole.id}
+              role={editingRole}
+              airlines={airlines}
+              submitLabel={t.dashboard.admin.saveRole}
+              onSubmit={(input) => onEditRole(editingRole.id, input)}
+              onCancel={() => setEditingRole(undefined)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
       <AdministrationConfirmDialog
         open={roleToDelete !== undefined}
         onOpenChange={(open) => {

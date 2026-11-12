@@ -9,7 +9,6 @@ export type AdministrationUser = {
 };
 
 export const airlineScopedPermissions = [
-  ADMINISTRATION_PERMISSIONS.airlineCreate,
   ADMINISTRATION_PERMISSIONS.airlineEdit,
   ADMINISTRATION_PERMISSIONS.airlineDelete,
   ADMINISTRATION_PERMISSIONS.routeCreate,
@@ -18,6 +17,7 @@ export const airlineScopedPermissions = [
 ] satisfies AdministrationPermission[];
 
 export const globalAdministrationPermissions = [
+  ADMINISTRATION_PERMISSIONS.airlineCreate,
   ADMINISTRATION_PERMISSIONS.userPermissionsEdit,
 ] satisfies AdministrationPermission[];
 
@@ -34,7 +34,9 @@ export function getGlobalAdministrationPermissions(
   user: AdministrationUser,
 ): AdministrationPermission[] {
   return globalAdministrationPermissions.filter((permission) =>
-    user.permissions?.includes(`${permission}.*`),
+    permission === ADMINISTRATION_PERMISSIONS.airlineCreate
+      ? user.permissions?.some((granted) => granted.startsWith(`${permission}.`))
+      : user.permissions?.includes(`${permission}.*`),
   );
 }
 
