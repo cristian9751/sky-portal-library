@@ -37,6 +37,7 @@ export * from "./components/ui/navigation-menu";
 export * from "./components/ui/pagination";
 export * from "./components/ui/popover";
 export * from "./components/ui/permission-selector";
+export * from "./components/ui/role-selector";
 export * from "./components/ui/progress";
 export * from "./components/ui/radio-group";
 export * from "./components/ui/resizable";

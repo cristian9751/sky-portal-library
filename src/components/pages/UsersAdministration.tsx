@@ -13,6 +13,7 @@ import {
 import { MultiAirlinePermissionSelector } from "@/components/ui/multi-airline-permission-selector";
 import type { AdministrationPermission } from "@/components/ui/permission-selector";
 import { Button } from "@/components/ui/button";
+import { RoleSelector, type AssignableRole } from "@/components/ui/role-selector";
 import {
   airlineScopedPermissions,
   globalAdministrationPermissions,
@@ -30,20 +31,25 @@ export type { AdministrationUser } from "./users-administration-permissions";
 export type UsersAdministrationProps = {
   users: AdministrationUser[];
   airlines: Airline[];
+  roles?: readonly AssignableRole[];
   /** Returns the user's complete permission list, including grants for other scopes. */
   getUserPermissions?: (userId: string) => string[] | Promise<string[]>;
   onUpdateUserPermissions?: (userId: string, permissions: string[]) => void | Promise<void>;
+  onAssignUserRole?: (userId: string, roleId: string) => void | Promise<void>;
 };
 
 export function DashboardUsersAdministration({
   users,
   airlines,
+  roles = [],
   getUserPermissions,
   onUpdateUserPermissions,
+  onAssignUserRole,
 }: UsersAdministrationProps) {
   const { t } = useI18n();
   const { user: currentUser } = useApplicationContext();
   const [selectedUser, setSelectedUser] = useState<AdministrationUser>();
+  const [selectedRoleUser, setSelectedRoleUser] = useState<AdministrationUser>();
   const [selectedAirlineIds, setSelectedAirlineIds] = useState<string[]>([]);
   const [airlinePermissionSelections, setAirlinePermissionSelections] = useState<
     Record<string, AdministrationPermission[]>
@@ -190,24 +196,45 @@ export function DashboardUsersAdministration({
             <p className="mb-0">{t.dashboard.admin.noUsers}</p>
           ) : (
             <AdministrationTable
-              headers={[t.dashboard.admin.name, t.dashboard.admin.email, t.dashboard.admin.actions]}
+              headers={[
+                t.dashboard.admin.name,
+                t.dashboard.admin.email,
+                t.dashboard.admin.role,
+                t.dashboard.admin.actions,
+              ]}
               rows={users.map((target) => {
                 const canEditPermissions =
                   Boolean(onUpdateUserPermissions || getUserPermissions) && canManageUsers;
 
                 return {
                   id: target.id,
-                  cells: [target.name, target.email],
-                  actions: canEditPermissions ? (
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-outline-primary"
-                      onClick={() => openPermissionEditor(target)}
-                    >
-                      {t.dashboard.admin.editPermissions}
-                    </button>
-                  ) : (
-                    <span>—</span>
+                  cells: [
+                    target.name,
+                    target.email,
+                    target.role?.length ? target.role.join(", ") : "—",
+                  ],
+                  actions: (
+                    <div className="d-flex gap-2">
+                      {canEditPermissions && (
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() => openPermissionEditor(target)}
+                        >
+                          {t.dashboard.admin.editPermissions}
+                        </button>
+                      )}
+                      {onAssignUserRole && (
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={() => setSelectedRoleUser(target)}
+                        >
+                          {t.dashboard.admin.editRoles}
+                        </button>
+                      )}
+                      {!canEditPermissions && !onAssignUserRole && <span>—</span>}
+                    </div>
                   ),
                 };
               })}
@@ -327,6 +354,35 @@ export function DashboardUsersAdministration({
                 </Button>
               </div>
             </div>
+          )}
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={selectedRoleUser !== undefined}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedRoleUser(undefined);
+          }
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {t.dashboard.admin.editRoles}: {selectedRoleUser?.name}
+            </DialogTitle>
+            <DialogDescription>{selectedRoleUser?.email}</DialogDescription>
+          </DialogHeader>
+          {selectedRoleUser && onAssignUserRole && (
+            <RoleSelector
+              roles={roles}
+              onAssign={(roleId) => onAssignUserRole(selectedRoleUser.id, roleId)}
+              onAssigned={() => setSelectedRoleUser(undefined)}
+              selectRoleLabel={t.dashboard.admin.selectRole}
+              assignLabel={t.dashboard.admin.assignRole}
+              assigningLabel={t.dashboard.admin.saving}
+              assignmentErrorLabel={t.dashboard.admin.roleAssignmentFailed}
+              noAvailableRolesLabel={t.dashboard.admin.noAvailableRoles}
+            />
           )}
         </DialogContent>
       </Dialog>

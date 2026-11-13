@@ -5,6 +5,7 @@ export type AdministrationUser = {
   id: string;
   name: string;
   email: string;
+  role?: string[] | null;
   permissions?: string[];
 };
 
