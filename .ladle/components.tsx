@@ -7,7 +7,6 @@ import { AirportsProvider } from "../src/lib/AirportContext";
 import "../src/styles.css";
 import "../src/custom-adminlte.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-
 function DashboardMockUser({ children }: { children: ReactNode }) {
   const { setUser } = useApplicationContext();
 
