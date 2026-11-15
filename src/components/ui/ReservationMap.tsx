@@ -1,6 +1,7 @@
 import L, { icon, Icon } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMapEvents } from "react-leaflet";
+import MapResizeHandler from "./MapResizeHandler";
 
 export type AirportLocation = {
     Latitude : number,
@@ -12,6 +13,7 @@ export type AirportLocation = {
     currentLocation: AirportLocation;
     destinations : AirportLocation[];
     onSelectedDestination: (destination: AirportLocation) => void;
+    className?: string
 
 }
 
@@ -28,7 +30,8 @@ export default function ReservationMap(props : ReservationMapProps) {
 
     const [destination, setDestination] = useState<AirportLocation | null>(null)
    return (
-    <MapContainer center={[destination?.Latitude ?? props.currentLocation.Latitude, destination?.Longitude ?? props.currentLocation.Longitude]} zoom={13} scrollWheelZoom={true}>
+    <MapContainer className={props.className} center={[destination?.Latitude ?? props.currentLocation.Latitude, destination?.Longitude ?? props.currentLocation.Longitude]} zoom={13} scrollWheelZoom={true}>
+        <MapResizeHandler/>
         <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

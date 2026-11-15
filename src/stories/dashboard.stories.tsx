@@ -400,13 +400,16 @@ const mockFetchAirportLocation: RouteReservationProps["fetchAirportLocation"] = 
   return MOCK_AIRPORTS[icao];
 };
 
-export const RouteReservationMock = () => {
+export const DashboardRouteReservationMock = () => {
   return (
-    <RouteReservation
+    <DashboardLayout fullHeight={true}>
+      <RouteReservation
       defaultDeparture={MOCK_AIRPORTS.LEVC}
       fetchDestinations={mockFetchDestinations}
       fetchAirportLocation={mockFetchAirportLocation}
       onJumpseat={(icao : string ) => {alert(`Has heccho click en jumpseat ${icao}`)}}
+      onBidded={(departureIcao: string, arrivalIcao: string ) => {alert(`Departure: ${departureIcao} \n Arrival: ${arrivalIcao}`)}}
     />
+    </DashboardLayout>
   );
 };

@@ -16,7 +16,8 @@ import {
 } from "@/lib/administration-permissions";
 
 type DashboardLayoutProps = {
-  title: ReactNode;
+  title?: ReactNode;
+  fullSize?: boolean;
   crumbs?: Breadcrumb[];
   children: ReactNode;
   menu?: MenuItem[];
@@ -26,6 +27,7 @@ type DashboardLayoutProps = {
 
 export function DashboardLayout({
   title,
+  fullSize,
   crumbs = [],
   children,
   menu: customMenu,
@@ -109,13 +111,13 @@ export function DashboardLayout({
   const menu = customMenu ?? defaultMenu;
 
   return (
-    <div className="app-wrapper">
+    <div className={"app-wrapper"}> 
       <Header />
       <Sidebar menu={menu} linkComponent={linkComponent} />
       <div className="sidebar-overlay" onClick={closeSidebar} />
 
-      <main className="app-main">
-        <ContentHeader title={title} crumbs={crumbs} />
+      <main className={`app-main ${fullSize ? "app-main-full" : ""}`}>
+        {title && <ContentHeader title={title} crumbs={crumbs} />}
         <div className="app-content">
           <div className="container-fluid">{children}</div>
         </div>

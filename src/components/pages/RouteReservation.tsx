@@ -14,6 +14,7 @@ export type RouteReservationProps = {
     defaultDeparture: AirportLocation,
     fetchAirportLocation: (icao: string ) => Promise<AirportLocation>
     onJumpseat?: (icao: string ) => void;
+    onBidded : (departureIcao : string, arrivalIcao : string ) => void;
 }
 export default function RouteReservation(props: RouteReservationProps) {
     const { t } = useI18n();
@@ -64,12 +65,12 @@ export default function RouteReservation(props: RouteReservationProps) {
     }
 
     return (
-        <section className="relative h-full min-h-[500px] w-full">
+        <section className="absolute inset-0 isolate">
             <div className="absolute inset-0">
-                <ReservationMap currentLocation={departure} destinations={destinations} onSelectedDestination={(arrival : AirportLocation) => setArrival(arrival)} />
+                <ReservationMap className="h-full w-full" currentLocation={departure} destinations={destinations} onSelectedDestination={(arrival : AirportLocation) => setArrival(arrival)} />
             </div>
 
-            <div className="absolute left-4 top-4 z-[1000] w-[calc(100%-2rem)] max-w-sm md:left-6 md:top-6 ">
+            <div className="absolute left-4 top-4 z-[1000] w-[calc(100%-35rem)] max-w-sm md:left-15 md:top-4 opacity-90 ">
                 <FormContainer title={t.dashboard.bid}>
                     <Field label={t.dashboard.admin.departure}>
                         <AutocompleteInput
@@ -86,7 +87,11 @@ export default function RouteReservation(props: RouteReservationProps) {
                         />
                     </Field>
                     <div className={`grid md:gap-10 md:grid-cols-2  md:mt-10`}>
-                        <Button>{t.dashboard.bid}</Button>
+                        <Button onClick={(e) => {
+                            e.preventDefault();
+                            props.onBidded(departure.icao, arrival?.icao ? arrival.icao : "");
+
+                        }}>{t.dashboard.bid}</Button>
                         {props.onJumpseat && (
                             <Button onClick={(e) => {
                                 e.preventDefault()

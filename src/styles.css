@@ -101,7 +101,7 @@
   * {
     border-color: var(--color-border);
   }
-  .leaflet-container {   width: 100%;   height: 100vh; }
+  .app-wrapper { min-height: 100vh; }
   body { font-family: Bitter, Georgia, serif; }
   h1, h2, h3, h4, h5, h6 { font-family: 'EB Garamond', Garamond, serif; }
   code, pre, kbd, samp { font-family: ui-monospace, SFMono-Regular, monospace; }
@@ -129,6 +129,38 @@
 }
 
 @layer components {
+  .app-wrapper {
+    min-height: 100vh;
+  }
+
+  .app-main-full {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .app-main-full .app-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .app-main-full .app-content > .container-fluid {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    position: static;
+    padding: 0;
+  }
+
+  /* ya lo tenías en base; en components también gana a Leaflet/AdminLTE */
+  .leaflet-container {
+    width: 100%;
+    height: 100%;
+  }
   .aircraft-model-select,
   .route-select {
     background-color: var(--sidebar);
