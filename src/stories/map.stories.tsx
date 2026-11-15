@@ -18,21 +18,21 @@ export const ReservationMapPreview = () => {
   const currentLocation = {
     Latitude: 40.4168,
     Longitude: -3.7038,
-    name: "Madrid"
+    icao: "Madrid"
   };
   const destinations = [
     {
       Latitude: 48.8566,
       Longitude: 2.3522,
-      name: "Paris"
+      icao: "LFPG"
     },
     {
       Latitude: 51.5074,
       Longitude: -0.1278,
-      name: "London"
+      icao: "EGGL"
     }
   ];
   return (
-    <ReservationMap currentLocation={currentLocation} destinations={destinations} onSelectedDestination={(destination) => alert(`Clicked on ${destination.name}`)} />
+    <ReservationMap currentLocation={currentLocation} destinations={destinations} onSelectedDestination={(destination) => alert(`Clicked on ${destination.icao}`)} />
   );
 }

@@ -171,6 +171,8 @@ export function RegisterForm({ handleRegistration, redirectToLogin, submitButton
   return (
     // Posts to the existing air-spain.es registration system
     <FormContainer
+      title={a.rSubmit}
+      centerText={true}
       ref={formRef}
       method="post"
       noValidate

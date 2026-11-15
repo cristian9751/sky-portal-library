@@ -1,0 +1,101 @@
+import { Controller } from "react-hook-form";
+import { Field } from "../AuthShell";
+import { FormContainer } from "../ui/form-container";
+import AutocompleteInput from "../ui/autocomplete-input";
+import { useI18n } from "@/lib/i18n";
+import ReservationMap from "../ui/ReservationMap";
+import type { AirportLocation } from "../ui/ReservationMap";
+import { useAirports } from "@/lib/AirportContext";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "../ui/button";
+
+export type RouteReservationProps = {
+    fetchDestinations: (departureIcao : string ) => Promise<AirportLocation[]>,
+    defaultDeparture: AirportLocation,
+    fetchAirportLocation: (icao: string ) => Promise<AirportLocation>
+    onJumpseat?: (icao: string ) => void;
+}
+export default function RouteReservation(props: RouteReservationProps) {
+    const { t } = useI18n();
+    const airports = useAirports();
+    const [departure, setDeparture] = useState<AirportLocation>(props.defaultDeparture);
+    const [arrival, setArrival] = useState<AirportLocation | undefined>();
+    const [destinations, setDestinations] = useState<AirportLocation[]>([]);
+
+    useEffect(() => {
+        setArrival(undefined);
+
+
+        props
+            .fetchDestinations(departure.icao)
+            .then((result) => {
+                setDestinations(result);
+            })
+            .catch(() => {
+                 setDestinations([]);
+            });
+    }, [departure]);
+
+    const destinationIcaos = useMemo(
+        () => destinations.map((d) => d.icao),
+        [destinations]
+    );
+
+    const handleDepartureChange = async (icao: string) => {
+        if (!airports.includes(icao)) return; 
+        try {
+            const airport = await props.fetchAirportLocation(icao);
+            setDeparture(airport);
+        } catch {
+            return
+        }
+    };
+
+    const handleArrivalChange = (icao: string) => {
+        setArrival(destinations.find((d) => d.icao === icao));
+    };
+
+    const handleJumpseat = () => {
+        let icao = arrival?.icao;
+        if(!icao) return;
+        if(!props.onJumpseat) return;
+        setDeparture(destinations.find((a) => a.icao === icao) ?? props.defaultDeparture)
+       props.onJumpseat(icao);
+    }
+
+    return (
+        <section className="relative h-full min-h-[500px] w-full">
+            <div className="absolute inset-0">
+                <ReservationMap currentLocation={departure} destinations={destinations} onSelectedDestination={(arrival : AirportLocation) => setArrival(arrival)} />
+            </div>
+
+            <div className="absolute left-4 top-4 z-[1000] w-[calc(100%-2rem)] max-w-sm md:left-6 md:top-6 ">
+                <FormContainer title={t.dashboard.bid}>
+                    <Field label={t.dashboard.admin.departure}>
+                        <AutocompleteInput
+                            value={departure.icao}
+                            onChange={handleDepartureChange}
+                            options={airports}
+                        />
+                    </Field>
+                    <Field label={t.dashboard.admin.arrival}>
+                        <AutocompleteInput
+                            value={arrival?.icao ?? ""}
+                            onChange={handleArrivalChange}
+                            options={destinationIcaos}
+                        />
+                    </Field>
+                    <div className={`grid md:gap-10 md:grid-cols-2  md:mt-10`}>
+                        <Button>{t.dashboard.bid}</Button>
+                        {props.onJumpseat && (
+                            <Button onClick={(e) => {
+                                e.preventDefault()
+                                handleJumpseat()
+                            }}>{t.dashboard.jumpseat}</Button>
+                        )}
+                    </div>
+                </FormContainer>
+            </div>
+        </section>
+    );
+}

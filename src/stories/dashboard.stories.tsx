@@ -32,6 +32,8 @@ import {
 import { ADMINISTRATION_PERMISSIONS } from "@/lib/administration-permissions";
 import ApplicationContextProvider, { useApplicationContext } from "@/lib/ApplicationContext";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import RouteReservation, { RouteReservationProps } from "@/components/pages/RouteReservation";
+import { AirportLocation } from "@/components/ui/ReservationMap";
 
 const dashboardFlights: DashboardFlight[] = [
   {
@@ -357,5 +359,54 @@ export const RolesAdministrationPreview = () => {
         onDeleteRole={deleteRole}
       />
     </DashboardLayout>
+  );
+};
+
+// ---------- ROUTE RESERVATION (MOCKS) ----------
+const MOCK_AIRPORTS = {
+  LEVC: { icao: "LEVC", Latitude: 39.4893, Longitude: -0.4816 },
+  LEMD: { icao: "LEMD", Latitude: 40.4719, Longitude: -3.5626 },
+  LEBL: { icao: "LEBL", Latitude: 41.2974, Longitude: 2.0833 },
+  LEPA: { icao: "LEPA", Latitude: 39.5517, Longitude: 2.7388 },
+  LEAL: { icao: "LEAL", Latitude: 38.2822, Longitude: -0.5582 },
+  LEZL: { icao: "LEZL", Latitude: 37.418, Longitude: -5.8931 },
+} satisfies Record<string, AirportLocation>;
+
+type MockIcao = keyof typeof MOCK_AIRPORTS;
+
+// Rutas disponibles por origen
+const MOCK_ROUTES: Record<MockIcao, MockIcao[]> = {
+  LEVC: ["LEMD", "LEBL", "LEPA", "LEZL"],
+  LEMD: ["LEVC", "LEBL", "LEPA", "LEAL"],
+  LEBL: ["LEVC", "LEMD", "LEPA"],
+  LEPA: ["LEVC", "LEMD", "LEBL"],
+  LEAL: ["LEMD"],
+  LEZL: ["LEVC"],
+};
+
+const isMockIcao = (icao: string): icao is MockIcao => icao in MOCK_AIRPORTS;
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const mockFetchDestinations: RouteReservationProps["fetchDestinations"] = async (icao) => {
+  await delay(400);
+  if (!isMockIcao(icao)) return [];
+  return MOCK_ROUTES[icao].map((code) => MOCK_AIRPORTS[code]);
+};
+
+const mockFetchAirportLocation: RouteReservationProps["fetchAirportLocation"] = async (icao) => {
+  await delay(250);
+  if (!isMockIcao(icao)) throw new Error(`Aeropuerto desconocido: ${icao}`);
+  return MOCK_AIRPORTS[icao];
+};
+
+export const RouteReservationMock = () => {
+  return (
+    <RouteReservation
+      defaultDeparture={MOCK_AIRPORTS.LEVC}
+      fetchDestinations={mockFetchDestinations}
+      fetchAirportLocation={mockFetchAirportLocation}
+      onJumpseat={(icao : string ) => {alert(`Has heccho click en jumpseat ${icao}`)}}
+    />
   );
 };

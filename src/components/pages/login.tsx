@@ -22,7 +22,7 @@ export function Login({handleLogin, redirectToRegister} : LoginProps) {
   };
   return (
     <AuthShell eyebrow={a.lEyebrow} title={a.lTitle} image={`${BASE}/imagenes/portada/3.jpg`}>
-      <FormContainer onSubmit={onSubmit} method="post" className="space-y-5">
+      <FormContainer title={t.auth.lSubmit} centerText={true} onSubmit={onSubmit} method="post" className="space-y-5">
         <Field label={a.user}>
           <input name="usuario" required autoComplete="username" placeholder="XSN000" className={authField} />
         </Field>

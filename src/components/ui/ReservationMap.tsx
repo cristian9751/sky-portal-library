@@ -2,16 +2,16 @@ import L, { icon, Icon } from "leaflet";
 import { useState } from "react";
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMapEvents } from "react-leaflet";
 
-export type Location = {
+export type AirportLocation = {
     Latitude : number,
     Longitude : number,
-    name: string,
+    icao: string,
 }
 
  type ReservationMapProps = {
-    currentLocation: Location;
-    destinations : Location[];
-    onSelectedDestination: (destination: Location) => Promise<void>;
+    currentLocation: AirportLocation;
+    destinations : AirportLocation[];
+    onSelectedDestination: (destination: AirportLocation) => void;
 
 }
 
@@ -26,7 +26,7 @@ export default function ReservationMap(props : ReservationMapProps) {
         iconAnchor: [8, 8],
     });
 
-    const [destination, setDestination] = useState<Location | null>(null)
+    const [destination, setDestination] = useState<AirportLocation | null>(null)
    return (
     <MapContainer center={[destination?.Latitude ?? props.currentLocation.Latitude, destination?.Longitude ?? props.currentLocation.Longitude]} zoom={13} scrollWheelZoom={true}>
         <TileLayer
@@ -49,9 +49,14 @@ export default function ReservationMap(props : ReservationMapProps) {
                 click: async () => {
                     await props.onSelectedDestination(destination)
                     setDestination(destination)
-                }
+                },
+                mouseover: (event) => event.target.openPopup(),
+                mouseout: (event) => event.target.closePopup()
              }}
              >
+                <Popup>
+                    {destination.icao}
+                </Popup>
             </Marker>
         ))}
     </MapContainer>
