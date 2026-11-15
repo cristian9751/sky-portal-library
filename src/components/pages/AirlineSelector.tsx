@@ -40,7 +40,7 @@ export default function AirlineSelectPage({
 
                     {airlines.length === 0 ? (
                         <p className="px-4 py-8 text-center text-muted-foreground">
-                            No hay aerolíneas disponibles.
+                            -
                         </p>
                     ) : (
                         <ul className="divide-y divide-border md:divide-y-0 md:space-y-2">
