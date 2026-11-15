@@ -24,8 +24,8 @@ export default function ReservationMap(props : ReservationMapProps) {
               style="font-size: 28px; color: #0d6efd; line-height: 1;
                      display: flex; align-items: center; justify-content: center;
                      width: 100%; height: 100%;"></i>`,
-        iconSize: [16, 16],
-        iconAnchor: [8, 8],
+        iconSize: [8, 8],
+        iconAnchor: [4, 4],
     });
 
     const [destination, setDestination] = useState<AirportLocation | null>(null)

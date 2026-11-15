@@ -34,6 +34,7 @@ import ApplicationContextProvider, { useApplicationContext } from "@/lib/Applica
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import RouteReservation, { RouteReservationProps } from "@/components/pages/RouteReservation";
 import { AirportLocation } from "@/components/ui/ReservationMap";
+import AirlineSelectPage from "@/components/pages/AirlineSelector";
 
 const dashboardFlights: DashboardFlight[] = [
   {
@@ -402,7 +403,7 @@ const mockFetchAirportLocation: RouteReservationProps["fetchAirportLocation"] = 
 
 export const DashboardRouteReservationMock = () => {
   return (
-    <DashboardLayout fullHeight={true}>
+    <DashboardLayout fullSize={true}>
       <RouteReservation
       defaultDeparture={MOCK_AIRPORTS.LEVC}
       fetchDestinations={mockFetchDestinations}
@@ -410,6 +411,26 @@ export const DashboardRouteReservationMock = () => {
       onJumpseat={(icao : string ) => {alert(`Has heccho click en jumpseat ${icao}`)}}
       onBidded={(departureIcao: string, arrivalIcao: string ) => {alert(`Departure: ${departureIcao} \n Arrival: ${arrivalIcao}`)}}
     />
+    </DashboardLayout>
+  );
+};
+const mockAirlines: AirlineOption[] = [
+  { name: "XSN Virtual Airlines", code: "XSN" },
+  { name: "Iberia Virtual", code: "IBE" },
+  { name: "Vueling Virtual", code: "VLG" },
+  { name: "Air Europa Virtual", code: "AEA" },
+  { name: "Binter Virtual", code: "NTR" },
+  { name: "Ryanair Virtual", code: "RYR" },
+];
+
+export const DashboardAirlineSelectorPreview = () => {
+  return (
+    <DashboardLayout title="Aerolíneas" crumbs={[]}>
+      <AirlineSelectPage
+        airlines={mockAirlines}
+        defaultSelectedCode="XSN"
+        onSelect={(airline) => console.log("Aerolínea seleccionada:", airline)}
+      />
     </DashboardLayout>
   );
 };
