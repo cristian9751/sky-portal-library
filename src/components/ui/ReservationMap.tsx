@@ -1,6 +1,6 @@
-import L, { icon, Icon } from "leaflet";
-import { useState } from "react";
-import { MapContainer, Marker, Polyline, Popup, TileLayer, useMapEvents } from "react-leaflet";
+import L from "leaflet";
+import { useMemo, useState } from "react";
+import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import MapResizeHandler from "./MapResizeHandler";
 
 export type AirportLocation = {
@@ -13,10 +13,76 @@ export type AirportLocation = {
     currentLocation: AirportLocation;
     destinations : AirportLocation[];
     onSelectedDestination: (destination: AirportLocation) => void;
+    selectedDestination?: AirportLocation
     className?: string
-
 }
 
+const LEAFLET_IMG = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images";
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: `${LEAFLET_IMG}/marker-icon-2x.png`,
+    iconUrl: `${LEAFLET_IMG}/marker-icon.png`,
+    shadowUrl: `${LEAFLET_IMG}/marker-shadow.png`,
+});
+
+const MAX_VISIBLE = 150;  // máximo de pines a la vez; por encima se reduce por rejilla
+const CELL_PX = 40;       // separación mínima aproximada entre pines al reducir
+
+type VisibleDestinationsProps = {
+    destinations: AirportLocation[];
+    selected: AirportLocation | null;
+    onSelect: (d: AirportLocation) => void;
+};
+
+function VisibleDestinations({ destinations, selected, onSelect }: VisibleDestinationsProps) {
+    const map = useMap();
+    const [view, setView] = useState({ bounds: map.getBounds(), zoom: map.getZoom() });
+
+    useMapEvents({
+        moveend: () => setView({ bounds: map.getBounds(), zoom: map.getZoom() }),
+    });
+
+    const visible = useMemo(() => {
+        const bounds = view.bounds.pad(0.25);
+        const inView = destinations.filter((d) => bounds.contains([d.Latitude, d.Longitude]));
+        if (inView.length <= MAX_VISIBLE) return inView;
+
+        const cellDeg = (360 / Math.pow(2, view.zoom)) * (CELL_PX / 256);
+        const seen = new Set<string>();
+        const thinned: AirportLocation[] = [];
+        for (const d of inView) {
+            const key = `${Math.floor(d.Latitude / cellDeg)},${Math.floor(d.Longitude / cellDeg)}`;
+            if (seen.has(key)) continue;
+            seen.add(key);
+            thinned.push(d);
+        }
+        return thinned;
+    }, [destinations, view]);
+
+    const toRender = useMemo(() => {
+        if (selected && !visible.some((d) => d.icao === selected.icao)) return [...visible, selected];
+        return visible;
+    }, [visible, selected]);
+
+    return (
+        <>
+            {toRender.map((dest) => (
+                <Marker
+                    key={dest.icao}
+                    position={[dest.Latitude, dest.Longitude]}
+                    eventHandlers={{
+                        click: () => onSelect(dest),
+                        mouseover: (event) => event.target.openPopup(),
+                        mouseout: (event) => event.target.closePopup(),
+                    }}
+                >
+                    <Popup>{dest.icao}</Popup>
+                </Marker>
+            ))}
+        </>
+    );
+}
 
 export default function ReservationMap(props : ReservationMapProps) {
     const currentLocationIcon = L.divIcon({
@@ -28,7 +94,8 @@ export default function ReservationMap(props : ReservationMapProps) {
         iconAnchor: [4, 4],
     });
 
-    const [destination, setDestination] = useState<AirportLocation | null>(null)
+
+    const destination = props.selectedDestination ?? null;
    return (
     <MapContainer className={props.className} center={[destination?.Latitude ?? props.currentLocation.Latitude, destination?.Longitude ?? props.currentLocation.Longitude]} zoom={13} scrollWheelZoom={true}>
         <MapResizeHandler/>
@@ -44,24 +111,14 @@ export default function ReservationMap(props : ReservationMapProps) {
         )}
         <Marker icon={currentLocationIcon} position={[props.currentLocation.Latitude, props.currentLocation.Longitude]}>
         </Marker>
-        {props.destinations.map((destination, index) => (
-            <Marker
-             key={index} 
-             position={[destination.Latitude, destination.Longitude]}
-             eventHandlers={{
-                click: async () => {
-                    await props.onSelectedDestination(destination)
-                    setDestination(destination)
-                },
-                mouseover: (event) => event.target.openPopup(),
-                mouseout: (event) => event.target.closePopup()
-             }}
-             >
-                <Popup>
-                    {destination.icao}
-                </Popup>
-            </Marker>
-        ))}
+        <VisibleDestinations
+            destinations={props.destinations}
+            selected={destination}
+            onSelect={async (dest) => {
+                await props.onSelectedDestination(dest)
+                props.onSelectedDestination(dest)
+            }}
+        />
     </MapContainer>
    )
 }

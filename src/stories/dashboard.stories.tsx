@@ -36,6 +36,8 @@ import RouteReservation, { RouteReservationProps } from "@/components/pages/Rout
 import { AirportLocation } from "@/components/ui/ReservationMap";
 import AirlineSelectPage from "@/components/pages/AirlineSelector";
 
+import HubSelector from "@/components/ui/hubSelector";
+
 const dashboardFlights: DashboardFlight[] = [
   {
     id: "flight-ibe204",
@@ -395,11 +397,6 @@ const mockFetchDestinations: RouteReservationProps["fetchDestinations"] = async 
   return MOCK_ROUTES[icao].map((code) => MOCK_AIRPORTS[code]);
 };
 
-const mockFetchAirportLocation: RouteReservationProps["fetchAirportLocation"] = async (icao) => {
-  await delay(250);
-  if (!isMockIcao(icao)) throw new Error(`Aeropuerto desconocido: ${icao}`);
-  return MOCK_AIRPORTS[icao];
-};
 
 export const DashboardRouteReservationMock = () => {
   return (
@@ -407,20 +404,20 @@ export const DashboardRouteReservationMock = () => {
       <RouteReservation
       defaultDeparture={MOCK_AIRPORTS.LEVC}
       fetchDestinations={mockFetchDestinations}
-      fetchAirportLocation={mockFetchAirportLocation}
+
       onJumpseat={(icao : string ) => {alert(`Has heccho click en jumpseat ${icao}`)}}
       onBidded={(departureIcao: string, arrivalIcao: string ) => {alert(`Departure: ${departureIcao} \n Arrival: ${arrivalIcao}`)}}
     />
     </DashboardLayout>
   );
 };
-const mockAirlines: AirlineOption[] = [
-  { name: "XSN Virtual Airlines", code: "XSN" },
-  { name: "Iberia Virtual", code: "IBE" },
-  { name: "Vueling Virtual", code: "VLG" },
-  { name: "Air Europa Virtual", code: "AEA" },
-  { name: "Binter Virtual", code: "NTR" },
-  { name: "Ryanair Virtual", code: "RYR" },
+const mockAirlines: Airline[] = [
+  { name: "XSN Virtual Airlines", code: "XSN", id: "1", isCharter: false },
+  { name: "Iberia Virtual", code: "IBE",id: "12", isCharter: false },
+  { name: "Vueling Virtual", code: "VLG", id: "123", isCharter: false },
+  { name: "Air Europa Virtual", code: "AEA", id: "1234", isCharter: false },
+  { name: "Binter Virtual", code: "NTR", id: "12345", isCharter: false },
+  { name: "Ryanair Virtual", code: "RYR", id: "123456", isCharter: false },
 ];
 
 export const DashboardAirlineSelectorPreview = () => {
@@ -434,3 +431,7 @@ export const DashboardAirlineSelectorPreview = () => {
     </DashboardLayout>
   );
 };
+
+export const HubSelectorPreview = () => {
+  <HubSelector onSelected={(icao: string )=> alert(`Has seleccionado el hub ${icao}`)}></HubSelector>
+}

@@ -1,28 +1,26 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { Airline } from "./AirlinesAdministration";
+import { useI18n } from "@/lib/i18n";
 
-export type AirlineOption = {
-    name: string;
-    code: string; // identificador único
-};
+
 
 export type AirlineSelectPageProps = {
-    airlines: AirlineOption[];
-    onSelect: (airline: AirlineOption) => void;
-    title?: string;
-    confirmLabel?: string;
+    airlines: Airline[];
+    onSelect: (airline: Airline) => void;
     defaultSelectedCode?: string;
 };
 
 export default function AirlineSelectPage({
     airlines,
     onSelect,
-    title = "Selecciona una aerolínea",
-    confirmLabel = "Continuar",
     defaultSelectedCode,
 }: AirlineSelectPageProps) {
-    const [selectedCode, setSelectedCode] = useState<string | undefined>(defaultSelectedCode);
-    const selected = airlines.find((a) => a.code === selectedCode);
+    const [selectedId, setSelectedId] = useState<string | undefined>(
+        airlines.find((a) => a.code === defaultSelectedCode)?.id
+    );
+    let selected = airlines.find((a) => a.id === selectedId)
+    const { t } = useI18n();
 
     return (
         <div className="flex min-h-[calc(100vh-8rem)] w-full items-start justify-center md:items-center md:p-6">
@@ -33,10 +31,10 @@ export default function AirlineSelectPage({
                     md:bg-card md:text-card-foreground md:shadow-lg
                 "
             >
-                <h2 className="px-4 py-4 text-xl font-semibold md:px-6 md:pt-6">{title}</h2>
+                <h2 className="px-4 py-4 text-xl font-semibold md:px-6 md:pt-6">{t.dashboard.admin.selectAirline}</h2>
 
                 <fieldset className="min-h-0 flex-1 md:max-h-[60vh] md:overflow-y-auto md:px-4">
-                    <legend className="sr-only">{title}</legend>
+                    <legend className="sr-only">{t.dashboard.admin.selectAirline}</legend>
 
                     {airlines.length === 0 ? (
                         <p className="px-4 py-8 text-center text-muted-foreground">
@@ -45,7 +43,7 @@ export default function AirlineSelectPage({
                     ) : (
                         <ul className="divide-y divide-border md:divide-y-0 md:space-y-2">
                             {airlines.map((airline) => (
-                                <li key={airline.code}>
+                                <li key={airline.id}>
                                     <label
                                         className="
                                             flex cursor-pointer items-center gap-3 px-4 py-3
@@ -60,13 +58,13 @@ export default function AirlineSelectPage({
                                             type="radio"
                                             name="airline"
                                             value={airline.code}
-                                            checked={airline.code === selectedCode}
-                                            onChange={() => setSelectedCode(airline.code)}
+                                            checked={airline.id === selectedId}
+                                            onChange={() => setSelectedId(airline.id)}
                                             className="sr-only"
                                         />
 
                                         <span className="flex h-8 w-12 shrink-0 items-center justify-center rounded bg-muted text-xs font-bold">
-                                            {airline.code.toUpperCase()}
+                                            {airline.code ? airline.code.toUpperCase() : airline.name.toLowerCase()}
                                         </span>
 
                                         <span className="min-w-0 flex-1 truncate font-medium">
@@ -75,7 +73,7 @@ export default function AirlineSelectPage({
 
                                         <i
                                             className={`bi bi-check-lg text-lg ${
-                                                airline.code === selectedCode ? "opacity-100" : "opacity-0"
+                                                airline.id === selectedId ? "opacity-100" : "opacity-0"
                                             }`}
                                             aria-hidden="true"
                                         />
@@ -95,7 +93,7 @@ export default function AirlineSelectPage({
                             if (selected) onSelect(selected);
                         }}
                     >
-                        {confirmLabel}
+                        {t.dashboard.confirm}
                     </Button>
                 </div>
             </section>

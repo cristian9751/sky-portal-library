@@ -139,6 +139,9 @@
     "send": "Send message"
   },
   "dashboard": {
+    "selectHub": "Select your hub",
+    "myflight": "My flight",
+    "confirm": "Confirm",
     "flightCount": "Flights",
     "flightHours": "Hours",
     "landingAverage": "Average landing score",

@@ -138,6 +138,9 @@
     "send": "Nachricht senden"
   },
   "dashboard": {
+    "selectHub": "Wählen Sie Ihren Hub aus",
+    "myflight": "mein Flug",
+    "confirm": "bestätigen",
     "flightCount": "Flüge",
     "flightHours": "Stunden",
     "landingAverage": "Durchschnittliche Landungsbewertung",

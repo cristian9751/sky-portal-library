@@ -8,11 +8,11 @@ import type { AirportLocation } from "../ui/ReservationMap";
 import { useAirports } from "@/lib/AirportContext";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export type RouteReservationProps = {
     fetchDestinations: (departureIcao : string ) => Promise<AirportLocation[]>,
     defaultDeparture: AirportLocation,
-    fetchAirportLocation: (icao: string ) => Promise<AirportLocation>
     onJumpseat?: (icao: string ) => void;
     onBidded : (departureIcao : string, arrivalIcao : string ) => void;
 }
@@ -42,16 +42,6 @@ export default function RouteReservation(props: RouteReservationProps) {
         [destinations]
     );
 
-    const handleDepartureChange = async (icao: string) => {
-        if (!airports.includes(icao)) return; 
-        try {
-            const airport = await props.fetchAirportLocation(icao);
-            setDeparture(airport);
-        } catch {
-            return
-        }
-    };
-
     const handleArrivalChange = (icao: string) => {
         setArrival(destinations.find((d) => d.icao === icao));
     };
@@ -67,18 +57,14 @@ export default function RouteReservation(props: RouteReservationProps) {
     return (
         <section className="absolute inset-0 isolate">
             <div className="absolute inset-0">
-                <ReservationMap className="h-full w-full" currentLocation={departure} destinations={destinations} onSelectedDestination={(arrival : AirportLocation) => setArrival(arrival)} />
+                <ReservationMap className="h-full w-full" currentLocation={departure} destinations={destinations} selectedDestination={arrival} onSelectedDestination={(arrival : AirportLocation) => setArrival(arrival)} />
             </div>
 
             <div className="absolute left-4 top-4 z-[1000] w-[calc(100%-35rem)] max-w-sm md:left-15 md:top-4 opacity-90 ">
                 <FormContainer title={t.dashboard.bid}>
                     <Field label={t.dashboard.admin.departure}>
-                        <AutocompleteInput
-                            value={departure.icao}
-                            onChange={handleDepartureChange}
-                            options={airports}
-                        />
-                    </Field>
+                        <Input value={departure.icao} readOnly/>
+                    </Field>    
                     <Field label={t.dashboard.admin.arrival}>
                         <AutocompleteInput
                             value={arrival?.icao ?? ""}

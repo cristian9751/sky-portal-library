@@ -17,6 +17,7 @@ import {
 
 type DashboardLayoutProps = {
   title?: ReactNode;
+  hasUserBid?: boolean;
   fullSize?: boolean;
   crumbs?: Breadcrumb[];
   children: ReactNode;
@@ -27,6 +28,7 @@ type DashboardLayoutProps = {
 
 export function DashboardLayout({
   title,
+  hasUserBid,
   fullSize,
   crumbs = [],
   children,
@@ -97,6 +99,7 @@ export function DashboardLayout({
   const defaultMenu: MenuItem[] = [
     { header: t.dashboard.general },
     { label: t.nav.home, href: "/dashboard/index", icon: "bi-house-fill" },
+    hasUserBid ? {label: "", href:"/dashboard/flight", icon: "bi-airplane"} : {label : t.dashboard.bid, href:"/dashboard/bid", icon: "bi-airplane-fill"},
     ...(administrationItems.length > 0
       ? [
           { header: t.dashboard.admin.title.toUpperCase() },

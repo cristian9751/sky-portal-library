@@ -138,6 +138,9 @@
     "send": "Enviar mensaje"
   },
   "dashboard": {
+    "selectHub": "Selecciona el aeropuerto donde quieres empezar",
+    "myflight": "Mi vuelo",
+    "confirm": "Confirmar",
     "flightCount": "Vuelos",
     "flightHours": "Horas",
     "landingAverage": "Media de aterrizajes",

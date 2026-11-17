@@ -6,6 +6,7 @@
 import "./styles.css";
 import "./custom-adminlte.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import AirlineSelectPage from "./components/pages/AirlineSelector";
 export * from "./components/ui/accordion";
 export * from "./components/ui/administration-confirm-dialog";
 export * from "./components/ui/alert";
@@ -111,3 +112,8 @@ export type {
   AdministrationRoleInput,
   RolesAdministrationProps,
 } from "./components/pages/RolesAdministration";
+
+export {default as AirlineSelector} from "./components/pages/AirlineSelector"
+export { default as RouteReservation } from "./components/pages/RouteReservation"
+export { default as HubSelector } from "./components/ui/hubSelector"
+export type { AirportLocation } from "./components/ui/ReservationMap"
