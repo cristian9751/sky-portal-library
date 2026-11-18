@@ -1,4 +1,3 @@
-
 {
   "errors": {
     "connectionIssue": "Problema de conexión",
@@ -203,6 +202,16 @@
     "anythingYouWant": "Ganz nach Wunsch",
     "bid": "Flug buchen",
     "jumpseat": "Weiter zu",
+    "flightDispatch": {
+      "aircraft": "Flugzeug",
+      "selectAircraft": "Flugzeug auswählen",
+      "weatherMap": "Wetterkarte",
+      "dispatch": "Dispatch",
+      "alternates": "Ausweichflughäfen",
+      "alternate": "Ausweichflughafen",
+      "alternatesHint": "Wähle bis zu zwei Ausweichflughäfen aus.",
+      "invalidAlternate": "Wähle einen Flughafen aus der Liste, der weder Abflug, Ankunft noch bereits gewählter Ausweichflughafen ist."
+    },
     "admin": {
       "title": "Verwaltung",
       "airlines": "Fluggesellschaften",

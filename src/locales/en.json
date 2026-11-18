@@ -1,4 +1,3 @@
-
 {
   "errors": {
     "connectionIssue": "Connection issue",
@@ -204,6 +203,16 @@
     "anythingYouWant": "Anything you want",
     "bid": "Book flight",
     "jumpseat": "Jumpseat",
+    "flightDispatch": {
+      "aircraft": "Aircraft",
+      "selectAircraft": "Select an aircraft",
+      "weatherMap": "Weather map",
+      "dispatch": "Dispatch",
+      "alternates": "Alternates",
+      "alternate": "Alternate",
+      "alternatesHint": "Select up to two alternate airports.",
+      "invalidAlternate": "Select an airport from the list that is not the departure, the arrival or a repeated alternate."
+    },
     "admin": {
       "title": "Administration",
       "airlines": "Airlines",

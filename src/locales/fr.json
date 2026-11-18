@@ -1,4 +1,3 @@
-
 {
   "errors": {
     "connectionIssue": "Problème de connexion",
@@ -203,6 +202,16 @@
     "anythingYouWant": "Ce que vous voulez",
     "bid": "Réserver un vol",
     "jumpseat": "Aller à",
+    "flightDispatch": {
+      "aircraft": "Aéronef",
+      "selectAircraft": "Sélectionnez un aéronef",
+      "weatherMap": "Carte météo",
+      "dispatch": "Dispatch",
+      "alternates": "Dégagements",
+      "alternate": "Dégagement",
+      "alternatesHint": "Sélectionnez jusqu'à deux aéroports de dégagement.",
+      "invalidAlternate": "Sélectionnez un aéroport de la liste qui ne soit ni le départ, ni l'arrivée, ni un dégagement déjà choisi."
+    },
     "admin": {
       "title": "Administration",
       "airlines": "Compagnies aériennes",
