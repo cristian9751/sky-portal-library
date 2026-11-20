@@ -99,7 +99,7 @@ export function DashboardLayout({
   const defaultMenu: MenuItem[] = [
     { header: t.dashboard.general },
     { label: t.nav.home, href: "/dashboard/index", icon: "bi-house-fill" },
-    hasUserBid ? {label: t.dashboard.myflight, href:"/dashboard/bid", icon: "bi-airplane"} : {label : t.dashboard.bid, href:"/dashboard/bid", icon: "bi-airplane-fill"},
+    hasUserBid ? {label: t.dashboard.myflight, href:"/dashboard/flight", icon: "bi-airplane"} : {label : t.dashboard.bid, href:"/dashboard/flight", icon: "bi-airplane-fill"},
     ...(administrationItems.length > 0
       ? [
           { header: t.dashboard.admin.title.toUpperCase() },

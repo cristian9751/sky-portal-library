@@ -9,10 +9,8 @@
 @import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
-
 @import "./theme-colors.css";
+@custom-variant dark (&:is(.dark *));
 
 /*
 * Design system definition.
