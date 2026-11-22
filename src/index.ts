@@ -6,7 +6,6 @@ import "./styles.css";
 import "./custom-adminlte.scss";
 import "./theme-colors.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import AirlineSelectPage from "./components/pages/AirlineSelector";
 export * from "./components/ui/accordion";
 export * from "./components/ui/administration-confirm-dialog";
 export * from "./components/ui/alert";
@@ -117,4 +116,6 @@ export {default as AirlineSelector} from "./components/pages/AirlineSelector"
 export { default as RouteReservation } from "./components/pages/RouteReservation"
 export { default as HubSelector } from "./components/ui/hubSelector"
 export type { AirportLocation } from "./components/ui/ReservationMap"
-export { default as FlightDispatch} from "./components/pages/FlightDispatch"
+export {default as FlightDispatch} from "./components/pages/FlightDispatch"
+export type {DispatchableData, SimbriefOfp, FlightDispatchProps} from "./components/pages/FlightDispatch"
+export { default as SimbriefPlanCard } from "./components/ui/SimbriefPlanCard"

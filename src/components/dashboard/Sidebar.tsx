@@ -26,7 +26,7 @@ export default function Sidebar({ menu, linkComponent }: SidebarProps) {
       <div className="sidebar-brand">
         <Link to="/" className="brand-link">
           <img src={logo} alt="AdminLTE Logo" className="brand-image opacity-75 shadow" />
-          <span className="brand-text fw-light">AdminLTE 4</span>
+          <span className="brand-text fw-light">Airspain</span>
         </Link>
       </div>
 
