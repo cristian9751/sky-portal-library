@@ -51,6 +51,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { FormContainer } from "@/components/ui/form-container";
 import { PermissionSelector } from "@/components/ui/permission-selector";
 import { downloadReactComponent } from "@/lib/puck-component-generator";
+import { demoImages, vaLogo } from "@/lib/assets";
 
 type MetricBoxProps = {
   label: string;
@@ -398,7 +399,7 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
         name: "Island tour",
         description: "Join the community for a scenic group flight across the islands.",
         imageUrl:
-          "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+          demoImages.airplaneWindow,
         imageAlt: "View of the sky from an airplane",
       },
       render: ({ name, description, imageUrl, imageAlt }) => (
@@ -429,7 +430,7 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
         eyebrow: "Welcome back",
         title: "Sign in to your account",
         image:
-          "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+          demoImages.airplaneWindow,
         content: "Your sign-in form goes here.",
       },
       render: ({ eyebrow, title, image, content }) => (
@@ -577,7 +578,7 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
         fallback: { type: "text", label: "Fallback initials" },
       },
       defaultProps: {
-        imageUrl: "https://air-spain.es/imagenes/va.png",
+        imageUrl: vaLogo,
         alt: "Air Spain",
         fallback: "AS",
       },
@@ -838,7 +839,7 @@ const editorConfig: Config<LibraryEditorComponents, { title: string }> = {
       },
       defaultProps: {
         imageUrl:
-          "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+          demoImages.airplaneWindow,
         alt: "Airplane above the clouds",
         ratio: 16 / 9,
       },
@@ -1045,7 +1046,7 @@ const defaultData: EditorData = {
         name: "Island tour",
         description: "Join the community for a scenic group flight across the islands.",
         imageUrl:
-          "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+          demoImages.airplaneWindow,
         imageAlt: "View of the sky from an airplane",
       },
     },

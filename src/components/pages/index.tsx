@@ -1,15 +1,12 @@
-import { BASE  } from "@/components/SiteLayout"
+import { coverImages, partnerLogos } from "@/lib/assets";
 import { useEffect, useState } from "react";
 import { useI18n } from "@/lib/i18n";
 import { SiteLayout } from "../SiteLayout";
-const SLIDES = Array.from({ length: 15 }, (_, i) => {
-  const n = i + 1;
-  return `${BASE}/imagenes/portada/${n}.${n === 3 || n === 12 ? "jpg" : "png"}`;
-});
+const SLIDES = coverImages;
 const PARTNERS = [
-  ["VATSIM", `${BASE}/imagenes/VATSIM_LOGO.png`, "https://www.vatsim.net/"],
-  ["IVAO", `${BASE}/imagenes/va.png`, "https://www.ivao.aero/"],
-  ["SimBrief", `${BASE}/imagenes/simbrief2.png`, "https://www.simbrief.com/"],
+  ["VATSIM", partnerLogos.vatsim, "https://www.vatsim.net/"],
+  ["IVAO", partnerLogos.ivao, "https://www.ivao.aero/"],
+  ["SimBrief", partnerLogos.simbrief, "https://www.simbrief.com/"],
 ];
 export function Index() {
   const [idx, setIdx] = useState(0);

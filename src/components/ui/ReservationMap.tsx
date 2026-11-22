@@ -2,6 +2,7 @@ import L from "leaflet";
 import { useMemo, useState } from "react";
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import MapResizeHandler from "./MapResizeHandler";
+import { leafletMarkerIcons, osmTileUrl } from "@/lib/assets";
 
 export type AirportLocation = {
     Latitude : number,
@@ -17,14 +18,8 @@ export type AirportLocation = {
     className?: string
 }
 
-const LEAFLET_IMG = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images";
-
 delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: `${LEAFLET_IMG}/marker-icon-2x.png`,
-    iconUrl: `${LEAFLET_IMG}/marker-icon.png`,
-    shadowUrl: `${LEAFLET_IMG}/marker-shadow.png`,
-});
+L.Icon.Default.mergeOptions({ ...leafletMarkerIcons });
 
 const MAX_VISIBLE = 150;  // máximo de pines a la vez; por encima se reduce por rejilla
 const CELL_PX = 40;       // separación mínima aproximada entre pines al reducir
@@ -101,7 +96,7 @@ export default function ReservationMap(props : ReservationMapProps) {
         <MapResizeHandler/>
         <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={osmTileUrl}
         />
         {destination && (
             <Polyline positions={[

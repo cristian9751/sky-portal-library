@@ -1,5 +1,5 @@
 
-import { BASE, PageHeader, SiteLayout } from "@/components/SiteLayout";
+import { PageHeader, SiteLayout } from "@/components/SiteLayout";
 import { useI18n } from "@/lib/i18n";
 
 export function About({redirectToRegister} : {redirectToRegister: () => void}) {

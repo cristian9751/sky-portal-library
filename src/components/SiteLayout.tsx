@@ -1,9 +1,7 @@
 import { createContext, useContext, useState, type ComponentType, type ReactNode } from "react";
 import { LangProvider, LANGS, useI18n, type Lang } from "@/lib/i18n";
 import { useApplicationContext } from "@/lib/ApplicationContext";
-
-const hostname = window.location.hostname;
-export const BASE = hostname == "localhost" ? "https://air-spain.es" : `${window.location.protocol}//${hostname}`;
+import { flagUrl } from "@/lib/assets";
 
 const LANGUAGE_NAMES: Record<Lang, string> = {
   es: "Español",
@@ -41,7 +39,7 @@ function LanguageSelector({
           className={`rounded p-1.5 hover:bg-muted ${lang === language ? "bg-muted ring-2 ring-secondary" : ""}`}
         >
           <img
-            src={`${BASE}/imagenes/flags/${LANGUAGE_FLAG_CODES[language]}.png`}
+            src={flagUrl(LANGUAGE_FLAG_CODES[language])}
             alt=""
             className="h-4 w-6 object-cover"
           />

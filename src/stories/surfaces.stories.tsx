@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CheckCircle2, Plane } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { vaLogo } from "@/lib/assets";
 
 export const CardsAndBadges = () => (
   <section className="max-w-2xl space-y-6">
@@ -57,7 +58,7 @@ export const FeedbackAndLoading = () =>  {
     </Alert>
     <div className="flex items-center gap-3">
       <Avatar>
-        <AvatarImage src="https://air-spain.es/imagenes/va.png" alt="Air Spain" />
+        <AvatarImage src={vaLogo} alt="Air Spain" />
         <AvatarFallback>AS</AvatarFallback>
       </Avatar>
       <div><p className="font-medium">Air Spain Operations</p><p className="text-sm text-muted-foreground">Operations team</p></div>
