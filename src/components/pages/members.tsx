@@ -1,4 +1,5 @@
-import { BASE, PageHeader, SiteLayout, pageHead } from "@/components/SiteLayout";
+import { PageHeader, SiteLayout, pageHead } from "@/components/SiteLayout";
+import { achievementBadgeUrl, flagUrl } from "@/lib/assets";
 import { useI18n } from "@/lib/i18n";
 import { ReactNode } from "react";
 
@@ -37,7 +38,7 @@ export function Members({members} : MembersParams) {
                     <td className="px-5 py-4 font-display font-bold text-secondary">{m.callsign}</td>
                     <td className="px-5 py-4">
                       <span className="flex items-center gap-3">
-                        <img src={`${BASE}/imagenes/flags/${m.flag}.png`} alt={m.flag} className="h-4 w-auto" />
+                        <img src={flagUrl(m.flag)} alt={m.flag} className="h-4 w-auto" />
                         {m.name}
                       </span>
                     </td>
@@ -46,7 +47,7 @@ export function Members({members} : MembersParams) {
                     </td>
                     <td className="px-5 py-4">{m.vatsim || <span className="text-muted-foreground">—</span>}</td>
                     <td className="px-5 py-4">
-                      {m.badge && <img src={`${BASE}/imagenes/logros/${m.badge}.png`} alt={`${m.badge.split("-")[0]} ${t.members.hours}`} className="h-8 w-auto" />}
+                      {m.badge && <img src={achievementBadgeUrl(m.badge)} alt={`${m.badge.split("-")[0]} ${t.members.hours}`} className="h-8 w-auto" />}
                     </td>
                     <td className="px-5 py-4 font-mono">{m.base}</td>
                   </tr>

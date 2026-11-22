@@ -30,6 +30,7 @@ import {
   type AdministrationRole,
 } from "@/components/pages/RolesAdministration";
 import { ADMINISTRATION_PERMISSIONS } from "@/lib/administration-permissions";
+import { demoImages } from "@/lib/assets";
 import ApplicationContextProvider, { useApplicationContext } from "@/lib/ApplicationContext";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import RouteReservation, { RouteReservationProps } from "@/components/pages/RouteReservation";
@@ -69,7 +70,7 @@ const dashboardEvents: DashboardEvent[] = [
     description:
       "Acompáñanos en un recorrido especial por el archipiélago, con salidas desde Madrid y escalas en las principales islas.",
     imageUrl:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
+      demoImages.airplaneWindow,
     imageAlt: "Vista desde la ventanilla de un avión sobre las nubes",
   },
   {
@@ -78,7 +79,7 @@ const dashboardEvents: DashboardEvent[] = [
     description:
       "Conecta con otros pilotos de la comunidad y participa en un vuelo grupal con destino a Barcelona-El Prat.",
     imageUrl:
-      "https://images.unsplash.com/photo-1523531294919-4bcd7c65e216?auto=format&fit=crop&w=1200&q=80",
+      demoImages.barcelonaAerial,
     imageAlt: "Vista aérea de Barcelona",
   },
 ];

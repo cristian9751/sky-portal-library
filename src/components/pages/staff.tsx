@@ -1,4 +1,5 @@
-import { BASE, PageHeader } from "@/components/SiteLayout";
+import { PageHeader } from "@/components/SiteLayout";
+import { flagUrl } from "@/lib/assets";
 import { useI18n } from "@/lib/i18n";
 
 export type StaffAttributes = {
@@ -30,7 +31,7 @@ export function Staff({ Staff }: StaffParams) {
                 {Staff.map((member) => (
                   <tr key={`${member.email}-${member.position}`} className="border-b border-border last:border-0 hover:bg-muted">
                     <td className="px-5 py-4">
-                      <img src={`${BASE}/imagenes/flags/${member.flag}.png`} alt={t.staffTable.flagAlt} className="h-4 w-auto" />
+                      <img src={flagUrl(member.flag)} alt={t.staffTable.flagAlt} className="h-4 w-auto" />
                     </td>
                     <td className="px-5 py-4">
                       <span className="flex items-center gap-3">

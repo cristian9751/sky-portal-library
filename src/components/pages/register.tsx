@@ -1,4 +1,4 @@
-import { BASE } from "@/components/SiteLayout";
+import { registerCover } from "@/lib/assets";
 import { AuthShell } from "@/components/AuthShell";
 import { useI18n } from "@/lib/i18n";
 import { RegisterForm } from "@/components/forms/RegisterForm";
@@ -16,7 +16,7 @@ export function Register(props: RegisterProps) {
   const a = t.auth;
 
   return (
-    <AuthShell eyebrow={a.rEyebrow} title={a.rTitle} image={`${BASE}/imagenes/portada/12.jpg`}>
+    <AuthShell eyebrow={a.rEyebrow} title={a.rTitle} image={registerCover}>
       <RegisterForm {...props} user={user} />
     </AuthShell>
   );

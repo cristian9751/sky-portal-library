@@ -1,5 +1,5 @@
 
-import { BASE } from "@/components/SiteLayout";
+import { loginCover } from "@/lib/assets";
 import { AuthShell, Field, authField } from "@/components/AuthShell";
 import { FormContainer } from "@/components/ui/form-container";
 import { useI18n } from "@/lib/i18n";
@@ -21,7 +21,7 @@ export function Login({handleLogin, redirectToRegister} : LoginProps) {
     })
   };
   return (
-    <AuthShell eyebrow={a.lEyebrow} title={a.lTitle} image={`${BASE}/imagenes/portada/3.jpg`}>
+    <AuthShell eyebrow={a.lEyebrow} title={a.lTitle} image={loginCover}>
       <FormContainer title={t.auth.lSubmit} centerText={true} onSubmit={onSubmit} method="post" className="space-y-5">
         <Field label={a.user}>
           <input name="usuario" required autoComplete="username" placeholder="XSN000" className={authField} />
