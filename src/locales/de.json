@@ -137,6 +137,8 @@
     "send": "Nachricht senden"
   },
   "dashboard": {
+    "connectSimulator": "Du musst den Flug im Simulator starten",
+    "startFlight": "Flug starten",
     "selectHub": "Wählen Sie Ihren Hub aus",
     "myflight": "mein Flug",
     "confirm": "bestätigen",

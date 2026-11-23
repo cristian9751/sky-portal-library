@@ -138,6 +138,8 @@
     "send": "Send message"
   },
   "dashboard": {
+    "connectSimulator": "You must start a flight in the simulator",
+    "startFlight": "Start Flight",
     "selectHub": "Select your hub",
     "myflight": "My flight",
     "confirm": "Confirm",
